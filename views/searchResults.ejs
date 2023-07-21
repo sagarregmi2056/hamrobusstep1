@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+
+    <% if (buses.length > 0) { %>
+        <ul>
+            <% for (const bus of buses) { %>
+                <li><strong>Bus Number:</strong> <%= bus.busNumber %></li>
+                <li><strong>Origin Address:</strong> <%= bus.originAddress %></li>
+                <li><strong>Destination Address:</strong> <%= bus.destinationAddress %></li>
+                <li><strong>Total Seats:</strong> <%= bus.totalSeats %></li>
+                <li><strong>Bus Type:</strong> <%= bus.busType %></li>
+                <li><strong>Date:</strong> <%= bus.date.toDateString() %></li>
+                <!-- You can display other bus details here as needed -->
+                <br>
+            <% } %>
+        </ul>
+    <% } else { %>
+        <p>No buses found matching your search criteria.</p>
+    <% } %>
+
+    <!-- Add a link to go back to the home page -->
+    <a href="/">Back to Home</a>
+</body>
+</html>

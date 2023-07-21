@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bus Owner Dashboard</title>
+</head>
+<body>
+    <h1>Welcome to Your Dashboard</h1>
+    <h2>Submit a New Bus</h2>
+    <form method="post" action="/bus/submit">
+        <label for="name">Bus Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <label for="company">Company:</label>
+        <input type="text" id="company" name="company" required>
+        <br>
+        <label for="busNumber">Bus Number:</label>
+        <input type="text" id="busNumber" name="busNumber" required>
+        <br>
+        <label for="email">Contact Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <label for="phoneNumber">Contact Phone Number:</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" required>
+        <br>
+        <label for="panCardImage">Pan Card Image URL:</label>
+        <input type="text" id="panCardImage" name="panCardImage" required>
+        <br>
+        <label for="totalSeats">Total Seats:</label>
+        <input type="number" id="totalSeats" name="totalSeats" required>
+        <br>
+        <label for="numberOfBuses">Number of Buses:</label>
+        <input type="number" id="numberOfBuses" name="numberOfBuses" required>
+        <br>
+        <label for="route">Route:</label>
+        <input type="text" id="route" name="route" required>
+        <br>
+        <label for="originAddress">Origin Address:</label>
+        <input type="text" id="originAddress" name="originAddress" required>
+        <br>
+        <label for="destinationAddress">Destination Address:</label>
+        <input type="text" id="destinationAddress" name="destinationAddress" required>
+        <br>
+        <label for="date">Date of Operation:</label>
+        <input type="date" id="date" name="date" required>
+        <br>
+        <label for="busType">Bus Type:</label>
+        <select id="busType" name="busType">
+            <option value="AC">AC</option>
+            <option value="Non-AC">Non-AC</option>
+        </select>
+        <br>
+        <button type="submit">Submit Bus</button>
+    </form>
+
+    <h2>Your Buses</h2>
+    <% if (buses.length > 0) { %>
+        <ul>
+            <% for (const bus of buses) { %>
+                <li>
+                    Bus Number: <%= bus.busNumber %><br>
+                    Origin: <%= bus.originAddress %><br>
+                    Destination: <%= bus.destinationAddress %><br>
+                    Total Seats: <%= bus.totalSeats %><br>
+                    Bus Type: <%= bus.busType %><br>
+                    Status: <%= bus.status %><br>
+                </li>
+            <% } %>
+        </ul>
+    <% } else { %>
+        <p>You have not submitted any buses yet.</p>
+    <% } %>
+
+    <h2>Logout</h2>
+    <a href="/auth/logout">Logout</a>
+</body>
+</html>
