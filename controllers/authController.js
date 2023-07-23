@@ -1,6 +1,7 @@
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const ErrorResponse = require('../utils/ErrorResponse');
 
 // Facebook authentication
 exports.facebookAuth = passport.authenticate('facebook', { scope: ['email'] });
@@ -69,10 +70,18 @@ exports.login = (req, res, next) => {
 
 // User logout
 exports.logout = (req, res) => {
-  req.logout();
-  res.status(200).json({ message: 'Logout successful' });
-};
+  // Call req.logout() to log out the user from the session
+  // and provide a callback function that will be executed after logout
+  req.logout((err) => {
+    if (err) {
+      // Handle any errors that occurred during logout
+      return res.status(500).json({ message: 'Logout failed', error: err });
+    }
 
+    // If logout is successful, send a JSON response with a success message
+    res.status(200).json({ message: 'Logout successful' });
+  });
+};
 
 
 

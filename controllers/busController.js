@@ -163,3 +163,33 @@ exports.homePage = async (req, res) => {
       res.status(500).json({ error: 'Failed to retrieve recently added buses' });
     }
   };
+
+
+
+
+//  yadi ac non ac ko adhar ma chaiyo vanya 
+
+
+
+
+// Function to search buses by type (AC or Non-AC)
+exports.searchBusesByType = async (busType) => {
+  try {
+    // Build the query object based on the provided busType
+    const query = {};
+    if (busType === 'AC' || busType === 'Non-AC') {
+      query.busType = busType;
+    } else {
+      throw new Error('Invalid bus type. Must be either "AC" or "Non-AC".');
+    }
+
+    // Implement logic to search for available buses based on the bus type
+    // You can query the database to find buses that match the specified type
+    const buses = await Bus.find(query);
+
+    return buses;
+  } catch (err) {
+    console.error('Error searching for buses by type:', err);
+    throw err;
+  }
+};

@@ -5,38 +5,50 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const busController = require('./controllers/busController');
 const Bus = require('./models/Bus');
+const User = require('./models/User')
+const { ObjectId } = require('mongoose');
+require('dotenv').config();
+
 
 
 // i need to place all this on .env file
 
-const GOOGLE_CLIENT_ID = '768490167738-iogpuc7nu1bqbc14cos8ii4oevj16m53.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = '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';
-const GOOGLE_CALLBACK_URL = 'http://localhost:8000/auth/google/callback';
 
 
 
-passport.use(
-    new GoogleStrategy(
-      {
-        clientID: GOOGLE_CLIENT_ID,
-        clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: GOOGLE_CALLBACK_URL,
-      },
-      (accessToken, refreshToken, profile, done) => {
-        // Replace this with your logic to handle user authentication
-        // For example: check if the user exists in your database, create a new user if necessary, etc.
-  
-        // In this example, we'll just return the user profile from Google as the user object.
-        return done(null, profile);
-      }
-    )
-  );
 
 
 
 
 
   const app = express();
+
+
+  app.use(
+    session({
+      // SameSite:none,
+      resave: false,
+      saveUninitialized: true,
+      secret: process.env.SESSION_SECRET,
+  
+    })
+  );
+  
+  
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function (user, cb) {
+  cb(null, user);
+});
+passport.deserializeUser(function (obj, cb) {
+  cb(null, obj);
+});
+
+
+  // Serve static files from the "public" directory
+app.use(express.static('public'));
+
 // multer use gaedai xam middleware ko rup ma 
 
 const multer = require('multer');
