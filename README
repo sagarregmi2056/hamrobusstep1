@@ -1,4 +1,5 @@
 PROJECT NAME : HAMRO BUS TICKET BOOKING SYSTEM
+:our freelance community nepal (backend:sagarregmi ,lead: purusotam pokhrel ,frontend:rakesh giri ,designer:  )
 
 
 
@@ -29,12 +30,99 @@ PROJECT NAME : HAMRO BUS TICKET BOOKING SYSTEM
   Nodejs,Mongodb cluster(shared for testing),Graphql server (apollo)
 
 
-  API ENDPOINTS: 
+  Model schema : 
 
  1. NormalUSER:
+     *name : name of user for profile info at top as well as for ticket
+     address :
+     *email
+     *info : if more info required
+     *phone : 
+     *hashedPassword:
+
+     *isVerified :
+
+
+     ** note    :while using google auth and facebook auth we need to add emailID: to the schema 
+
+
+ 2.Travel:
+  *name
+
+
+3.Owner :
+*name :
+*citizenshipNumber: for better verification 
+*phone:
+*isVerified: is verified can only be set by the superadmin 
+*email
+*hashed_password
+*photo: photo of pan card or registerd company verification
+*salt:
+*role:["owner" or  "superadmin"], default: "owner"
+
+
+
+
 
  
 
 
 
+4.location schema :
 
+*name : (eg.bharatpur 14)
+*district: (eg.Chitwan) this location schema can be used for location of bus and user owner any .
+
+
+
+
+
+5.guestSchema :
+*name,address,email,phone 
+
+
+
+6.busSchema:  
+*name : (eg. makalu yatayat)
+*type:  (eg.ac ,nonac,sleeper,seater )
+enum: ["AC", "Nonac", "sleeper", "seater", "if required add more "]
+* busNumber : (eg.platenumber)
+* fare : (gadi vada 400,500,900)
+*features:
+*description: 
+*seatsAvailable
+*bookedSeat:
+*soldSeat
+* numberOfSeats
+*image : (image of bus can or cannot be provided)
+*departure_time:String (string because easy to add to mongodb and understand)
+*isAvailable
+*travel (eg juntara travels)
+*startLocation (eg.chitwan)
+* endLocation (eg.kathmandu)
+* journeyDate
+*  owner  (1 owner can have many bus :1:M relationships)
+*boardingPoints
+*droppingPoints
+*slug :  (slug is a URL-friendly representation of a string, often used in web applications to create human-readable and SEO-friendly URLs)
+
+
+
+
+7.bookingSchema:
+
+*price:
+ *passengers
+ *seatNumber
+ *boardingPoints
+ *guest
+ * user
+ *owner:
+ *bus
+ *self
+ * verification: {
+      type: String,
+      enum: ["verified", "notverified", "payed"],
+      default: "notverified"
+    }
