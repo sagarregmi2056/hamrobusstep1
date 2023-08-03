@@ -1,0 +1,40 @@
+PROJECT NAME : HAMRO BUS TICKET BOOKING SYSTEM
+
+
+
+
+ PURPOSE:
+.provide a bus ticket booking application
+ where user can book a ticket and bus owner can post a bus ticket .
+
+
+
+ UsersType:
+ 1.Normal user 
+ 2.Bus owner 
+ 3.ADMIN 
+
+
+
+
+ USAGE: 
+ we are hitting the api through http request of flutter based application .(Mobile,web app)
+
+ version: 
+ V1 
+
+
+
+ Tech stack :
+  Nodejs,Mongodb cluster(shared for testing),Graphql server (apollo)
+
+
+  API ENDPOINTS: 
+
+ 1. NormalUSER:
+
+ 
+
+
+
+

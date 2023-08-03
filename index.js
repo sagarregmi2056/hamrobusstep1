@@ -8,6 +8,7 @@ const Bus = require('./models/Bus');
 const User = require('./models/User')
 const { ObjectId } = require('mongoose');
 require('dotenv').config();
+const { ApolloServer, gql } = require('apollo-server-express');
 
 
 
@@ -117,7 +118,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/testhamrobus', {
+mongoose.connect(process.env.MONGOOSE_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
@@ -142,3 +143,36 @@ const port = 8000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+
+
+
+
+// graph ql api integration 
+
+
+const typeDefs = gql`
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+  }
+
+  type Query {
+    users: [User]
+  }
+`;
+
+const resolvers = {
+  Query: {
+    users: async () => {
+      // In this resolver, you can fetch data from MongoDB
+      const usersCollection = db.collection('users');
+      const users = await usersCollection.find().toArray();
+      return users;
+    },
+  },
+};
+
+const apolloServer = new ApolloServer({ typeDefs, resolvers });
+
