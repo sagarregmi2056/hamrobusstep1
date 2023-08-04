@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
 
-module.exports = () => {
+
 
     // The function starts by creating a reference to module.exports and stores it in the variable self. This is done to enable a retry mechanism in case the database connection fails initially.
+    
+module.exports = () => {
     const self = module.exports;
     return mongoose
         .connect(process.env.MONGO_URI, {
