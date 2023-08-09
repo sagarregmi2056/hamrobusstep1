@@ -146,7 +146,7 @@ exports.searchBusByFilter = async (req, res) => {
   };
 
 
-
+// yasma chai halka chatgpt ko help ligyaxu hai
 
   exports.create = async (req, res) => {
     const busExists = await Bus.findOne({ busNumber: req.body.busNumber });
@@ -187,3 +187,12 @@ exports.searchBusByFilter = async (req, res) => {
     
       res.json(bus);
     };    
+
+
+// ending of bus controller function
+    
+exports.remove = async (req, res) => {
+    let bus = req.bus;
+    await bus.remove();
+    res.json({ message: "Bus removed successfully" });
+  };
