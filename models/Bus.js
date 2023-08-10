@@ -1,3 +1,8 @@
+const slug = require("mongoose-slug-generator");
+const mongoose = require("mongoose");
+mongoose.plugin(slug);
+
+
 const { ObjectId } = mongoose.Schema;
 
 const busSchema = new mongoose.Schema(
