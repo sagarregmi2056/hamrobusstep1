@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const { v1 } = require("uuid");
 const crypto = require("crypto");
 
@@ -23,7 +22,8 @@ const ownerSchema = new mongoose.Schema(
       required: true,
     },
     isVerified: {
-      default: false,
+      type: Boolean,
+      default: false
     },
     email: {
       type: String,
@@ -45,6 +45,7 @@ const ownerSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 // virtual field
 ownerSchema
   .virtual("password")
