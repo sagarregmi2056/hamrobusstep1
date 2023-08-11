@@ -126,3 +126,14 @@ enum: ["AC", "Nonac", "sleeper", "seater", "if required add more "]
       enum: ["verified", "notverified", "payed"],
       default: "notverified"
     }
+
+
+
+
+
+
+    Api endpoints 
+
+    1.auth-user/signup => http://localhost:8525/api/auth-user/signup
+    2.auth-user/signin=>  http://localhost:8525/api/auth-user/signup
+    3.

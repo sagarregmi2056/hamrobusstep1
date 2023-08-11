@@ -44,7 +44,7 @@ router.post("/filter", searchBusByFilter);
 router
   .route("/:busSlug")
   .get(read)
-  .put(requireOwnerSignin, isPoster, update)
+  .put(requireOwnerSignin, uploadBusImage,isPoster, update)
   .delete(requireOwnerSignin, isPoster, remove);
 
 router.param("busSlug", busBySlug);
