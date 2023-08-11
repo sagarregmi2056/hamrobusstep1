@@ -1,37 +1,52 @@
-const express = require('express');
-const busController = require('../controllers/busController');
-const authController = require('../controllers/authController');
-
+const express = require("express");
 const router = express.Router();
+const { requireOwnerSignin, isPoster } = require("../controllers/auth-owner");
 
-router.post('/submit', busController.submitBus);
+const {
+  read,
+  create,
+  update,
+  remove,
+  busBySlug,
+  getBuses,
+  searchBus,
+  searchBusByFilter,
+  getAvailableBusesOfOwner,
+  getUnavailableBusesOfOwner,
+  getAllAvailableBuses,
+  getAllUnavailableBuses
+} = require("../controllers/bus");
 
-// Bus owner's dashboard
-router.get('/dashboard', (req, res) => {
-  // Logic to retrieve all buses owned by the authenticated user
-  // You can query the database to find buses owned by the current user
-  // Assuming the user is authenticated, you can get the user ID from req.user._id
-   
-  // Replace the following lines with your logic to fetch the buses owned by the user
-  const busesOwnedByUser = []; // Retrieve buses owned by the user from the database
+const { uploadBusImage } = require("../helpers");
 
-  res.send( { buses: busesOwnedByUser });
-});
-router.get('/add', (req, res) => {
-  res.sendFile('add_bus.html', { root: __dirname + '/../public' });
-});
-// routes to submit bus only for admin and bus owner
+router
+  .route("/")
+  .get(getBuses)
+  .post(requireOwnerSignin, uploadBusImage, create);
 
-// homepage
-router.get('/', busController.homePage);
-// searching
-router.post('/search', busController.searchBuses);
+router.get(
+  "/owner-bus-available",
+  requireOwnerSignin,
+  getAvailableBusesOfOwner
+);
+router.get(
+  "/owner-bus-unavailable",
+  requireOwnerSignin,
+  getUnavailableBusesOfOwner
+);
 
+router.get("/all-bus-available", getAllAvailableBuses);
+router.get("/all-bus-unavailable", getAllUnavailableBuses);
 
-router.post('/submit-ticket', busController.submitTicket);
-// Route to handle ticket booking
-router.post('/book-ticket/:ticketId', busController.bookTicket);
-// 
+router.get("/search", searchBus);
+router.post("/filter", searchBusByFilter);
 
+router
+  .route("/:busSlug")
+  .get(read)
+  .put(requireOwnerSignin, isPoster, uploadBusImage, update)
+  .delete(requireOwnerSignin, isPoster, remove);
+
+router.param("busSlug", busBySlug);
 
 module.exports = router;
