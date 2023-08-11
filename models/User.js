@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     resetPasswordLink: {
-      data: String,
+      type: String,
       default: "",
     },
     salt: String,

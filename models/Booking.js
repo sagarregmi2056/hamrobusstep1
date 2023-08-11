@@ -1,3 +1,7 @@
+
+const mongoose = require("mongoose");
+
+const { ObjectId } = mongoose.Schema;
 const bookingSchema = new mongoose.Schema(
     {
       price: {
@@ -16,11 +20,15 @@ const bookingSchema = new mongoose.Schema(
         required: false
       },
       
-      guest: { type: Schema.Types.ObjectId, ref: "Guest" },
-      user: { type: Schema.Types.ObjectId, ref: "User" },
-      owner: { type: Schema.Types.ObjectId, ref: "Owner" },
-      bus: { type: Schema.Types.ObjectId, ref: "Bus" },
-      self: {type: Schema.Types.ObjectId, ref: "Owner"},
+      guest: { 
+        type:ObjectId,
+        
+        ref: "Guest" 
+      },
+      user: { type: ObjectId, ref: "User" },
+      owner: { type: ObjectId, ref: "Owner" },
+      bus: { type: ObjectId, ref: "Bus" },
+      self: {type: ObjectId, ref: "Owner"},
   
       verification: {
         type: String,
