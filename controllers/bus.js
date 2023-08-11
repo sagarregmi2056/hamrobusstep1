@@ -148,6 +148,27 @@ exports.searchBusByFilter = async (req, res) => {
 
 // yasma chai halka chatgpt ko help ligyaxu hai
 
+  // exports.create = async (req, res) => {
+  //   const busExists = await Bus.findOne({ busNumber: req.body.busNumber });
+  //   if (busExists)
+  //     return res.status(403).json({
+  //       error: "Bus is already added!"
+  //     });
+  
+  //   if (req.file !== undefined) {
+  //     const { filename: image } = req.file;
+  
+  //     //Compress image
+  //     await sharp(req.file.path)
+  //       .resize(800)
+  //       .jpeg({ quality: 100 })
+  //       .toFile(path.resolve(req.file.destination, "resized", image));
+  //     fs.unlinkSync(req.file.path);
+  //     req.body.image = "busimage/resized/" + image;
+  //   }
+
+
+
   exports.create = async (req, res) => {
     const busExists = await Bus.findOne({ busNumber: req.body.busNumber });
     if (busExists)
@@ -166,33 +187,116 @@ exports.searchBusByFilter = async (req, res) => {
       fs.unlinkSync(req.file.path);
       req.body.image = "busimage/resized/" + image;
     }
-
+  
     if (req.body.boardingPoints) {
-        req.body.boardingPoints = req.body.boardingPoints.split(",");
-      }
-      if (req.body.droppingPoints) {
-        req.body.droppingPoints = req.body.droppingPoints.split(",");
+      req.body.boardingPoints = req.body.boardingPoints.split(",");
+    }
+    if (req.body.droppingPoints) {
+      req.body.droppingPoints = req.body.droppingPoints.split(",");
+    }
+  
+    const bus = new Bus(req.body);
+    bus.seatsAvailable = req.body.numberOfSeats;
+  
+    if (!checkDateAvailabilty(req.body.journeyDate)) {
+      bus.isAvailable = false;
+    }
+  
+    bus.owner = req.ownerauth;
+  
+    await bus.save();
+  
+    res.json(bus);
+  };
+
+
+
+    // exports.update = async (req, res) => {
+    //   if (req.file !== undefined) {
+    //     const { filename: image } = req.file;
+    
+    //     //Compress image
+    //     await sharp(req.file.path)
+    //       .resize(800)
+    //       .jpeg({ quality: 100 })
+    //       .toFile(path.resolve(req.file.destination, "resized", image));
+    //     fs.unlinkSync(req.file.path);
+    //     req.body.image = "busimage/resized/" + image;
+    //   }
+    
+    //   let bus = req.bus;
+    //   bus = _.extend(bus, req.body);
+    
+    //   if (!checkDateAvailabilty(req.body.journeyDate)) {
+    //     bus.isAvailable = false;
+    //   }
+    
+    //   await bus.save();
+    
+    //   res.json(bus);
+    // };
+
+    // if (req.body.boardingPoints) {
+    //     req.body.boardingPoints = req.body.boardingPoints.split(",");
+    //   }
+    //   if (req.body.droppingPoints) {
+    //     req.body.droppingPoints = req.body.droppingPoints.split(",");
+    //   }
+    
+    //   const bus = new Bus(req.body);
+    //   bus.seatsAvailable = req.body.numberOfSeats
+    
+    //   if (!checkDateAvailabilty(req.body.journeyDate)) {
+    //     bus.isAvailable = false;
+    //   }
+    
+    //   bus.owner = req.ownerauth;
+    
+    //   await bus.save();
+    
+    //   res.json(bus);
+    // };    
+
+
+
+    exports.update = async (req, res) => {
+      if (req.file !== undefined) {
+        const { filename: image } = req.file;
+    
+        //Compress image
+        await sharp(req.file.path)
+          .resize(800)
+          .jpeg({ quality: 100 })
+          .toFile(path.resolve(req.file.destination, "resized", image));
+        fs.unlinkSync(req.file.path);
+        req.body.image = "busimage/resized/" + image;
       }
     
-      const bus = new Bus(req.body);
-      bus.seatsAvailable = req.body.numberOfSeats
+      let bus = req.bus;
+      bus = _.extend(bus, req.body);
     
-      if (!checkDateAvailability(req.body.journeyDate)) {
+      if (!checkDateAvailabilty(req.body.journeyDate)) {
         bus.isAvailable = false;
       }
-    
-      bus.owner = req.ownerauth;
     
       await bus.save();
     
       res.json(bus);
-    };    
+    };
 
 
 // ending of bus controller function
     
+// exports.remove = async (req, res) => {
+//     let bus = req.bus;
+//     await bus.remove();
+//     res.json({ message: "Bus removed successfully" });
+//   };
+
+
+
 exports.remove = async (req, res) => {
-    let bus = req.bus;
-    await bus.remove();
-    res.json({ message: "Bus removed successfully" });
-  };
+  let bus = req.bus;
+  await bus.remove();
+  res.json({ message: "Bus removed successfully" });
+};

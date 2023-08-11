@@ -1,6 +1,6 @@
 // need to export owner model here 
 
-
+const Owner = require("../models/Owner");
 
 require('dotenv').config();
 exports.seedSuperAdmin = async () => {

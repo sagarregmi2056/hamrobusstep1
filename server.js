@@ -1,6 +1,6 @@
 // Packages
-// const expressValidator = require("express-validator");
-const { check, validationResult } = require('express-validator');
+const expressValidator = require("express-validator");
+// const { expressValidator } = require('express-validator');
 const express = require("express");
 require("express-async-errors");
 const cors = require("cors");
@@ -20,7 +20,7 @@ runSeed();
 logger(app);
 app.use(cors());
 app.use(express.json());
-// app.use(expressValidator());
+app.use(expressValidator());
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
