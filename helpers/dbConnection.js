@@ -13,7 +13,7 @@ module.exports = () => {
         .then(() => console.log("DB Connected"))
         .catch(err => {
             console.error(
-                "Failed to connect to mongo on startup - retrying in 5 sec", err
+                " hey admin Failed to connect to mongo on startup - retrying in 5 sec  ", err
             );
             setTimeout(self, 5000);
         });
