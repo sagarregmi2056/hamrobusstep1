@@ -11,9 +11,20 @@ const app = express();
 const { runEveryMidnight, dbConnection, errorHandler } = require("./helpers");
 const logger = require("./helpers/logger");
 const runSeed = require("./seeds");
+const mongoose = require("mongoose");
+// database connection 
 
-// Database Connection
-dbConnection();
+mongoose.connect(process.env.DATABASE,{
+    
+   
+    useNewUrlParser: true, 
+    useUnifiedTopology: true 
+ 
+ }).then(()=>{
+     console.log("DB CONNECTED VAYO HAI SOLTI")
+ }).catch((err)=>{
+     console.log(`data base ma error hanyo hai ,${err}  `)
+ });
 runSeed();
 
 // Middlewares

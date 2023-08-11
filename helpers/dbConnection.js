@@ -19,21 +19,17 @@ const mongoose = require("mongoose");
 //         });
 // };
 
+const connectDB = async()=>{
+    try{
+        // passing url to the connection string 
+      const conec = await mongoose.connect(process.env.MONGO_LOCAL_URL)
+      console.log(`connected to the mongodb database ${mongoose.connection.host}`)
+    }catch(error){
+        console.log(`its a mongodb error ${error}`);
 
-
-module.exports = async () => {
-    const self = module.exports;
-    try {
-        await mongoose.connect(process.env.MONGO_URI, {
-            useNewUrlParser: true,
-        });
-        console.log("DB Connected");
-    } catch (err) {
-        console.error("Failed to connect to mongo on startup - retrying in 5 sec", err);
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        await self();
     }
+}
+module.exports= connectDB;
 
-};
 
 // This retry mechanism allows the application to periodically attempt to reconnect to the database if the initial connection fails, which might be useful in scenarios where the database server is not immediately available or when the connection gets interrupted for some reason.

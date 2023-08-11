@@ -24,8 +24,8 @@ exports.seedSuperAdmin = async () => {
         password,
         role,
         name: 'SAdmin',
-        citizenshipNumber: '123',
-        phone: 9999999999,
+        citizenshipNumber: '980-422-8593',
+        phone: 9804228593,
         isVerified: true
     });
 
