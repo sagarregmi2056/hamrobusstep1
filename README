@@ -138,3 +138,6 @@ enum: ["AC", "Nonac", "sleeper", "seater", "if required add more "]
     2.auth-user/signin=>          http://localhost:8525/api/auth-user/signup
     3./api/users/getallusers=>    http://localhost:8525/api/users/
     4.getuserByid =>              http://localhost:8525/api/users/64d6459a6ef628df9a5db782
+     5. owner signup=> http://localhost:8525/api/auth-owner/signup
+     6. owner signin => http://localhost:8525/api/auth-owner/signin
+     7. 
