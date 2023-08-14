@@ -5,7 +5,7 @@ const _ = require("lodash");
 const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
-const {checkDateAvailabilty}= require("../helpers");
+const checkDateAvailabilty= require("../helpers");
 
 exports.busBySlug = async(req,res,next,slug)=>{
     const bus = await Bus.findOne({slug}).populate("owner","name role");

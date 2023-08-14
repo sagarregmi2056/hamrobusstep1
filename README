@@ -198,3 +198,21 @@ outputs:
     "_id": "64d9ee02f712ba2fe20ae366",
     "__v": 0
 }
+
+
+
+addtravels => http://localhost:8525/api/travels
+
+{
+  "name":"makalu yatayat"
+}
+
+
+
+output:
+
+{
+    "name": "juntara yatayat",
+    "_id": "64da000a931b4de4e06a3623",
+    "__v": 0
+}
