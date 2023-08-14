@@ -1,7 +1,7 @@
 const CronJob = require("cron").CronJob;
 const Bus = require("../models/Bus");
 
-exports.checkDateAvailability = date => {
+exports.checkDateAvailability = (date)=> {
   if (new Date(date) < new Date()) {
     return false;
   } else {
