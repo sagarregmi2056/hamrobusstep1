@@ -150,7 +150,14 @@ enum: ["AC", "Nonac", "sleeper", "seater", "if required add more "]
   "password": "123456",
   "photo": "profile.jpg"
 }
-
+{
+  "name": "sagar regmi",
+  "citizenshipNumber": "1234567890",
+  "phone": 9876543210,
+  "email": "sagarregmi2056@example.com",
+  "password": "sagarregmi123",
+  "photo": "profile.jpg"
+}
 
 
 
