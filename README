@@ -216,3 +216,55 @@ output:
     "_id": "64da000a931b4de4e06a3623",
     "__v": 0
 }
+
+
+
+<!-- // mongoose.plugin(slug);
+
+// this is causing the error while using .. -->
+
+addbus by the owner => step1: generate token and use token in barer token header 
+                          step2: fill the form data 
+                        =>  http://localhost:8525/api/bus
+
+                        output:
+                        {
+    "name": "AC Deluxe Bus",
+    "type": "AC",
+    "busNumber": "BUS456",
+    "fare": 1500,
+    "features": [
+        "Wi-Fi,Refreshments,Comfortable Seats"
+    ],
+    "description": "A luxurious AC deluxe bus",
+    "seatsAvailable": 30,
+    "bookedSeat": [],
+    "soldSeat": [],
+    "numberOfSeats": 30,
+    "image": "busimage/resized/image-1692017458388.png",
+    "departure_time": "09:00 AM",
+    "isAvailable": true,
+    "travel": "64da000a931b4de4e06a3623",
+    "startLocation": "64d9edb7f712ba2fe20ae35a",
+    "endLocation": "64d9edd1f712ba2fe20ae35d",
+    "journeyDate": "2023-08-20",
+    "boardingPoints": [
+        "Boarding Point A",
+        "Boarding Point B"
+    ],
+    "droppingPoints": [
+        "Dropping Point X",
+        "Dropping Point Y"
+    ],
+    "_id": "64da2332b79aa236fe2f04ed",
+    "owner": {
+        "_id": "64d5f18398ebc2bac631e43d",
+        "name": "SAdmin",
+        "hashed_password": "f4e227c6c0e4b4fdfabcba8b7ebdaa7316a20844",
+        "salt": "3fc81ee0-3821-11ee-ae01-e70897b9edea",
+        "role": "superadmin"
+    },
+    "createdAt": "2023-08-14T12:50:58.482Z",
+    "updatedAt": "2023-08-14T12:50:58.482Z",
+    "__v": 0
+}

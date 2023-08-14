@@ -102,3 +102,4 @@
 ::1 - - [14/Aug/2023:11:20:28 +0000] "POST /api/bus HTTP/1.1" 500 33 "-" "PostmanRuntime/7.32.3"
 ::1 - - [14/Aug/2023:11:20:48 +0000] "POST /api/bus HTTP/1.1" 500 33 "-" "PostmanRuntime/7.32.3"
 ::1 - - [14/Aug/2023:11:21:03 +0000] "POST /api/bus HTTP/1.1" 500 33 "-" "PostmanRuntime/7.32.3"
+::1 - - [14/Aug/2023:12:50:58 +0000] "POST /api/bus HTTP/1.1" 200 896 "-" "PostmanRuntime/7.32.3"

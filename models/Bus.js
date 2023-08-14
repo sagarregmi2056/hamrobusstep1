@@ -1,6 +1,8 @@
 const slug = require("mongoose-slug-generator");
 const mongoose = require("mongoose");
-mongoose.plugin(slug);
+// mongoose.plugin(slug);
+
+// this is causing the error while using ..
 
 
 const { ObjectId } = mongoose.Schema;
