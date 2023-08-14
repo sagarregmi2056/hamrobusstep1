@@ -187,10 +187,13 @@ exports.searchBusByFilter = async (req, res) => {
       fs.unlinkSync(req.file.path);
       req.body.image = "busimage/resized/" + image;
     }
-  
+      try{
     if (req.body.boardingPoints) {
       req.body.boardingPoints = req.body.boardingPoints.split(",");
     }
+  }catch(error){
+    return res.status(400).json({error:"invalid boarding formate "})
+  }
     if (req.body.droppingPoints) {
       req.body.droppingPoints = req.body.droppingPoints.split(",");
     }

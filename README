@@ -139,5 +139,62 @@ enum: ["AC", "Nonac", "sleeper", "seater", "if required add more "]
     3./api/users/getallusers=>    http://localhost:8525/api/users/
     4.getuserByid =>              http://localhost:8525/api/users/64d6459a6ef628df9a5db782
      5. owner signup=> http://localhost:8525/api/auth-owner/signup
-     6. owner signin => http://localhost:8525/api/auth-owner/signin
-     7. 
+
+
+
+      {
+  "name": "abcdefghti",
+  "citizenshipNumber": "1234567890",
+  "phone": 9876543210,
+  "email": "abcdefghi@example.com",
+  "password": "123456",
+  "photo": "profile.jpg"
+}
+
+
+
+
+
+
+6. owner signin => http://localhost:8525/api/auth-owner/signin
+
+
+   {
+  
+  "email": "abcdefghi@example.com",
+  "password": "123456"
+
+}
+
+token for that owner :
+
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGQ5ZTYxN2Q4ZWFmYzRhY2FjODk3MWMiLCJuYW1lIjoiYWJjZGVmZ2h0aSIsImVtYWlsIjoiYWJjZGVmZ2hpQGV4YW1wbGUuY29tIiwicm9sZSI6Im93bmVyIiwicmVmcmVzaF9oYXNoIjoiY2I0NDk4MTAtM2E3Yy0xMWVlLWJlYWItNjNmNDM3YWFjYmY2IiwiYXZhdGFyIjoicHJvZmlsZS5qcGciLCJpYXQiOjE2OTIwMDE4OTAsImV4cCI6MTY5MjAwOTA5MH0.j666MNVWylLWmBUSl9pQ4lex4rxQY2KtlMeHUpoTSu0
+
+
+
+
+token for superadmin:
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGQ1ZjE4Mzk4ZWJjMmJhYzYzMWU0M2QiLCJuYW1lIjoiU0FkbWluIiwiZW1haWwiOiJoYW1yb2J1czIwMjNAYWRtaW4uY29tIiwicm9sZSI6InN1cGVyYWRtaW4iLCJyZWZyZXNoX2hhc2giOiIzZmM4MWVlMC0zODIxLTExZWUtYWUwMS1lNzA4OTdiOWVkZWEiLCJhdmF0YXIiOm51bGwsImlhdCI6MTY5MjAwMzQ1NCwiZXhwIjoxNjkyMDEwNjU0fQ.6SciCXT7mJUd5Kmw8eASBwutbfQtdOhoLVzb7YspxAo
+
+
+
+after superadmintoken:
+addlocation=>  http://localhost:8525/api/locations
+
+
+inputs with token:
+ {
+  "name": "chitwan",
+  "district": "muglin"
+}
+
+
+
+outputs:
+ {
+    "name": "chitwan",
+    "district": "muglin",
+    "_id": "64d9ee02f712ba2fe20ae366",
+    "__v": 0
+}
