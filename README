@@ -156,14 +156,14 @@ enum: ["AC", "Nonac", "sleeper", "seater", "if required add more "]
   "phone": 9876543210,
   "email": "sagarregmi2056@example.com",
   "password": "sagarregmi123",
-  "photo": "profile.jpg"
+ 
 }
 
 
 
 
 
-6. owner signin => http://localhost:8525/api/auth-owner/signin
+1. owner signin => http://localhost:8525/api/auth-owner/signin
 
 
    {
