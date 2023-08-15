@@ -77,7 +77,7 @@ exports.requireOwnerSignin = async (req, res, next) => {
 
     const foundowner = await Owner.findById(owner._id).select("name role salt hashed_password");
 
-    if (foundowner) {
+    if (foundowner && foundowner.role === "owner") {
       req.ownerauth = foundowner;
       next();
     } else res.status(401).json({ error: "Not authorized!" });

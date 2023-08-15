@@ -160,6 +160,54 @@ enum: ["AC", "Nonac", "sleeper", "seater", "if required add more "]
 }
 
 
+addedbusBybus owner => http://localhost:8525/api/bus
+
+
+
+output:{
+    "name": "Nayadelux",
+    "type": "Delux",
+    "busNumber": "BUS4",
+    "fare": 1300,
+    "features": [
+        "Wi-Fi,Refreshments,Comfortable Seats"
+    ],
+    "description": "A luxurious AC deluxe bus",
+    "seatsAvailable": 40,
+    "bookedSeat": [],
+    "soldSeat": [],
+    "numberOfSeats": 40,
+    "image": "busimage/resized/image-1692089634433.png",
+    "departure_time": "10:00 PM",
+    "isAvailable": true,
+    "travel": "64d9fffb931b4de4e06a3620",
+    "startLocation": "64d9edb7f712ba2fe20ae35a",
+    "endLocation": "64d9edd1f712ba2fe20ae35d",
+    "journeyDate": "2023-08-20",
+    "boardingPoints": [
+        "muglin road",
+        "manakamana chowk"
+    ],
+    "droppingPoints": [
+        "chaubiskoti",
+        "paras buspark"
+    ],
+    "slug": "6bajyakobus",
+    "_id": "64db3d2223de85bbf4935059",
+    "owner": {
+        "_id": "64da3bf5d134ced2de553ed4",
+        "name": "sagar regmi",
+        "hashed_password": "5131e54188660fbc6b56c1a8265590aa19e76c31",
+        "salt": "f97fe3a0-3aaf-11ee-b190-658e7fad2696",
+        "role": "owner"
+    },
+    "createdAt": "2023-08-15T08:53:54.532Z",
+    "updatedAt": "2023-08-15T08:53:54.532Z",
+    "__v": 0
+}
+
+
+
 
 
 
@@ -275,3 +323,879 @@ addbus by the owner => step1: generate token and use token in barer token header
     "updatedAt": "2023-08-14T12:50:58.482Z",
     "__v": 0
 }
+
+
+inputs:  token+slug=>formdata+scrrenshotimage
+
+
+allavailablebus of that owner get => http://localhost:8525/api/bus/owner-bus-available
+
+
+output:[
+    {
+        "_id": "64db3bcc778c231163fa5643",
+        "name": "Xotobus",
+        "type": "AC",
+        "busNumber": "BUS459",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089292675.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": "64d9edb7f712ba2fe20ae35a",
+        "endLocation": "64d9edd1f712ba2fe20ae35d",
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "day4slug",
+        "owner": {
+            "_id": "64da3bf5d134ced2de553ed4",
+            "name": "sagar regmi"
+        },
+        "createdAt": "2023-08-15T08:48:12.843Z",
+        "updatedAt": "2023-08-15T08:48:12.843Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3c2823de85bbf4935043",
+        "name": "Xotobus",
+        "type": "AC",
+        "busNumber": "BUS234",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089384741.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": "64d9edb7f712ba2fe20ae35a",
+        "endLocation": "64d9edd1f712ba2fe20ae35d",
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "morningshift23",
+        "owner": {
+            "_id": "64da3bf5d134ced2de553ed4",
+            "name": "sagar regmi"
+        },
+        "createdAt": "2023-08-15T08:49:44.849Z",
+        "updatedAt": "2023-08-15T08:49:44.849Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3c5723de85bbf4935049",
+        "name": "Hamrobus",
+        "type": "AC",
+        "busNumber": "BUS1",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089431611.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": "64d9edb7f712ba2fe20ae35a",
+        "endLocation": "64d9edd1f712ba2fe20ae35d",
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "nightshift23",
+        "owner": {
+            "_id": "64da3bf5d134ced2de553ed4",
+            "name": "sagar regmi"
+        },
+        "createdAt": "2023-08-15T08:50:31.713Z",
+        "updatedAt": "2023-08-15T08:50:31.713Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3c9523de85bbf4935051",
+        "name": "Hamronayabus",
+        "type": "Suspense AC",
+        "busNumber": "BUS2",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089493347.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": "64d9edb7f712ba2fe20ae35a",
+        "endLocation": "64d9edd1f712ba2fe20ae35d",
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "nightshift22",
+        "owner": {
+            "_id": "64da3bf5d134ced2de553ed4",
+            "name": "sagar regmi"
+        },
+        "createdAt": "2023-08-15T08:51:33.526Z",
+        "updatedAt": "2023-08-15T08:51:33.526Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3cc123de85bbf4935055",
+        "name": "Nayadelux",
+        "type": "Delux",
+        "busNumber": "BUS3",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089537127.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": "64d9edb7f712ba2fe20ae35a",
+        "endLocation": "64d9edd1f712ba2fe20ae35d",
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "4bajyakobus",
+        "owner": {
+            "_id": "64da3bf5d134ced2de553ed4",
+            "name": "sagar regmi"
+        },
+        "createdAt": "2023-08-15T08:52:17.219Z",
+        "updatedAt": "2023-08-15T08:52:17.219Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3d2223de85bbf4935059",
+        "name": "Nayadelux",
+        "type": "Delux",
+        "busNumber": "BUS4",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089634433.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": "64d9edb7f712ba2fe20ae35a",
+        "endLocation": "64d9edd1f712ba2fe20ae35d",
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "muglin road",
+            "manakamana chowk"
+        ],
+        "droppingPoints": [
+            "chaubiskoti",
+            "paras buspark"
+        ],
+        "slug": "6bajyakobus",
+        "owner": {
+            "_id": "64da3bf5d134ced2de553ed4",
+            "name": "sagar regmi"
+        },
+        "createdAt": "2023-08-15T08:53:54.532Z",
+        "updatedAt": "2023-08-15T08:53:54.532Z",
+        "__v": 0
+    }
+]
+
+
+
+get all unavailable bus of the owner  get=> http://localhost:8525/api/bus/owner-bus-unavailable
+
+
+
+get all available bus of the anyowner get=>http://localhost:8525/api/bus//all-bus-available
+
+
+output:[
+    {
+        "_id": "64da2332b79aa236fe2f04ed",
+        "name": "AC Deluxe Bus",
+        "type": "AC",
+        "busNumber": "BUS456",
+        "fare": 1500,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 30,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 30,
+        "image": "busimage/resized/image-1692017458388.png",
+        "departure_time": "09:00 AM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64da000a931b4de4e06a3623",
+            "name": "juntara yatayat"
+        },
+        "startLocation": "64d9edb7f712ba2fe20ae35a",
+        "endLocation": "64d9edd1f712ba2fe20ae35d",
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point A",
+            "Boarding Point B"
+        ],
+        "droppingPoints": [
+            "Dropping Point X",
+            "Dropping Point Y"
+        ],
+        "owner": {
+            "_id": "64d5f18398ebc2bac631e43d",
+            "name": "SAdmin",
+            "phone": 9804228593
+        },
+        "createdAt": "2023-08-14T12:50:58.482Z",
+        "updatedAt": "2023-08-14T12:50:58.482Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3bcc778c231163fa5643",
+        "name": "Xotobus",
+        "type": "AC",
+        "busNumber": "BUS459",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089292675.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": "64d9edb7f712ba2fe20ae35a",
+        "endLocation": "64d9edd1f712ba2fe20ae35d",
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "day4slug",
+        "owner": {
+            "_id": "64da3bf5d134ced2de553ed4",
+            "name": "sagar regmi",
+            "phone": 9876543210
+        },
+        "createdAt": "2023-08-15T08:48:12.843Z",
+        "updatedAt": "2023-08-15T08:48:12.843Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3c2823de85bbf4935043",
+        "name": "Xotobus",
+        "type": "AC",
+        "busNumber": "BUS234",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089384741.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": "64d9edb7f712ba2fe20ae35a",
+        "endLocation": "64d9edd1f712ba2fe20ae35d",
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "morningshift23",
+        "owner": {
+            "_id": "64da3bf5d134ced2de553ed4",
+            "name": "sagar regmi",
+            "phone": 9876543210
+        },
+        "createdAt": "2023-08-15T08:49:44.849Z",
+        "updatedAt": "2023-08-15T08:49:44.849Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3c5723de85bbf4935049",
+        "name": "Hamrobus",
+        "type": "AC",
+        "busNumber": "BUS1",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089431611.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": "64d9edb7f712ba2fe20ae35a",
+        "endLocation": "64d9edd1f712ba2fe20ae35d",
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "nightshift23",
+        "owner": {
+            "_id": "64da3bf5d134ced2de553ed4",
+            "name": "sagar regmi",
+            "phone": 9876543210
+        },
+        "createdAt": "2023-08-15T08:50:31.713Z",
+        "updatedAt": "2023-08-15T08:50:31.713Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3c9523de85bbf4935051",
+        "name": "Hamronayabus",
+        "type": "Suspense AC",
+        "busNumber": "BUS2",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089493347.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": "64d9edb7f712ba2fe20ae35a",
+        "endLocation": "64d9edd1f712ba2fe20ae35d",
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "nightshift22",
+        "owner": {
+            "_id": "64da3bf5d134ced2de553ed4",
+            "name": "sagar regmi",
+            "phone": 9876543210
+        },
+        "createdAt": "2023-08-15T08:51:33.526Z",
+        "updatedAt": "2023-08-15T08:51:33.526Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3cc123de85bbf4935055",
+        "name": "Nayadelux",
+        "type": "Delux",
+        "busNumber": "BUS3",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089537127.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": "64d9edb7f712ba2fe20ae35a",
+        "endLocation": "64d9edd1f712ba2fe20ae35d",
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "4bajyakobus",
+        "owner": {
+            "_id": "64da3bf5d134ced2de553ed4",
+            "name": "sagar regmi",
+            "phone": 9876543210
+        },
+        "createdAt": "2023-08-15T08:52:17.219Z",
+        "updatedAt": "2023-08-15T08:52:17.219Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3d2223de85bbf4935059",
+        "name": "Nayadelux",
+        "type": "Delux",
+        "busNumber": "BUS4",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089634433.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": "64d9edb7f712ba2fe20ae35a",
+        "endLocation": "64d9edd1f712ba2fe20ae35d",
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "muglin road",
+            "manakamana chowk"
+        ],
+        "droppingPoints": [
+            "chaubiskoti",
+            "paras buspark"
+        ],
+        "slug": "6bajyakobus",
+        "owner": {
+            "_id": "64da3bf5d134ced2de553ed4",
+            "name": "sagar regmi",
+            "phone": 9876543210
+        },
+        "createdAt": "2023-08-15T08:53:54.532Z",
+        "updatedAt": "2023-08-15T08:53:54.532Z",
+        "__v": 0
+    }
+]
+
+
+searchbuses=> http://localhost:8525/api/bus/search?startLocation=64d9edb7f712ba2fe20ae35a&endLocation=64d9edd1f712ba2fe20ae35d&journeyDate=2023-08-20
+
+
+
+output: [
+    {
+        "_id": "64da2332b79aa236fe2f04ed",
+        "name": "AC Deluxe Bus",
+        "type": "AC",
+        "busNumber": "BUS456",
+        "fare": 1500,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 30,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 30,
+        "image": "busimage/resized/image-1692017458388.png",
+        "departure_time": "09:00 AM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64da000a931b4de4e06a3623",
+            "name": "juntara yatayat"
+        },
+        "startLocation": {
+            "_id": "64d9edb7f712ba2fe20ae35a",
+            "name": "Kathmandu"
+        },
+        "endLocation": {
+            "_id": "64d9edd1f712ba2fe20ae35d",
+            "name": "chitwan"
+        },
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point A",
+            "Boarding Point B"
+        ],
+        "droppingPoints": [
+            "Dropping Point X",
+            "Dropping Point Y"
+        ],
+        "owner": "64d5f18398ebc2bac631e43d",
+        "createdAt": "2023-08-14T12:50:58.482Z",
+        "updatedAt": "2023-08-14T12:50:58.482Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3bcc778c231163fa5643",
+        "name": "Xotobus",
+        "type": "AC",
+        "busNumber": "BUS459",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089292675.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": {
+            "_id": "64d9edb7f712ba2fe20ae35a",
+            "name": "Kathmandu"
+        },
+        "endLocation": {
+            "_id": "64d9edd1f712ba2fe20ae35d",
+            "name": "chitwan"
+        },
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "day4slug",
+        "owner": "64da3bf5d134ced2de553ed4",
+        "createdAt": "2023-08-15T08:48:12.843Z",
+        "updatedAt": "2023-08-15T08:48:12.843Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3c2823de85bbf4935043",
+        "name": "Xotobus",
+        "type": "AC",
+        "busNumber": "BUS234",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089384741.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": {
+            "_id": "64d9edb7f712ba2fe20ae35a",
+            "name": "Kathmandu"
+        },
+        "endLocation": {
+            "_id": "64d9edd1f712ba2fe20ae35d",
+            "name": "chitwan"
+        },
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "morningshift23",
+        "owner": "64da3bf5d134ced2de553ed4",
+        "createdAt": "2023-08-15T08:49:44.849Z",
+        "updatedAt": "2023-08-15T08:49:44.849Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3c5723de85bbf4935049",
+        "name": "Hamrobus",
+        "type": "AC",
+        "busNumber": "BUS1",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089431611.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": {
+            "_id": "64d9edb7f712ba2fe20ae35a",
+            "name": "Kathmandu"
+        },
+        "endLocation": {
+            "_id": "64d9edd1f712ba2fe20ae35d",
+            "name": "chitwan"
+        },
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "nightshift23",
+        "owner": "64da3bf5d134ced2de553ed4",
+        "createdAt": "2023-08-15T08:50:31.713Z",
+        "updatedAt": "2023-08-15T08:50:31.713Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3c9523de85bbf4935051",
+        "name": "Hamronayabus",
+        "type": "Suspense AC",
+        "busNumber": "BUS2",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089493347.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": {
+            "_id": "64d9edb7f712ba2fe20ae35a",
+            "name": "Kathmandu"
+        },
+        "endLocation": {
+            "_id": "64d9edd1f712ba2fe20ae35d",
+            "name": "chitwan"
+        },
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "nightshift22",
+        "owner": "64da3bf5d134ced2de553ed4",
+        "createdAt": "2023-08-15T08:51:33.526Z",
+        "updatedAt": "2023-08-15T08:51:33.526Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3cc123de85bbf4935055",
+        "name": "Nayadelux",
+        "type": "Delux",
+        "busNumber": "BUS3",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089537127.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": {
+            "_id": "64d9edb7f712ba2fe20ae35a",
+            "name": "Kathmandu"
+        },
+        "endLocation": {
+            "_id": "64d9edd1f712ba2fe20ae35d",
+            "name": "chitwan"
+        },
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "4bajyakobus",
+        "owner": "64da3bf5d134ced2de553ed4",
+        "createdAt": "2023-08-15T08:52:17.219Z",
+        "updatedAt": "2023-08-15T08:52:17.219Z",
+        "__v": 0
+    },
+    {
+        "_id": "64db3d2223de85bbf4935059",
+        "name": "Nayadelux",
+        "type": "Delux",
+        "busNumber": "BUS4",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089634433.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": {
+            "_id": "64d9fffb931b4de4e06a3620",
+            "name": "khadegeyshowr yatayat"
+        },
+        "startLocation": {
+            "_id": "64d9edb7f712ba2fe20ae35a",
+            "name": "Kathmandu"
+        },
+        "endLocation": {
+            "_id": "64d9edd1f712ba2fe20ae35d",
+            "name": "chitwan"
+        },
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "muglin road",
+            "manakamana chowk"
+        ],
+        "droppingPoints": [
+            "chaubiskoti",
+            "paras buspark"
+        ],
+        "slug": "6bajyakobus",
+        "owner": "64da3bf5d134ced2de553ed4",
+        "createdAt": "2023-08-15T08:53:54.532Z",
+        "updatedAt": "2023-08-15T08:53:54.532Z",
+        "__v": 0
+    }
+]

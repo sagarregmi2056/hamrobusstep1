@@ -105,10 +105,12 @@ exports.getAvailableBusesOfOwner = async (req, res) => {
 //   home page ko lagi search wala
 
 exports.searchBus = async (req, res) => {
-    if (_.size(req.query) < 1)
-      return res.status(400).json({ error: "Invalid query" });
+    // if (_.size(req.query) < 1)
+    //   return res.status(400).json({ error: "Invalid query" });
   
     const { startLocation, endLocation, journeyDate } = req.query;
+
+    // console.log("error");
   
     const bus = await Bus.find({
       startLocation,
@@ -116,10 +118,11 @@ exports.searchBus = async (req, res) => {
       journeyDate,
       isAvailable: true
     })
+    
       .populate("travel", "name")
       .populate("startLocation", "name")
       .populate("endLocation", "name");
-  
+    
     return res.json(bus);
   };
 
@@ -170,100 +173,102 @@ exports.searchBusByFilter = async (req, res) => {
   //     req.body.image = "busimage/resized/" + image;
   //   }
 
-  exports.create = (req, res) => {
-    Bus.findOne({ busNumber: req.body.busNumber })
-      .then(busExists => {
-        if (busExists) {
-          return res.status(403).json({
-            error: "Bus is already added!"
-          });
-        }
+  // exports.create = (req, res) => {
+ 
+  //   Bus.findOne({ busNumber: req.body.busNumber })
+  //     .then(busExists => {
+  //       if (busExists) {
+          
+  //         return res.status(403).json({
+  //           error: "Bus is already added!"
+  //         });
+  //       }
         
-        if (req.file !== undefined) {
-          const { filename: image } = req.file;
+  //       if (req.file !== undefined) {
+  //         const { filename: image } = req.file;
   
-          //Compress image
-          return sharp(req.file.path)
-            .resize(800)
-            .jpeg({ quality: 100 })
-            .toFile(path.resolve(req.file.destination, "resized", image))
-            .then(() => {
-              fs.unlinkSync(req.file.path);
-              req.body.image = "busimage/resized/" + image;
-            });
-        } else {
-          return Promise.resolve();
-        }
-      })
-      .then(() => {
-        if (req.body.boardingPoints) {
-          req.body.boardingPoints = req.body.boardingPoints.split(",");
-        }
-        if (req.body.droppingPoints) {
-          req.body.droppingPoints = req.body.droppingPoints.split(",");
-        }
+  //         //Compress image
+  //         return sharp(req.file.path)
+  //           .resize(800)
+  //           .jpeg({ quality: 100 })
+  //           .toFile(path.resolve(req.file.destination, "resized", image))
+  //           .then(() => {
+  //             fs.unlinkSync(req.file.path);
+  //             req.body.image = "busimage/resized/" + image;
+  //           });
+  //       } else {
+  //         return Promise.resolve();
+  //       }
+  //     })
+  //     .then(() => {
+  //       if (req.body.boardingPoints) {
+  //         req.body.boardingPoints = req.body.boardingPoints.split(",");
+  //       }
+  //       if (req.body.droppingPoints) {
+  //         req.body.droppingPoints = req.body.droppingPoints.split(",");
+  //       }
         
-        const bus = new Bus(req.body);
-        bus.seatsAvailable = req.body.numberOfSeats;
+  //       const bus = new Bus(req.body);
+  //       bus.seatsAvailable = req.body.numberOfSeats;
         
-        if (!checkDateAvailability(req.body.journeyDate)) {
-          bus.isAvailable = false;
-        }
+  //       if (!checkDateAvailability(req.body.journeyDate)) {
+  //         bus.isAvailable = false;
+  //       }
         
-        bus.owner = req.ownerauth;
+  //       bus.owner = req.ownerauth;
         
-        return bus.save();
-      })
-      .then(bus => {
-        res.json(bus);
-      })
-      .catch(error => {
-        res.status(500).json({ error: "An error occurred" });
-      });
-  };
-
-  // exports.create = async (req, res) => {
-  //   const busExists = await Bus.findOne({ busNumber: req.body.busNumber });
-  //   if (busExists)
-  //     return res.status(403).json({
-  //       error: "Bus is already added!"
+  //       return bus.save();
+  //     })
+  //     .then(bus => {
+  //       res.json(bus);
+  //     })
+  //     .catch(error => {
+  //       res.status(500).json({ error: "An error occurred" });
   //     });
-  
-  //   if (req.file !== undefined) {
-  //     const { filename: image } = req.file;
-  
-  //     //Compress image
-  //     await sharp(req.file.path)
-  //       .resize(800)
-  //       .jpeg({ quality: 100 })
-  //       .toFile(path.resolve(req.file.destination, "resized", image));
-  //     fs.unlinkSync(req.file.path);
-  //     req.body.image = "busimage/resized/" + image;
-  //   }
-  //     try{
-  //   if (req.body.boardingPoints) {
-  //     req.body.boardingPoints = req.body.boardingPoints.split(",");
-  //   }
-  // }catch(error){
-  //   return res.status(400).json({error:"invalid boarding formate "})
-  // }
-  //   if (req.body.droppingPoints) {
-  //     req.body.droppingPoints = req.body.droppingPoints.split(",");
-  //   }
-  
-  //   const bus = new Bus(req.body);
-  //   bus.seatsAvailable = req.body.numberOfSeats;
-  
-  //   if (!checkDateAvailability(req.body.journeyDate)) {
-  //     bus.isAvailable = false;
-  //   }
-  
-  //   bus.owner = req.ownerauth;
-  
-  //   await bus.save();
-  
-  //   res.json(bus);
   // };
+
+  exports.create = async (req, res) => {
+    const busExists = await Bus.findOne({ busNumber: req.body.busNumber });
+    if (busExists)
+      return res.status(403).json({
+        error: "Bus is already added!"
+      });
+  
+    if (req.file !== undefined) {
+      const { filename: image } = req.file;
+  
+      //Compress image
+      await sharp(req.file.path)
+        .resize(800)
+        .jpeg({ quality: 100 })
+        .toFile(path.resolve(req.file.destination, "resized", image));
+      fs.unlinkSync(req.file.path);
+      req.body.image = "busimage/resized/" + image;
+    }
+      try{
+    if (req.body.boardingPoints) {
+      req.body.boardingPoints = req.body.boardingPoints.split(",");
+    }
+  }catch(error){
+    return res.status(400).json({error:"invalid boarding formate "})
+  }
+    if (req.body.droppingPoints) {
+      req.body.droppingPoints = req.body.droppingPoints.split(",");
+    }
+  
+    const bus = new Bus(req.body);
+    bus.seatsAvailable = req.body.numberOfSeats;
+  
+    if (!checkDateAvailability(req.body.journeyDate)) {
+      bus.isAvailable = false;
+    }
+  
+    bus.owner = req.ownerauth;
+  
+    await bus.save();
+  
+    res.json(bus);
+  };
 
 
 
