@@ -79,6 +79,7 @@ exports.postBooking = async (req, res) => {
 };
 
 exports.postSold = async (req, res) => {
+  // console.log("hehe")
   const booking = new Booking(req.body);
   booking.self = req.ownerauth;
 

@@ -1254,3 +1254,244 @@ note:it will work only bus is of the given owner with the slugname
 output: {
     "message": "Bus removed successfully"
 }
+
+
+
+
+
+postsold by owner =>http://localhost:8525/api/bookings/sold/nightshift22
+
+
+json
+
+ {
+  "price": "100",
+  "passengers": 2,
+  "seatNumber": "A1",
+  "boardingPoints": "Boarding Point D"
+}
+
+note:should be signed as owner before (sagar regmi )
+
+output {
+    "price": "100",
+    "passengers": 2,
+    "seatNumber": "A1",
+    "boardingPoints": "Boarding Point D",
+    "verification": "payed",
+    "_id": "64db5bf6eebeeacbce01b1af",
+    "self": {
+        "_id": "64da3bf5d134ced2de553ed4",
+        "name": "sagar regmi",
+        "hashed_password": "5131e54188660fbc6b56c1a8265590aa19e76c31",
+        "salt": "f97fe3a0-3aaf-11ee-b190-658e7fad2696",
+        "role": "owner"
+    },
+    "bus": {
+        "_id": "64db3c9523de85bbf4935051",
+        "name": "Hamronayabus",
+        "type": "Suspense AC",
+        "busNumber": "BUS2",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 38,
+        "bookedSeat": [],
+        "soldSeat": [
+            "A1"
+        ],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089493347.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": "64d9fffb931b4de4e06a3620",
+        "startLocation": "64d9edb7f712ba2fe20ae35a",
+        "endLocation": "64d9edd1f712ba2fe20ae35d",
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "nightshift22",
+        "owner": "64da3bf5d134ced2de553ed4",
+        "createdAt": "2023-08-15T08:51:33.526Z",
+        "updatedAt": "2023-08-15T11:05:26.170Z",
+        "__v": 1
+    },
+    "owner": "64da3bf5d134ced2de553ed4",
+    "createdAt": "2023-08-15T11:05:26.159Z",
+    "updatedAt": "2023-08-15T11:05:26.159Z",
+    "__v": 0
+}
+
+
+
+mybooking owner  get request => http://localhost:8525/api/bookings/my
+
+
+
+outputs: [
+    {
+        "_id": "64db5bf6eebeeacbce01b1af",
+        "price": "100",
+        "passengers": 2,
+        "seatNumber": "A1",
+        "boardingPoints": "Boarding Point D",
+        "verification": "payed",
+        "self": {
+            "_id": "64da3bf5d134ced2de553ed4",
+            "name": "sagar regmi",
+            "citizenshipNumber": "1234567890",
+            "phone": 9876543210,
+            "isVerified": false,
+            "email": "sagarregmi2056@example.com",
+            "hashed_password": "5131e54188660fbc6b56c1a8265590aa19e76c31",
+            "photo": "profile.jpg",
+            "salt": "f97fe3a0-3aaf-11ee-b190-658e7fad2696",
+            "role": "owner",
+            "createdAt": "2023-08-14T14:36:37.480Z",
+            "updatedAt": "2023-08-14T14:36:37.480Z",
+            "__v": 0
+        },
+        "bus": {
+            "_id": "64db3c9523de85bbf4935051",
+            "name": "Hamronayabus",
+            "type": "Suspense AC",
+            "busNumber": "BUS2",
+            "fare": 1300,
+            "features": [
+                "Wi-Fi,Refreshments,Comfortable Seats"
+            ],
+            "description": "A luxurious AC deluxe bus",
+            "seatsAvailable": 38,
+            "bookedSeat": [],
+            "soldSeat": [
+                "A1"
+            ],
+            "numberOfSeats": 40,
+            "image": "busimage/resized/image-1692089493347.png",
+            "departure_time": "10:00 PM",
+            "isAvailable": true,
+            "travel": "64d9fffb931b4de4e06a3620",
+            "startLocation": "64d9edb7f712ba2fe20ae35a",
+            "endLocation": "64d9edd1f712ba2fe20ae35d",
+            "journeyDate": "2023-08-20",
+            "boardingPoints": [
+                "Boarding Point D",
+                "Boarding Point E"
+            ],
+            "droppingPoints": [
+                "Dropping Point Z",
+                "Dropping Point M"
+            ],
+            "slug": "nightshift22",
+            "owner": "64da3bf5d134ced2de553ed4",
+            "createdAt": "2023-08-15T08:51:33.526Z",
+            "updatedAt": "2023-08-15T11:05:26.170Z",
+            "__v": 1
+        },
+        "owner": {
+            "_id": "64da3bf5d134ced2de553ed4",
+            "name": "sagar regmi",
+            "citizenshipNumber": "1234567890",
+            "phone": 9876543210,
+            "isVerified": false,
+            "email": "sagarregmi2056@example.com",
+            "hashed_password": "5131e54188660fbc6b56c1a8265590aa19e76c31",
+            "photo": "profile.jpg",
+            "salt": "f97fe3a0-3aaf-11ee-b190-658e7fad2696",
+            "role": "owner",
+            "createdAt": "2023-08-14T14:36:37.480Z",
+            "updatedAt": "2023-08-14T14:36:37.480Z",
+            "__v": 0
+        },
+        "createdAt": "2023-08-15T11:05:26.159Z",
+        "updatedAt": "2023-08-15T11:05:26.159Z",
+        "__v": 0
+    }
+]
+
+
+changeverifaction of booking id : http://localhost:8525/api/bookings/64db5bf6eebeeacbce01b1af
+
+
+json
+
+ {
+  "verification":"verified"
+}
+
+
+output:
+{
+    "_id": "64db5bf6eebeeacbce01b1af",
+    "price": "100",
+    "passengers": 2,
+    "seatNumber": "A1",
+    "boardingPoints": "Boarding Point D",
+    "verification": "verified",
+    "self": "64da3bf5d134ced2de553ed4",
+    "bus": {
+        "_id": "64db3c9523de85bbf4935051",
+        "name": "Hamronayabus",
+        "type": "Suspense AC",
+        "busNumber": "BUS2",
+        "fare": 1300,
+        "features": [
+            "Wi-Fi,Refreshments,Comfortable Seats"
+        ],
+        "description": "A luxurious AC deluxe bus",
+        "seatsAvailable": 38,
+        "bookedSeat": [],
+        "soldSeat": [
+            "A1"
+        ],
+        "numberOfSeats": 40,
+        "image": "busimage/resized/image-1692089493347.png",
+        "departure_time": "10:00 PM",
+        "isAvailable": true,
+        "travel": "64d9fffb931b4de4e06a3620",
+        "startLocation": "64d9edb7f712ba2fe20ae35a",
+        "endLocation": "64d9edd1f712ba2fe20ae35d",
+        "journeyDate": "2023-08-20",
+        "boardingPoints": [
+            "Boarding Point D",
+            "Boarding Point E"
+        ],
+        "droppingPoints": [
+            "Dropping Point Z",
+            "Dropping Point M"
+        ],
+        "slug": "nightshift22",
+        "owner": "64da3bf5d134ced2de553ed4",
+        "createdAt": "2023-08-15T08:51:33.526Z",
+        "updatedAt": "2023-08-15T11:05:26.170Z",
+        "__v": 1
+    },
+    "owner": {
+        "_id": "64da3bf5d134ced2de553ed4",
+        "name": "sagar regmi",
+        "citizenshipNumber": "1234567890",
+        "phone": 9876543210,
+        "isVerified": false,
+        "email": "sagarregmi2056@example.com",
+        "hashed_password": "5131e54188660fbc6b56c1a8265590aa19e76c31",
+        "photo": "profile.jpg",
+        "salt": "f97fe3a0-3aaf-11ee-b190-658e7fad2696",
+        "role": "owner",
+        "createdAt": "2023-08-14T14:36:37.480Z",
+        "updatedAt": "2023-08-14T14:36:37.480Z",
+        "__v": 0
+    },
+    "createdAt": "2023-08-15T11:05:26.159Z",
+    "updatedAt": "2023-08-15T11:13:13.699Z",
+    "__v": 0
+}
+
+

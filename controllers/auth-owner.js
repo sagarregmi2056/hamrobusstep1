@@ -72,12 +72,18 @@ exports.refreshToken = async (req, res) => {
 exports.requireOwnerSignin = async (req, res, next) => {
   const token = req.headers.authorization;
 
+  
+
   if (token) {
     const owner = parseToken(token);
+    // console.log("hehe")
 
     const foundowner = await Owner.findById(owner._id).select("name role salt hashed_password");
 
+    // console.log("hehe")
+
     if (foundowner && foundowner.role === "owner") {
+      // console.log("hehe")
       req.ownerauth = foundowner;
       next();
     } else res.status(401).json({ error: "Not authorized!" });

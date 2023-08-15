@@ -18,6 +18,8 @@ const {
 } = require("../controllers/auth-owner");
 const { busBySlug } = require("../controllers/bus");
 
+
+
 router.get("/my", requireOwnerSignin, getOwnerBookings);
 router.get("/all", requireSuperadminSignin, getAllBookings);
 
