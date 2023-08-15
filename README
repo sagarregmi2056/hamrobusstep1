@@ -1199,3 +1199,58 @@ output: [
         "__v": 0
     }
 ]
+
+
+find by busslug=> http://localhost:8525/api/bus/6bajyakobus
+
+
+output:{
+    "_id": "64db3d2223de85bbf4935059",
+    "name": "Nayadelux",
+    "type": "Delux",
+    "busNumber": "BUS4",
+    "fare": 1300,
+    "features": [
+        "Wi-Fi,Refreshments,Comfortable Seats"
+    ],
+    "description": "A luxurious AC deluxe bus",
+    "seatsAvailable": 40,
+    "bookedSeat": [],
+    "soldSeat": [],
+    "numberOfSeats": 40,
+    "image": "busimage/resized/image-1692089634433.png",
+    "departure_time": "10:00 PM",
+    "isAvailable": true,
+    "travel": "64d9fffb931b4de4e06a3620",
+    "startLocation": "64d9edb7f712ba2fe20ae35a",
+    "endLocation": "64d9edd1f712ba2fe20ae35d",
+    "journeyDate": "2023-08-20",
+    "boardingPoints": [
+        "muglin road",
+        "manakamana chowk"
+    ],
+    "droppingPoints": [
+        "chaubiskoti",
+        "paras buspark"
+    ],
+    "slug": "6bajyakobus",
+    "owner": {
+        "_id": "64da3bf5d134ced2de553ed4",
+        "name": "sagar regmi",
+        "role": "owner"
+    },
+    "createdAt": "2023-08-15T08:53:54.532Z",
+    "updatedAt": "2023-08-15T08:53:54.532Z",
+    "__v": 0
+}
+
+
+
+deletebusbyslug get=> http://localhost:8525/api/bus/4bajyakobus
+
+note:it will work only bus is of the given owner with the slugname 
+
+
+output: {
+    "message": "Bus removed successfully"
+}

@@ -336,7 +336,7 @@ exports.searchBusByFilter = async (req, res) => {
       let bus = req.bus;
       bus = _.extend(bus, req.body);
     
-      if (!checkDateAvailabilty(req.body.journeyDate)) {
+      if (!checkDateAvailability(req.body.journeyDate)) {
         bus.isAvailable = false;
       }
     
@@ -356,8 +356,26 @@ exports.searchBusByFilter = async (req, res) => {
 
 
 
+// exports.remove = async (req, res) => {
+//   let bus = req.bus;
+//   await bus.remove();
+//   res.json({ message: "Bus removed successfully" });
+// };
+
+
+
 exports.remove = async (req, res) => {
-  let bus = req.bus;
-  await bus.remove();
-  res.json({ message: "Bus removed successfully" });
+  try {
+    let bus = req.bus;
+
+    if (!bus) {
+      return res.status(404).json({ error: "Bus not found" });
+    }
+
+    await bus.deleteOne();
+    res.json({ message: "Bus removed successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred while removing the bus" });
+  }
 };
