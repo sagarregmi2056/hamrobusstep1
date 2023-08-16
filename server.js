@@ -1,11 +1,65 @@
 // Packages
 const expressValidator = require("express-validator");
 // const { expressValidator } = require('express-validator');
+
+
+// adding graphql schema  to the server i will write gph for every added graphql schema 
+// const { graphqlHTTP } = require('apollo-server-express');
+// const { graphqlHTTP } = require('express-graphql');
+
+const { ApolloServer } = require("@apollo/server");
+
+const { buildSchema } = require('graphql');
+
+
+
+const schema = buildSchema(`
+  type Book {
+    id: ID!
+    title: String!
+    author: String!
+  }
+
+  type Query {
+    books: [Book]
+  }
+`);
+// Define resolvers for your schema
+const root = {
+  books: () => {
+    // Replace this with your data retrieval logic
+    return [
+      { id: 1, title: 'Book 1', author: 'Author 1' },
+      { id: 2, title: 'Book 2', author: 'Author 2' },
+    ];
+  },
+};
+
+
+
+
 const express = require("express");
 require("express-async-errors");
 const cors = require("cors");
 require("dotenv").config();
 const app = express();
+
+
+
+// gql 
+
+
+
+
+
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema: schema,
+    rootValue: root,
+    graphiql: true,
+  })
+);
 
 // Import methods
 const { runEveryMidnight, dbConnection, errorHandler } = require("./helpers");
