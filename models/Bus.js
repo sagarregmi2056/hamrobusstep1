@@ -17,7 +17,8 @@ const busSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["AC", "Delux", "Normal", "Suspense AC", "Suspense Delux"]
+      enum: ["AC-SLEEPER", "NONAC-SLEEPER", "", "AC-SEATER", "NONAC-SEATER","NORMAL"],
+      default:"NORMAL"
     },
     busNumber: {
       type: String,
