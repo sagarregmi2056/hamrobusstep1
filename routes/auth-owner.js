@@ -10,6 +10,28 @@ const { userSignupValidator } = require("../validator");
 
 const router = express.Router();
 
+
+/**
+//  * @swagger
+//  *
+//  * /admin-signup:
+//  *   post:
+//  *     description: Admin signup
+//  *     produces:
+//  *       - application/json
+//  *     parameters:
+//  *       - name: admin
+//  *         description: User object
+//  *         in:  body
+//  *         required: true
+//  *         type: string
+//  *     responses:
+//  *       200:
+//  *         description: users
+//  */
+
+
+
 router.post("/signup", userSignupValidator, signup);
 router.post("/signin", signin);
 router.post("/refreshtoken", refreshToken)

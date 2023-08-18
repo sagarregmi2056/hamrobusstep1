@@ -73,12 +73,14 @@ const swaggerOptions = {
       version: "1.0.0",
       description: "BUS API information",
       contact: {
-        name: " SAGAR REGMi",
+        name: "sagar regmi",
+        url: "https://www.facebook.com/sagar.regmi.167/",
+        email: "sagarregmi2056@gmail.com",
       },
       servers: ["http://localhost:8525/api"],
     },
   },
-  apis: ["./controllers/*.js"],
+  apis: ["./routes/*.js"],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
