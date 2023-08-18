@@ -1,39 +1,6 @@
 // Packages
 const expressValidator = require("express-validator");
-// const { expressValidator } = require('express-validator');
 
-
-// adding graphql schema  to the server i will write gph for every added graphql schema 
-// const { graphqlHTTP } = require('apollo-server-express');
-// const { graphqlHTTP } = require('express-graphql');
-
-// const { ApolloServer } = require("@apollo/server");
-
-// const { buildSchema } = require('graphql');
-
-
-
-// const schema = buildSchema(`
-//   type Book {
-//     id: ID!
-//     title: String!
-//     author: String!
-//   }
-
-//   type Query {
-//     books: [Book]
-//   }
-// `);
-// // Define resolvers for your schema
-// const root = {
-//   books: () => {
-//     // Replace this with your data retrieval logic
-//     return [
-//       { id: 1, title: 'Book 1', author: 'Author 1' },
-//       { id: 2, title: 'Book 2', author: 'Author 2' },
-//     ];
-//   },
-// };
 
 
 
@@ -44,6 +11,11 @@ const cors = require("cors");
 require("dotenv").config();
 const app = express();
 
+
+// importing swaggerui 
+
+const swaggerUi = require("swagger-ui-express");
+const swaggerJsDoc = require("swagger-jsdoc");
 
 
 // gql 
@@ -89,6 +61,30 @@ app.use(expressValidator());
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
+
+
+
+
+// Extended: https://swagger.io/specification/#infoObject
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: "HAMRO  BUS API",
+      version: "1.0.0",
+      description: "BUS API information",
+      contact: {
+        name: " SAGAR REGMi",
+      },
+      servers: ["http://localhost:8525/api"],
+    },
+  },
+  apis: ["./controllers/*.js"],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 // Routes
 app.get("/", (req, res) => {
   res.redirect("/api/users");
@@ -107,7 +103,7 @@ app.use("/api/users", require("./routes/user"));
 // Error handling middleware
 app.use(function (err, req, res, next) {
   return res.status(500).json({
-    error: errorHandler(err) || "Something went wrong!",
+    error: errorHandler(err) || "Something went wrong! ****SERVER_ERROR****",
   });
 });
 
@@ -118,4 +114,6 @@ const port = process.env.PORT || 8525;
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+
+  
 });

@@ -12,6 +12,8 @@ exports.getAllUsers = async (req, res) => {
 exports.userById = async (req, res, next, id) => {
   const user = await User.findById(id);
   if (user) {
+
+    // sensitive data json ma napathauna undfined banayarw halyako
     user.salt = undefined;
     user.hashed_password = undefined;
     req.userprofile = user;
