@@ -158,6 +158,121 @@ exports.socialLogin = async (req, res) => {
   }
 };
 
+// social login ma hamro both facebook ra google use huna sakxa  frontend integrate garyapaxi balla use garni yo
+// exports.socialLogin = async (req, res) => {
+//   const {
+//     name,
+//     email,
+//     socialPhoto,
+//     userID,
+//     loginDomain,
+//     access_token,
+//   } = req.body;
+
+//   if (loginDomain === "facebook") {
+//     // for app access_token of facebook
+//     // const clientId = ''
+//     // const clientSecret = ''
+//     // const response = await axios.get(`https://graph.facebook.com/oauth/access_token?client_id=${process.env.FB_CLIENT_ID}&client_secret=${process.env.FB_CLIENT_SECRET}&grant_type=client_credentials`)
+
+//     // const appAccessToken = response.data.access_token
+//     const resp = await axios
+//       .get(
+//         `https://graph.facebook.com/debug_token?input_token=${access_token}
+//         &access_token=${process.env.FB_APP_ACCESS_TOKEN}`
+//       )
+//       .catch((err) => {
+//         // console.log(err.response.data, 'dcscsc')
+//         return null;
+//       });
+//     console.log(resp.data);
+//     if (!resp || resp.data.data.error || !resp.data.data.is_valid) {
+//       return res
+//         .status(401)
+//         .json({
+//           error: resp.data.data.error.message || "Invalid OAuth access token.",
+//         });
+//     }
+//     if (resp.data.data.user_id !== userID) {
+//       return res.status(401).json({ error: "Invalid userID." });
+//     }
+//   }
+
+//   if (loginDomain === "google") {
+//     // const clientId = '1071225542864-6lcs1i4re8ht257ee47lrg2jr891518o.apps.googleusercontent.com'
+//     const resp = await axios
+//       .get(`https://oauth2.googleapis.com/tokeninfo?id_token=${access_token}`)
+//       .catch((err) => {
+//         // console.log(err.response.data, 'dcscsc')
+//         return null;
+//       });
+
+//     if (
+//       !resp ||
+//       resp.data.iss !== "accounts.google.com" ||
+//       resp.data.aud !== process.env.GOOGLE_CLIENT_ID
+//     ) {
+//       return res.status(401).json({ error: "Invalid OAuth access token." });
+//     }
+//     if (resp.data.sub !== userID) {
+//       return res.status(401).json({ error: "Invalid userID" });
+//     }
+//   }
+//   let user = await User.findOne({ userID, loginDomain });
+//   if (!user) {
+//     // create a new user and login
+//     user = new User({ name, email, socialPhoto, userID, loginDomain });
+//     user = await user.save();
+//     const payload = {
+//       _id: user._id,
+//       name: user.name,
+//       email: user.email,
+//     };
+//     const accessToken = jwt.sign(payload, process.env.JWT_SIGNIN_KEY, {
+//       expiresIn: process.env.SIGNIN_EXPIRE_TIME,
+//     });
+//     let refreshToken = {
+//       refreshToken: jwt.sign(payload, process.env.REFRESH_TOKEN_KEY),
+//     };
+//     refreshToken = new RefreshToken(refreshToken);
+//     await refreshToken.save();
+//     // res.setHeader('Set-Cookie', `refreshToken=${refreshToken.refreshToken}; HttpOnly`);
+//     return res.json({ accessToken, refreshToken: refreshToken.refreshToken });
+//   }
+
+//   if (user.isBlocked) {
+//     return res.status(401).json({
+//       error: "Your account has been blocked.",
+//     });
+//   }
+//   // update existing user with new social info and login
+//   user = _.extend(user, { name, socialPhoto, email });
+//   user = await user.save();
+//   const payload = {
+//     _id: user._id,
+//     name: user.name,
+//     email: user.email,
+//   };
+//   const accessToken = jwt.sign(payload, process.env.JWT_SIGNIN_KEY, {
+//     expiresIn: process.env.SIGNIN_EXPIRE_TIME,
+//   });
+//   let refreshToken = {
+//     refreshToken: jwt.sign(payload, process.env.REFRESH_TOKEN_KEY),
+//   };
+//   refreshToken = new RefreshToken(refreshToken);
+//   await refreshToken.save();
+//   // res.setHeader('Set-Cookie', `refreshToken=${refreshToken.refreshToken}; HttpOnly`);
+//   return res.json({ accessToken, refreshToken: refreshToken.refreshToken });
+// };
+
+
+
+
+
+
+
+
+
 exports.forgotPassword = async (req, res) => {
   if (!req.body) return res.status(400).json({ message: "No request body" });
   if (!req.body.email)
