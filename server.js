@@ -1,5 +1,22 @@
 // Packages
 const expressValidator = require("express-validator");
+// const  {Apolloserver,gql}=require('apollo-server-express')
+const { ApolloServer } = require("@apollo/server");
+
+const typeDefs = `
+type query{
+  hello:String
+}
+`
+const resolvers = {
+  query: {
+    hello:()=>{
+      return 'hello world '
+    },
+  },
+};
+
+
 
 
 
@@ -12,32 +29,36 @@ require("dotenv").config();
 const app = express();
 
 
-// importing swaggerui 
+async function startserver(){
+  const app = express();
+  const apoloserver = new ApolloServer({
+    typeDefs,
+    resolvers,
+  });
+  await apoloserver.start();
+ apoloserver.applyMiddleware({app:app})
+ app.use((req,res)=>{
+  res.send("hello from apollo server")
+ })
+ app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 
-const swaggerUi = require("swagger-ui-express");
-const swaggerJsDoc = require("swagger-jsdoc");
-
-
-// gql 
+  
+});
+}
 
 
 
 
 
-// app.use(
-//   '/graphql',
-//   graphqlHTTP({
-//     schema: schema,
-//     rootValue: root,
-//     graphiql: true,
-//   })
-// );
 
 // Import methods
+// db connection is useless here due seeding process causes a error 
 const { runEveryMidnight, dbConnection, errorHandler } = require("./helpers");
 const logger = require("./helpers/logger");
 const runSeed = require("./seeds");
 const mongoose = require("mongoose");
+
 // database connection 
 
 mongoose.connect(process.env.DATABASE,{
@@ -65,31 +86,12 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-// Extended: https://swagger.io/specification/#infoObject
-const swaggerOptions = {
-  swaggerDefinition: {
-    info: {
-      title: "HAMRO  BUS API",
-      version: "1.0.0",
-      description: "BUS API information",
-      contact: {
-        name: "sagar regmi",
-        url: "https://www.facebook.com/sagar.regmi.167/",
-        email: "sagarregmi2056@gmail.com",
-      },
-      servers: ["http://localhost:8525/api"],
-    },
-  },
-  apis: ["./routes/*.js"],
-};
-
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Routes
 app.get("/", (req, res) => {
-  res.redirect("/api/users");
+  // res.redirect("/api/users");
+  res.send("welcome to HAMRO BUS signup dashbord of user");
+  
 });
 
 app.use("/api/auth-owner", require("./routes/auth-owner"));
@@ -114,8 +116,9 @@ runEveryMidnight();
 
 const port = process.env.PORT || 8525;
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+// app.listen(port, () => {
+//   console.log(`Server is running on port ${port}`);
 
   
-});
+// });
+startserver();
