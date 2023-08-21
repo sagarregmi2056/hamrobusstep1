@@ -1,25 +1,11 @@
 // Packages
 const expressValidator = require("express-validator");
-// const  {Apolloserver,gql}=require('apollo-server-express')
-const { ApolloServer } = require("@apollo/server");
-
-const typeDefs = `
-type query{
-  hello:String
-}
-`
-const resolvers = {
-  query: {
-    hello:()=>{
-      return 'hello world '
-    },
-  },
-};
 
 
 
 
 
+const bodyParser = require('body-parser');
 
 
 const express = require("express");
@@ -29,23 +15,14 @@ require("dotenv").config();
 const app = express();
 
 
-async function startserver(){
-  const app = express();
-  const apoloserver = new ApolloServer({
-    typeDefs,
-    resolvers,
-  });
-  await apoloserver.start();
- apoloserver.applyMiddleware({app:app})
- app.use((req,res)=>{
-  res.send("hello from apollo server")
- })
- app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+// importing swaggerui 
 
-  
-});
-}
+// const swaggerUi = require("swagger-ui-express");
+// const swaggerJsDoc = require("swagger-jsdoc");
+
+
+// gql 
+
 
 
 
@@ -58,7 +35,6 @@ const { runEveryMidnight, dbConnection, errorHandler } = require("./helpers");
 const logger = require("./helpers/logger");
 const runSeed = require("./seeds");
 const mongoose = require("mongoose");
-
 // database connection 
 
 mongoose.connect(process.env.DATABASE,{
@@ -114,11 +90,83 @@ app.use(function (err, req, res, next) {
 // Run every-midnight to check if bus deporting date is passed
 runEveryMidnight();
 
+
+
+
+
+
+// graphql with mongodb 
+
+const { ApolloServer } = require("@apollo/server");
+const{ExpressMiddleware, expressMiddleware}= require('@apollo/server/express4')
+const {default:axios}= require('axios')
+
+
+async function startServer(){
+
+  const app = express();
+  const server = new ApolloServer({
+  //    same like data type here like schema of mongoose jastai as well as ! is like a required true in mongoose 
+  typeDefs:`
+
+  type User{
+      id:ID!
+      name:String!
+      username:String!
+      email:String!
+      phone:String!
+      website:String!
+  }
+  type TODO{
+
+      
+      id:ID!
+      title:String!
+      completed:Boolean
+
+  }
+
+  type Query{
+      getTodos:[TODO]
+      getAllUsers:[User]
+      getUser(id:ID!):User
+  }
+
+  `,
+
+  resolvers:{
+      Query:{
+          getTodos: async()=>
+          
+         ( await axios.get('https://jsonplaceholder.typicode.com/todos')).data,
+
+         getAllUsers:async()=>
+          
+         ( await axios.get('https://jsonplaceholder.typicode.com/users')).data,
+
+      //    fetching single user according to the id 
+
+         getUser:async(parent,{id})=>
+          
+         ( await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)).data,
+      },
+  },
+});   
+app.use(bodyParser.json()); //  starting server
+await server.start()
+
+
+
+
+app.use("/graphql",expressMiddleware(server));
+// app.listen(8525,()=>console.log("server started at PORT 8000"));
 const port = process.env.PORT || 8525;
 
-// app.listen(port, () => {
-//   console.log(`Server is running on port ${port}`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 
   
-// });
-startserver();
+});
+
+}
+startServer();
