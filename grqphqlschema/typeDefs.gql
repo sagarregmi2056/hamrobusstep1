@@ -1,5 +1,6 @@
 type Query{
   getUser(userId: ID!): User
+  allUsers: [String]
  
 }
 
