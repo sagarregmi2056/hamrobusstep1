@@ -44,4 +44,13 @@ type User{
     resetPasswordLink: String
     isVerified: Boolean
   }
+  type Owner {
+    id: ID!
+    name: String!
+    citizenshipNumber: String!
+    phone: Int!
+    isVerified: Boolean!
+    email: String
+    role: String!
+  }
   
