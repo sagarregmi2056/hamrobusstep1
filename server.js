@@ -5,15 +5,21 @@ const expressValidator = require("express-validator");
 
 
 
-const bodyParser = require('body-parser');
+
 
 
 const express = require("express");
 require("express-async-errors");
 const cors = require("cors");
 require("dotenv").config();
+// const { graphqlHTTP } = require('express-graphql');
 const app = express();
 
+
+const { readFileSync } = require('fs');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
+
+const { gql } = require('graphql-tag');
 
 // importing swaggerui 
 
@@ -50,6 +56,40 @@ mongoose.connect(process.env.DATABASE,{
  });
 runSeed();
 
+
+
+// const { ApolloServer } = require('apollo-server');
+const { ApolloServer } = require('apollo-server-express');
+const { graphqlPlayground } = require('graphql-playground-middleware-express');
+// const mongoose = require('mongoose');
+async function startServer() {
+const typeDefs = gql(readFileSync("./grqphqlschema/typeDefs.gql", 'utf-8'));
+const resolvers = require("./grqphqlschema/resolvers");
+
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+});
+
+const server = new ApolloServer({
+  schema,
+  playground: true,
+});
+
+await server.start();
+server.applyMiddleware({ app });
+
+const port = process.env.PORT || 8525;
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+
+  
+});
+}
+
+startServer();
+
 // Middlewares
 logger(app);
 app.use(cors());
@@ -60,7 +100,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-
+// app.get('/graphql', graphqlPlayground({ endpoint: '/graphql' }));
 
 
 // Routes
@@ -90,83 +130,12 @@ app.use(function (err, req, res, next) {
 // Run every-midnight to check if bus deporting date is passed
 runEveryMidnight();
 
+// const port = process.env.PORT || 8525;
 
-
-
-
-
-// graphql with mongodb 
-
-const { ApolloServer } = require("@apollo/server");
-const{ExpressMiddleware, expressMiddleware}= require('@apollo/server/express4')
-const {default:axios}= require('axios')
-
-
-async function startServer(){
-
-  const app = express();
-  const server = new ApolloServer({
-  //    same like data type here like schema of mongoose jastai as well as ! is like a required true in mongoose 
-  typeDefs:`
-
-  type User{
-      id:ID!
-      name:String!
-      username:String!
-      email:String!
-      phone:String!
-      website:String!
-  }
-  type TODO{
-
-      
-      id:ID!
-      title:String!
-      completed:Boolean
-
-  }
-
-  type Query{
-      getTodos:[TODO]
-      getAllUsers:[User]
-      getUser(id:ID!):User
-  }
-
-  `,
-
-  resolvers:{
-      Query:{
-          getTodos: async()=>
-          
-         ( await axios.get('https://jsonplaceholder.typicode.com/todos')).data,
-
-         getAllUsers:async()=>
-          
-         ( await axios.get('https://jsonplaceholder.typicode.com/users')).data,
-
-      //    fetching single user according to the id 
-
-         getUser:async(parent,{id})=>
-          
-         ( await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)).data,
-      },
-  },
-});   
-app.use(bodyParser.json()); //  starting server
-await server.start()
-
-
-
-
-app.use("/graphql",expressMiddleware(server));
-// app.listen(8525,()=>console.log("server started at PORT 8000"));
-const port = process.env.PORT || 8525;
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+// app.listen(port, () => {
+//   console.log(`Server is running on port ${port}`);
 
   
-});
+// });
 
-}
-startServer();
+// startServer();
