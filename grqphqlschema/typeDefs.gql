@@ -1,6 +1,8 @@
 type Query{
   getUser(userId: ID!): User
   allUsers: [String]
+  allOwners: [Owner]
+   owner(id: ID!): Owner
  
 }
 
