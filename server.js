@@ -1,6 +1,6 @@
 // Packages
 const expressValidator = require("express-validator");
-
+const context = require('./context');
 
 
 
@@ -73,6 +73,7 @@ const schema = makeExecutableSchema({
 
 const server = new ApolloServer({
   schema,
+  context,
   playground: true,
 });
 

@@ -1,4 +1,6 @@
 const User = require('../models/User');
+const Owner = require('../models/Owner');
+
 
 const resolvers = {
     Query: {
