@@ -8,6 +8,8 @@ type Query{
 
    allLocations: [Location]
   location(id: ID!): Location
+
+   busesByType(type: String!): [Bus]
  
 }
 
@@ -70,4 +72,31 @@ type User{
   type Location {
   name: String!
   district: String!
+}
+
+type Bus {
+  _id: ID!
+  name: String!
+  type: String!
+  busNumber: String!
+  fare: Float!
+  features: [String]!
+  description: String
+  seatsAvailable: Int!
+  bookedSeat: [Int]!
+  soldSeat: [Int]!
+  numberOfSeats: Int!
+  image: String
+  departure_time: String!
+  isAvailable: Boolean!
+  travel: Travel
+  startLocation: Location
+  endLocation: Location
+  journeyDate: String
+  owner: Owner
+  boardingPoints: [String]!
+  droppingPoints: [String]!
+  slug: String
+  createdAt: String!
+  updatedAt: String!
 }

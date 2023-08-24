@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Owner = require('../models/Owner');
 const Location = require('../models/Location'); 
+const Bus = require('../models/Bus');
 
 
 const resolvers = {
@@ -40,25 +41,17 @@ const resolvers = {
         } catch (error) {
           throw new Error("Error fetching locations");
         }
+      }, busesByType: async (_, args) => {
+        try {
+          const buses = await Bus.find({ type: args.type });
+          return buses;
+        } catch (err) {
+          throw new Error('Error fetching buses by type');
+        }
       },
-    
+    },
      
 
-    location: async (_, { id }) => {
-      try {
-        const location = await Location.findById(id);
-        if (!location) {
-          throw new Error(`Location with ID ${id} not found`);
-        }
-        return {
-          name: location.name,
-          district: location.district
-        };
-      } catch (error) {
-        throw new Error(`Error fetching location with ID ${id}`);
-      }
-    }
-  },
 
     Mutation: {
       createUser: async (_, { userInput }) => {
