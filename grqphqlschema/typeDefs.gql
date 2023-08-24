@@ -5,6 +5,9 @@ type Query{
    owner(id: ID!): Owner
     allTravels: [Travel]
   travel(id: ID!): Travel
+
+   allLocations: [Location]
+  location(id: ID!): Location
  
 }
 
@@ -62,4 +65,9 @@ type User{
   id: ID!
   name: String!
 }
-  
+
+
+  type Location {
+  name: String!
+  district: String!
+}

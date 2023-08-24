@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Owner = require('../models/Owner');
+const Location = require('../models/Location'); 
 
 
 const resolvers = {
@@ -28,7 +29,37 @@ const resolvers = {
       travel: async (_, { id }, { models }) => {
         return models.Travel.findById(id);
       },
-    },
+      
+      allLocations: async () => {
+        try {
+          const locations = await Location.find(); // Fetch all locations from the database
+          return locations.map(location => ({
+            name: location.name,
+            district: location.district
+          }));
+        } catch (error) {
+          throw new Error("Error fetching locations");
+        }
+      },
+    
+     
+
+    location: async (_, { id }) => {
+      try {
+        const location = await Location.findById(id);
+        if (!location) {
+          throw new Error(`Location with ID ${id} not found`);
+        }
+        return {
+          name: location.name,
+          district: location.district
+        };
+      } catch (error) {
+        throw new Error(`Error fetching location with ID ${id}`);
+      }
+    }
+  },
+
     Mutation: {
       createUser: async (_, { userInput }) => {
         const newUser = new User(userInput);
