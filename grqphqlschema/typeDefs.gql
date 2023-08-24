@@ -3,6 +3,8 @@ type Query{
   allUsers: [User]
   allOwners: [Owner]
    owner(id: ID!): Owner
+    allTravels: [Travel]
+  travel(id: ID!): Travel
  
 }
 
@@ -55,4 +57,9 @@ type User{
     email: String
     role: String!
   }
+
+  type Travel {
+  id: ID!
+  name: String!
+}
   

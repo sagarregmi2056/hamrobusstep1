@@ -22,6 +22,12 @@ const resolvers = {
       owner: async (_, { id }, { models }) => {
         return models.Owner.findById(id);
       },
+      allTravels: async (_, __, { models }) => {
+        return models.Travel.find();
+      },
+      travel: async (_, { id }, { models }) => {
+        return models.Travel.findById(id);
+      },
     },
     Mutation: {
       createUser: async (_, { userInput }) => {
