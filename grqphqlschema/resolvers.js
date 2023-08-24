@@ -8,9 +8,13 @@ const resolvers = {
         return await User.findById(userId);
       },
       allUsers: async (_, __, { models }) => {
-        const users = await models.User.find({}, 'name');
-        return users.map(user => user.name);
-      },
+        const users = await models.User.find({}, '_id name phone');
+        // Convert ObjectIDs to strings
+        return users.map(user => ({
+          _id: user._id.toString(),
+          name: user.name,
+          phone: user.phone,
+        })); },
 
       allOwners: async (_, __, { models }) => {
         return models.Owner.find();
