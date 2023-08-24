@@ -2,6 +2,8 @@ const User = require('../models/User');
 const Owner = require('../models/Owner');
 const Location = require('../models/Location'); 
 const Bus = require('../models/Bus');
+const Booking = require("../models/Booking");
+const Guest = require("../models/Guest");
 
 
 const resolvers = {
@@ -49,7 +51,35 @@ const resolvers = {
           throw new Error('Error fetching buses by type');
         }
       },
+      bookingsByVerification: async (_, { verification }, { models }) => {
+        try {
+          const bookings = await models.Booking.find({ verification })
+            .populate({
+              path: 'guest',
+              select: 'name'
+            })
+            .populate({
+              path: 'user',
+              select: 'name'
+            })
+            .populate({
+              path: 'bus',
+              select: 'name',
+              populate: {
+                path: 'owner',
+                select: 'name'
+              }
+            });
+            
+          return bookings;
+        } catch (err) {
+          throw new Error('Error fetching bookings by verification');
+        }
+      }
     },
+  
+   
+    
      
 
 

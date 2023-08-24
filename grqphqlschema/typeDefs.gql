@@ -10,6 +10,8 @@ type Query{
   location(id: ID!): Location
 
    busesByType(type: String!): [Bus]
+
+    bookingsByVerification(verification: String!): [Booking]
  
 }
 
@@ -99,4 +101,31 @@ type Bus {
   slug: String
   createdAt: String!
   updatedAt: String!
+}
+
+
+type Booking {
+  _id: ID!
+  price: String
+  passengers: Int
+  seatNumber: String!
+  boardingPoints: String
+  guest: Guest
+  user: User
+  owner: Owner
+  bus: Bus
+  self: Owner
+  verification: String
+  createdAt: String
+  updatedAt: String
+}
+
+type Guest {
+  _id: ID!
+  name: String!
+  address: String!
+  email: String
+  phone: Int!
+  createdAt: String
+  updatedAt: String
 }
