@@ -83,7 +83,7 @@ server.applyMiddleware({ app });
 const port = process.env.PORT || 8525;
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on port ${port} at ${process.env.NODE_ENV} mode`);
 
   
 });
