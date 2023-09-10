@@ -1,0 +1,4 @@
+to run different modes 
+export NODE_ENV=
+export NODE_ENV=staging 
+
