@@ -1,6 +1,8 @@
 // Packages
 const expressValidator = require("express-validator");
 const context = require('./context');
+ require('./stagingmode/development');
+
 
 
 
@@ -43,7 +45,7 @@ const runSeed = require("./seeds");
 const mongoose = require("mongoose");
 // database connection 
 
-mongoose.connect(process.env.DATABASE,{
+mongoose.connect(process.env.DATABASE_URL,{
     
    
     useNewUrlParser: true, 
