@@ -1,7 +1,10 @@
 // Packages
 const expressValidator = require("express-validator");
 const context = require('./context');
- require('./stagingmode/development');
+//  require('./stagingmode/');
+const configfolder = require('./stagingmode');
+
+ 
 
 
 
