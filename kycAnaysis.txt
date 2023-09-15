@@ -1,0 +1,18 @@
+-> Sinup - SinIn [ User ]
+
+
+-> Sinup -SignIn [ owner ]
+1) Owner -> phone [OTP] -> Registered, [ Personal Info,  Bank Details, PAN details, Documents, [ Initial / Pending/ Success/ Rejected ] ]
+2) [ Pending ] -> Please Wait , 
+3) [ Edit ( Pending )] -> [ initial ] ,
+4) Rejected [ Edit and resubmit ],
+5) Success [ Owner Details ],
+
+
+
+first page ma k xa vanya 👍
+
+TravelsNAme:
+OwnerName:
+Business background
+Business background other : optional
