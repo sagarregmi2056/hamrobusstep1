@@ -46,10 +46,11 @@ Bank detail:
 
 
 Documents:
-canceled cheque
-pan card
-citizenshipNumber:
-pvtltd_Document
+
+canceled cheque:   multerfile 🆗
+pan card:   multerfile 🆗
+citizenshipcertificate:    multerfile 🆗
+pvtltd_Document:   multerfile 🆗
 
 
 
