@@ -59,8 +59,7 @@ gst detail:******
 StateNAme
 Statecode
 gstin
-Headoffice
-
+Headoffices
 
 BankName
 AccountNumber
