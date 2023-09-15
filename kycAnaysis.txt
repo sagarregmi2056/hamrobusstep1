@@ -10,9 +10,63 @@
 
 
 
-first page ma k xa vanya 👍
+first page ma k xa vanya (Personal detail) 👍
+
+
+
+
+page1=====
 
 TravelsNAme:
 OwnerName:
 Business background
 Business background other : optional
+pincode:
+countryname:
+state:
+District:
+city:
+Address:
+Mobile:
+Phone:
+Emailid:
+Alternate email id: optional
+Pan:
+
+
+
+
+
+Bank detail:
+
+
+
+
+
+
+
+Documents:
+canceled cheque
+pan card
+citizenshipNumber:
+pvtltd_Document
+
+
+
+
+gst detail:******
+
+StateNAme
+Statecode
+gstin
+Headoffice
+
+
+BankName
+AccountNumber
+BeneficiaryName:******
+BankAccount type:
+BankAccountIdentifier: *******
+
+
+
