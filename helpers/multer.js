@@ -55,7 +55,7 @@ const ChequeAvatar = multer.diskStorage({
   },
 });
 
-const citizenshipNumber = multer.diskStorage({
+const citizenshipImage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./public/uploads/ownerAvatar");
   },
@@ -83,9 +83,14 @@ const PvtLtdImages = multer.diskStorage({
 //.single expects the name of the file input field
 exports.uploadBusImage = multer({ storage: busImage }).single("image");
 exports.uploadOwnerAvatar = multer({ storage: ownerAvatar }).single("photo");
-exports.uploadOwnerAvatar = multer({ storage: PvtLtdImages }).single("pvtltd");
-exports.uploadOwnerAvatar = multer({ storage: citizenshipNumber }).single(
+
+// newly added avatar
+
+exports.uploadPvtltdAvatar = multer({ storage: PvtLtdImages }).single("pvtltd");
+exports.uploadCitizenshipAvatar = multer({ storage: citizenshipImage }).single(
   "citizenship"
 );
-
-ChequeAvatar;
+exports.uploadChequeAvatar = multer({ storage: ChequeAvatar }).single("cheque");
+exports.uploadPancardAvatar = multer({ storage: PanCardImage }).single(
+  "pancard"
+);
