@@ -23,7 +23,7 @@ const ownerSchema = new mongoose.Schema(
     },
     isVerified: {
       type: Boolean,
-      default: false
+      default: false,
     },
     email: {
       type: String,
@@ -33,9 +33,28 @@ const ownerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
+    //  document requirements haru
+    pvtltd: {
+      type: String,
+    },
+
+    cheque: {
+      type: String,
+    },
+
+    citizenship: {
+      type: String,
+    },
+
+    pancard: {
+      type: String,
+    },
+
     photo: {
       type: String,
     },
+
     salt: String,
     role: {
       type: String,
