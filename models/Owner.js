@@ -55,6 +55,8 @@ const ownerSchema = new mongoose.Schema(
       type: String,
     },
 
+    // yaha chai addition requirements haru
+
     salt: String,
     role: {
       type: String,
