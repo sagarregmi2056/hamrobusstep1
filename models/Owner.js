@@ -56,20 +56,45 @@ const ownerSchema = new mongoose.Schema(
     },
 
     // yaha chai addition requirements haru
-    businessBackground:{
+    businessBackground: {
       type: String,
       trim: true,
       required: true,
-      maxlength: 200
+      maxlength: 200,
     },
-    businessBackground:{
+    businessBackground: {
       type: String,
       trim: true,
-      maxlength: 200
+      maxlength: 200,
     },
-
-
-
+    postalCode: {
+      type: String,
+      maxlength: 10,
+      required: true,
+    },
+    state: {
+      type: String,
+      maxlength: 30,
+      required: true,
+    },
+    district: {
+      type: String,
+      maxlength: 30,
+      required: true,
+    },
+    city: {
+      type: String,
+      maxlength: 30,
+      required: true,
+    },
+    optionalEmailid: {
+      type: String,
+    },
+    panNumber: {
+      type: String,
+      maxlength: 30,
+      required: true,
+    },
 
     salt: String,
     role: {
