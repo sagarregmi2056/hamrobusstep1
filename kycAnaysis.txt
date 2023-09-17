@@ -17,11 +17,12 @@ first page ma k xa vanya (Personal detail) 👍
 
 page1=====
 
+
 TravelsNAme:
 OwnerName:
 Business background
 Business background other : optional
-pincode:
+postalcode:
 countryname:
 state:
 District:
@@ -31,13 +32,14 @@ Mobile:
 Phone:
 Emailid:
 Alternate email id: optional
-Pan:
+PanNo:
 
 
 
 
 
-Bank detail:
+
+
 
 
 
@@ -61,7 +63,14 @@ StateNAme
 Statecode
 gstin
 Headoffices
+from to 
+bus number 
+driver:
+driver lisence:
 
+
+
+Bank detail:
 BankName
 AccountNumber
 BeneficiaryName:******
