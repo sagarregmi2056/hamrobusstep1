@@ -1,16 +1,7 @@
 // Packages
 const expressValidator = require("express-validator");
-const context = require('./context');
- require('./stagingmode/stages');
-
- 
-
-
-
-
-
-
-
+const context = require("./context");
+require("./stagingmode/stages");
 
 const express = require("express");
 require("express-async-errors");
@@ -19,78 +10,68 @@ require("dotenv").config();
 // const { graphqlHTTP } = require('express-graphql');
 const app = express();
 
+const { readFileSync } = require("fs");
+const { makeExecutableSchema } = require("@graphql-tools/schema");
 
-const { readFileSync } = require('fs');
-const { makeExecutableSchema } = require('@graphql-tools/schema');
+const { gql } = require("graphql-tag");
 
-const { gql } = require('graphql-tag');
-
-// importing swaggerui 
+// importing swaggerui
 
 // const swaggerUi = require("swagger-ui-express");
 // const swaggerJsDoc = require("swagger-jsdoc");
 
-
-// gql 
-
-
-
-
-
-
+// gql
 
 // Import methods
-// db connection is useless here due seeding process causes a error 
+// db connection is useless here due seeding process causes a error
 const { runEveryMidnight, dbConnection, errorHandler } = require("./helpers");
 const logger = require("./helpers/logger");
 const runSeed = require("./seeds");
 const mongoose = require("mongoose");
-// database connection 
+// database connection
 
-mongoose.connect(process.env.DATABASE_URL,{
-    
-   
-    useNewUrlParser: true, 
-    useUnifiedTopology: true 
- 
- }).then(()=>{
-     console.log("DB CONNECTED VAYO HAI SOLTI")
- }).catch((err)=>{
-     console.log(`data base ma error hanyo hai ,${err}  `)
- });
+mongoose
+  .connect(process.env.DATABASE_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("DB CONNECTED VAYO HAI SOLTI");
+  })
+  .catch((err) => {
+    console.log(`data base ma error hanyo hai ,${err}  `);
+  });
 runSeed();
 
-
-
 // const { ApolloServer } = require('apollo-server');
-const { ApolloServer } = require('apollo-server-express');
-const { graphqlPlayground } = require('graphql-playground-middleware-express');
+const { ApolloServer } = require("apollo-server-express");
+const { graphqlPlayground } = require("graphql-playground-middleware-express");
 // const mongoose = require('mongoose');
 async function startServer() {
-const typeDefs = gql(readFileSync("./grqphqlschema/typeDefs.gql", 'utf-8'));
-const resolvers = require("./grqphqlschema/resolvers");
+  const typeDefs = gql(readFileSync("./grqphqlschema/typeDefs.gql", "utf-8"));
+  const resolvers = require("./grqphqlschema/resolvers");
 
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
-});
+  const schema = makeExecutableSchema({
+    typeDefs,
+    resolvers,
+  });
 
-const server = new ApolloServer({
-  schema,
-  context,
-  playground: true,
-});
+  const server = new ApolloServer({
+    schema,
+    context,
+    playground: true,
+  });
 
-await server.start();
-server.applyMiddleware({ app });
+  await server.start();
+  server.applyMiddleware({ app });
 
-const port = process.env.PORT || 8525;
+  const port = process.env.PORT || 8525;
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port} at ${process.env.NODE_ENV} mode`);
-
-  
-});
+  app.listen(port, () => {
+    console.log(
+      `Server is running on port ${port} at ${process.env.NODE_ENV} mode`
+    );
+  });
 }
 
 startServer();
@@ -103,16 +84,12 @@ app.use(expressValidator());
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
-
-
 // app.get('/graphql', graphqlPlayground({ endpoint: '/graphql' }));
-
 
 // Routes
 app.get("/", (req, res) => {
   // res.redirect("/api/users");
   res.send("welcome to HAMRO BUS signup dashbord of user");
-  
 });
 
 app.use("/api/auth-owner", require("./routes/auth-owner"));
@@ -124,6 +101,8 @@ app.use("/api/locations", require("./routes/location"));
 app.use("/api/owners", require("./routes/owner"));
 app.use("/api/travels", require("./routes/travel"));
 app.use("/api/users", require("./routes/user"));
+
+app.use("/api/admin", require("./routes/admin"));
 
 // Error handling middleware
 app.use(function (err, req, res, next) {
@@ -140,7 +119,6 @@ runEveryMidnight();
 // app.listen(port, () => {
 //   console.log(`Server is running on port ${port}`);
 
-  
 // });
 
 // startServer();
