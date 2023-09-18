@@ -1,13 +1,24 @@
 const express = require("express");
 
-const { ownerById, read, update } = require("../controllers/owner");
+const {
+  ownerById,
+  read,
+  update,
+  getAllOwners,
+} = require("../controllers/owner");
 const { requireSuperadminSignin } = require("../controllers/auth-owner");
+const { getAllUsers, read, userById } = require("../controllers/user");
 
 const router = express.Router();
+router.get("/allowners", requireSuperadminSignin, getAllOwners);
 
 router.get("/:ownerId", requireSuperadminSignin, read);
 
-router.param("ownerId", ownerById);
 router.put("/:ownerId", requireSuperadminSignin, update);
+
+router.get("/", requireSuperadminSignin, getAllUsers);
+
+router.get("/:userid", requireSuperadminSignin, userById);
+router.param("ownerId", ownerById);
 
 module.exports = router;
