@@ -1,15 +1,13 @@
-const express = require('express');
-const adminController = require('../controllers/adminController');
+const express = require("express");
+
+const { ownerById, read, update } = require("../controllers/owner");
+const { requireSuperadminSignin } = require("../controllers/auth-owner");
 
 const router = express.Router();
 
-router.get('/dashboard', adminController.getBus);
+router.get("/:ownerId", requireSuperadminSignin, read);
 
-
-router.post('/approve/:busId', adminController.approveBus);
-
-router.post('/reject/:busId', adminController.rejectBus);
-
-
+router.param("ownerId", ownerById);
+router.put("/:ownerId", requireSuperadminSignin, update);
 
 module.exports = router;
