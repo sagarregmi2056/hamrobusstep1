@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const kycSchema = new mongoose.Schema({
-
+  
  
 });
 
