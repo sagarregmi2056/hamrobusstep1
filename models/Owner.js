@@ -62,11 +62,7 @@ const ownerSchema = new mongoose.Schema(
       required: true,
       maxlength: 200,
     },
-    businessBackground: {
-      type: String,
-      trim: true,
-      maxlength: 200,
-    },
+    
     postalCode: {
       type: String,
       maxlength: 10,

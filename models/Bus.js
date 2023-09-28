@@ -1,5 +1,6 @@
 const slug = require("mongoose-slug-generator");
 const mongoose = require("mongoose");
+const { bool } = require("sharp");
 
 
 // this is causing the error while using ..
@@ -17,7 +18,7 @@ const busSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["AC-SLEEPER", "NONAC-SLEEPER", "", "AC-SEATER", "NONAC-SEATER","NORMAL"],
+      enum: ["AC-SLEEPER", "NONAC-SLEEPER", "AC-SEATER", "NONAC-SEATER","NORMAL"],
       default:"NORMAL"
     },
     busNumber: {
@@ -34,6 +35,10 @@ const busSchema = new mongoose.Schema(
     },
     features: {
       type: []
+    },
+    isbusverified: {
+      default:false,
+      type:Boolean
     },
     description: {
       type: String,
