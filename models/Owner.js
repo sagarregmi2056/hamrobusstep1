@@ -101,6 +101,34 @@ const ownerSchema = new mongoose.Schema(
       required: true,
       maxlength: 32,
     },
+    // pancard details step 3
+    panName:{
+      type: String,
+      maxlength: 70,
+     
+    
+    },
+    panAddress:{
+      type: String,
+      maxlength: 70,
+      
+    },
+    issuedate:{
+     
+        type: String,
+        maxlength: 30,
+        required: true,
+      
+    },
+    dateofbirth:{
+      
+        type: String,
+        maxlength: 30,
+        required: true,
+      
+    },
+
+
 
    
     isVerified: {
@@ -114,11 +142,11 @@ const ownerSchema = new mongoose.Schema(
     },
 
     //  document requirements haru
-    pvtltd: {
+    nationalID: {
       type: String,
     },
 
-    cheque: {
+    DriverLisence: {
       type: String,
     },
 
