@@ -4,6 +4,23 @@ const crypto = require("crypto");
 
 const ownerSchema = new mongoose.Schema(
   {
+
+
+    travelName:{
+      type: String,
+      trim: true,
+      maxlength: 32,
+
+    },
+
+
+    pincode:{
+      type: String,
+      trim: true,
+      maxlength: 32,
+    },
+
+    
     name: {
       type: String,
       trim: true,
