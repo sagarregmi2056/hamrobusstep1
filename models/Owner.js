@@ -7,6 +7,10 @@ const ownerSchema = new mongoose.Schema(
   //  part one  for the registration
   // phone number double xa hai 
 
+
+
+  // personal details 
+
     travelName:{
       type: String,
       trim: true,
@@ -66,12 +70,38 @@ const ownerSchema = new mongoose.Schema(
       maxlength: 30,
       required: true,
     },
+
+
+    // bank details 
+    bankName:{
+      type: String,
+      maxlength: 70,
+      required: true,
+    },
+    accountNumber:{
+      type: String,
+      maxlength: 70,
+      required: true,
+    },
+    beneficaryName:{
+      type: String,
+      maxlength: 70,
+      required: true,
+    },
+
+    bankaccountType:{
+      type: String,
+      maxlength: 70,
+      required: true,
+    },
+    
     citizenshipNumber: {
       type: String,
       trim: true,
       required: true,
       maxlength: 32,
     },
+
    
     isVerified: {
       type: Boolean,
