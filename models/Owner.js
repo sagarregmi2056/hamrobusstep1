@@ -4,7 +4,8 @@ const crypto = require("crypto");
 
 const ownerSchema = new mongoose.Schema(
   {
-
+  //  part one  for the registration
+  // phone number double xa hai 
 
     travelName:{
       type: String,
@@ -20,12 +21,50 @@ const ownerSchema = new mongoose.Schema(
       maxlength: 32,
     },
 
-    
+    state: {
+      type: String,
+      maxlength: 30,
+      required: true,
+    },
+
+    city: {
+      type: String,
+      maxlength: 30,
+      required: true,
+    },
+
+    phone: {
+      type: Number,
+      max: 9999999999,
+     
+    },
+
+    email: {
+      type: String,
+      trim: true,
+    },
+
+
     name: {
       type: String,
       trim: true,
       required: true,
       maxlength: 32,
+    },
+
+
+    country:{
+      type: String,
+      trim: true,
+      maxlength: 32,
+
+    },
+
+    
+    district: {
+      type: String,
+      maxlength: 30,
+      required: true,
     },
     citizenshipNumber: {
       type: String,
@@ -33,19 +72,12 @@ const ownerSchema = new mongoose.Schema(
       required: true,
       maxlength: 32,
     },
-    phone: {
-      type: Number,
-      max: 9999999999,
-      required: true,
-    },
+   
     isVerified: {
       type: Boolean,
       default: false,
     },
-    email: {
-      type: String,
-      trim: true,
-    },
+   
     hashed_password: {
       type: String,
       required: true,
@@ -85,21 +117,8 @@ const ownerSchema = new mongoose.Schema(
       maxlength: 10,
       required: true,
     },
-    state: {
-      type: String,
-      maxlength: 30,
-      required: true,
-    },
-    district: {
-      type: String,
-      maxlength: 30,
-      required: true,
-    },
-    city: {
-      type: String,
-      maxlength: 30,
-      required: true,
-    },
+  
+   
     optionalEmailid: {
       type: String,
     },
