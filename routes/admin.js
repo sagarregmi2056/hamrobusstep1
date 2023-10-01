@@ -7,7 +7,7 @@ const {
   getAllOwners,
 } = require("../controllers/owner");
 const { requireSuperadminSignin } = require("../controllers/auth-owner");
-const { getAllUsers, read, userById } = require("../controllers/user");
+const { getAllUsers,userById } = require("../controllers/user");
 
 const router = express.Router();
 router.get("/allowners", requireSuperadminSignin, getAllOwners);

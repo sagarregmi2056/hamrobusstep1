@@ -30,8 +30,7 @@ const runSeed = require("./seeds");
 const mongoose = require("mongoose");
 // database connection
 
-mongoose
-  .connect(process.env.DATABASE_URL, {
+mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

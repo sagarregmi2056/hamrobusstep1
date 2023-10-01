@@ -28,7 +28,7 @@ const ownerSchema = new mongoose.Schema(
     state: {
       type: String,
       maxlength: 30,
-      required: true,
+      
     },
 
     city: {
@@ -40,12 +40,15 @@ const ownerSchema = new mongoose.Schema(
     phone: {
       type: Number,
       max: 9999999999,
+      maxlength: 30,
+      required: true,
      
     },
 
     email: {
       type: String,
       trim: true,
+      required: true,
     },
 
 
@@ -59,8 +62,9 @@ const ownerSchema = new mongoose.Schema(
 
     country:{
       type: String,
-      trim: true,
       maxlength: 32,
+      trim: true,
+      required: true,
 
     },
 
@@ -68,7 +72,8 @@ const ownerSchema = new mongoose.Schema(
     district: {
       type: String,
       maxlength: 30,
-      required: true,
+      trim: true,
+      
     },
 
 
@@ -76,29 +81,32 @@ const ownerSchema = new mongoose.Schema(
     bankName:{
       type: String,
       maxlength: 70,
-      required: true,
+      trim: true,
+     
+    
+     
     },
     accountNumber:{
       type: String,
       maxlength: 70,
-      required: true,
+      
     },
     beneficaryName:{
       type: String,
       maxlength: 70,
-      required: true,
+    
     },
 
     bankaccountType:{
       type: String,
       maxlength: 70,
-      required: true,
+   
     },
     
     citizenshipNumber: {
       type: String,
       trim: true,
-      required: true,
+     
       maxlength: 32,
     },
     // pancard details step 3
@@ -117,14 +125,14 @@ const ownerSchema = new mongoose.Schema(
      
         type: String,
         maxlength: 30,
-        required: true,
+       
       
     },
     dateofbirth:{
       
         type: String,
         maxlength: 30,
-        required: true,
+       
       
     },
 
@@ -144,29 +152,35 @@ const ownerSchema = new mongoose.Schema(
     //  document requirements haru
     nationalID: {
       type: String,
+     
+      
     },
 
     DriverLisence: {
       type: String,
+     
     },
 
     citizenship: {
       type: String,
+   
     },
 
     pancard: {
       type: String,
+     
     },
 
     photo: {
       type: String,
+     
     },
 
     // yaha chai addition requirements haru
     businessBackground: {
       type: String,
       trim: true,
-      required: true,
+     
       maxlength: 200,
     },
     
@@ -183,7 +197,7 @@ const ownerSchema = new mongoose.Schema(
     panNumber: {
       type: String,
       maxlength: 30,
-      required: true,
+      
     },
 
     salt: String,
