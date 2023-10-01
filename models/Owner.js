@@ -34,7 +34,7 @@ const ownerSchema = new mongoose.Schema(
     city: {
       type: String,
       maxlength: 30,
-      required: true,
+    
     },
 
     phone: {
@@ -64,7 +64,7 @@ const ownerSchema = new mongoose.Schema(
       type: String,
       maxlength: 32,
       trim: true,
-      required: true,
+     
 
     },
 
@@ -187,7 +187,7 @@ const ownerSchema = new mongoose.Schema(
     postalCode: {
       type: String,
       maxlength: 10,
-      required: true,
+     
     },
   
    
