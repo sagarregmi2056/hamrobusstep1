@@ -138,11 +138,17 @@ const ownerSchema = new mongoose.Schema(
 
 
    
-    isVerified: {
-      type: Boolean,
-      default: false,
+    // isVerified: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
     },
-   
+    
+
     hashed_password: {
       type: String,
       required: true,
