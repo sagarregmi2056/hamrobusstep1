@@ -55,7 +55,6 @@ const ownerSchema = new mongoose.Schema(
     name: {
       type: String,
       trim: true,
-     
       maxlength: 32,
     },
 

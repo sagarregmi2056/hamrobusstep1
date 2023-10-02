@@ -23,7 +23,7 @@ exports.signup = async (req, res) => {
 exports.signin = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  console.log(password);
+  // console.log(password);
 
   if (!user) {
     return res.status(401).json({
