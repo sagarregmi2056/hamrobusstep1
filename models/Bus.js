@@ -18,14 +18,14 @@ const busSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["AC-SLEEPER", "NONAC-SLEEPER", "AC-SEATER", "NONAC-SEATER","NORMAL"],
+      enum: ["AC-SLEEPER", "NONAC-SLEEPER", "AC-SEATER", "NONAC-SEATER"],
       default:"NORMAL"
     },
     busNumber: {
       type: String,
       trim: true,
       required: true,
-      maxlength: 32
+      maxlength: 70
     },
     fare: {
       type: Number,

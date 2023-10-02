@@ -41,21 +41,21 @@ const ownerSchema = new mongoose.Schema(
       type: Number,
       max: 9999999999,
       maxlength: 30,
-      required: true,
+      
      
     },
 
     email: {
       type: String,
       trim: true,
-      required: true,
+     
     },
 
 
     name: {
       type: String,
       trim: true,
-      required: true,
+     
       maxlength: 32,
     },
 
