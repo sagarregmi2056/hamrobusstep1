@@ -56,19 +56,19 @@ exports.userSignupValidator = (req, res, next) => {
     next();
    };
      
+// we can validate registeration too
+//    exports.kfcverification = (req, res, next) => {
+//     const errors = req.validationErrors();
 
-   exports.kfcverification = (req, res, next) => {
-    const errors = req.validationErrors();
-
-    req.check("", "").notEmpty();
+//     req.check("", "").notEmpty();
 
 
 
-    // if error show the first one as they happen
-    if (errors) {
-        const firstError = errors.map(error => error.msg)[0];
-        return res.status(400).json({ error: firstError });
-    }
-    // proceed to next middleware
-    next();
-   };
+//     // if error show the first one as they happen
+//     if (errors) {
+//         const firstError = errors.map(error => error.msg)[0];
+//         return res.status(400).json({ error: firstError });
+//     }
+//     // proceed to next middleware
+//     next();
+//    };

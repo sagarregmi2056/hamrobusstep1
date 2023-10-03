@@ -1,12 +1,12 @@
 const express = require("express");
 
 const {
-  signup,
+  register,
   signin,
   refreshToken
 } = require("../controllers/auth-owner");
 
-const { userSignupValidator, kfcverification } = require("../validator");
+const { userSignupValidator } = require("../validator");
 
 const router = express.Router();
 
@@ -32,7 +32,7 @@ const router = express.Router();
 
 
 
-router.post("/signup",signup);
+router.post("/signup",userSignupValidator,register);
 router.post("/signin", signin);
 router.post("/refreshtoken", refreshToken)
 
