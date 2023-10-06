@@ -29,6 +29,57 @@ exports.getOwnerBookings = async (req, res) => {
   res.json(bookings);
 };
 
+// exports.postBooking = async (req, res) => {
+//   const booking = new Booking(req.body);
+//   if (req.userauth) {
+//     booking.user = req.userauth;
+//   } else {
+//     const name = req.body.name;
+//     const email = req.body.email;
+//     const phone = req.body.phone;
+//     const address = req.body.address;
+
+//     let user = await Guest.findOne({ phone });
+
+//     if (user) {
+//       user = _.extend(user, req.body);
+//       await user.save();
+//       booking.guest = user;
+//     } else {
+//       const guest = new Guest({ name, email, phone, address });
+//       await guest.save();
+//       booking.guest = guest;
+//     }
+//   }
+
+//   const bus = await Bus.findOne({ slug: req.bus.slug });
+
+//   if (
+//     bus.seatsAvailable < (req.body.passengers || booking.passengers) ||
+//     bus.isAvailable !== true ||
+//     bus.soldSeat.includes(booking.seatNumber) ||
+//     bus.bookedSeat.includes(booking.seatNumber)
+//   ) {
+//     return res.status(400).json({
+//       error: "Not available"
+//     });
+//   }
+
+//   bus.seatsAvailable -= req.body.passengers || booking.passengers;
+
+//   bus.bookedSeat.push(booking.seatNumber);
+
+//   booking.bus = bus;
+//   booking.owner = bus.owner;
+
+//   await booking.save();
+//   await bus.save();
+
+//   res.json(booking);
+// };
+
+// updated code of postbooking using ticket 
+
 exports.postBooking = async (req, res) => {
   const booking = new Booking(req.body);
   if (req.userauth) {
@@ -75,8 +126,28 @@ exports.postBooking = async (req, res) => {
   await booking.save();
   await bus.save();
 
-  res.json(booking);
+  // Create a ticket object from the booking data
+  const ticket = {
+    bookingId: booking._id, // Assuming your booking model has an _id field
+    seatNumber: booking.seatNumber,
+    passengers: booking.passengers,
+    departureDate: booking.departureDate,
+    // Add more ticket details as needed
+  };
+
+  // Respond with the ticket data along with a success message
+  res.status(201).json({
+    message: "Booking successfully created",
+    ticket: ticket, // Include the ticket data in the response
+  });
 };
+
+
+
+
+
+
+
 
 exports.postSold = async (req, res) => {
   // console.log("hehe")
