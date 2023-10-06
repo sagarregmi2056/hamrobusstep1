@@ -7,7 +7,7 @@ const express = require("express");
 require("express-async-errors");
 const cors = require("cors");
 require("dotenv").config();
-// const { graphqlHTTP } = require('express-graphql');
+const { graphqlHTTP } = require('express-graphql');
 const app = express();
 
 const { readFileSync } = require("fs");
@@ -83,7 +83,7 @@ app.use(expressValidator());
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
-// app.get('/graphql', graphqlPlayground({ endpoint: '/graphql' }));
+app.get('/graphql', graphqlPlayground({ endpoint: '/graphql' }));
 
 // Routes
 app.get("/", (req, res) => {
