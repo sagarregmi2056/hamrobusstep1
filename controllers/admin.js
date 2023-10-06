@@ -72,30 +72,30 @@ exports.updateOwnerStatus = async (req, res) => {
   };
 
 
-  // Controller function to reject an owner without reason
-exports.rejectOwner = async (req, res) => {
-    try {
-      const ownerId = req.params.ownerId;
+//   // Controller function to reject an owner without reason
+// exports.rejectOwner = async (req, res) => {
+//     try {
+//       const ownerId = req.params.ownerId;
   
-      // Find the owner by ID
-      const owner = await Owner.findById(ownerId);
+//       // Find the owner by ID
+//       const owner = await Owner.findById(ownerId);
   
-      if (!owner) {
-        return res.status(404).json({ error: "Owner not found" });
-      }
+//       if (!owner) {
+//         return res.status(404).json({ error: "Owner not found" });
+//       }
   
-      // Update the owner's status to "rejected"
-      owner.status = "rejected";
+//       // Update the owner's status to "rejected"
+//       owner.status = "rejected";
   
-      // Save the updated owner document
-      await owner.save();
+//       // Save the updated owner document
+//       await owner.save();
   
-      res.json({ message: "Owner rejected successfully", owner });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  };
+//       res.json({ message: "Owner rejected successfully", owner });
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).json({ error: "Internal server error" });
+//     }
+//   };
 
 
 //   to reject them with a reason 
@@ -103,7 +103,7 @@ exports.rejectOwner = async (req, res) => {
   exports.rejectOwner = async (req, res) => {
     try {
       const ownerId = req.params.ownerId;
-      const { rejectionReason } = req.body; // Extract the rejection reason from the request body
+      const { rejectionReason } = req.body; // Extraction of the rejection reason from the request body
   
       // Find the owner by ID
       const owner = await Owner.findById(ownerId);
