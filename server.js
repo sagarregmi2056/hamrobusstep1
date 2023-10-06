@@ -7,7 +7,7 @@ const express = require("express");
 require("express-async-errors");
 const cors = require("cors");
 require("dotenv").config();
-const { graphqlHTTP } = require('express-graphql');
+// const { graphqlHTTP } = require('express-graphql');
 const app = express();
 
 const { readFileSync } = require("fs");
@@ -44,7 +44,7 @@ runSeed();
 
 // const { ApolloServer } = require('apollo-server');
 const { ApolloServer } = require("apollo-server-express");
-const { graphqlPlayground } = require("graphql-playground-middleware-express");
+const  graphqlPlayground  = require("graphql-playground-middleware-express").default;
 // const mongoose = require('mongoose');
 async function startServer() {
   const typeDefs = gql(readFileSync("./grqphqlschema/typeDefs.gql", "utf-8"));
@@ -70,6 +70,7 @@ async function startServer() {
     console.log(
       `Server is running on port ${port} at ${process.env.NODE_ENV} mode`
     );
+    console.log('GraphQL server is ready at /graphql');
   });
 }
 
