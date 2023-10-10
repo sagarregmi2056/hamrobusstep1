@@ -31,7 +31,7 @@ const ownerAvatar = multer.diskStorage({
 
 const PanCardImage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./public/uploads/ownerAvatar");
+    cb(null, "./public/uploads/panCard");
   },
   filename: function (req, file, cb) {
     cb(
@@ -45,7 +45,7 @@ const PanCardImage = multer.diskStorage({
 
 const lisence= multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./public/uploads/ownerAvatar");
+    cb(null, "./public/uploads/lisence");
   },
   filename: function (req, file, cb) {
     cb(
@@ -57,7 +57,7 @@ const lisence= multer.diskStorage({
 
 const citizenshipImage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./public/uploads/ownerAvatar");
+    cb(null, "./public/uploads/Citizenship");
   },
   filename: function (req, file, cb) {
     cb(
@@ -69,7 +69,7 @@ const citizenshipImage = multer.diskStorage({
 
 const nationalID = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./public/uploads/ownerAvatar");
+    cb(null, "./public/uploads/nationalid");
   },
   filename: function (req, file, cb) {
     cb(
