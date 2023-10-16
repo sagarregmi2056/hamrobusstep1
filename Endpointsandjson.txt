@@ -4,7 +4,7 @@
 Api=           user-signin-            http://localhost:8525/api/auth-user/signup 
 
 input:    {
-  "name": "Test User",
+  
   "email": "testuser@example.com",
   "password": "password123"
 }

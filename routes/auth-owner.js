@@ -1,38 +1,22 @@
 const express = require("express");
 
 const {
-  register,
+  signup,
   signin,
   refreshToken
 } = require("../controllers/auth-owner");
 
 const { userSignupValidator } = require("../validator");
+// const { signup } = require("../controllers/auth-user");
 
 const router = express.Router();
 
 
-/**
-//  * @swagger
-//  *
-//  * /admin-signup:
-//  *   post:
-//  *     description: Admin signup
-//  *     produces:
-//  *       - application/json
-//  *     parameters:
-//  *       - name: admin
-//  *         description: User object
-//  *         in:  body
-//  *         required: true
-//  *         type: string
-//  *     responses:
-//  *       200:
-//  *         description: users
-//  */
 
 
 
-router.post("/signup",userSignupValidator,register);
+
+router.post("/signup",userSignupValidator,signup);
 router.post("/signin", signin);
 router.post("/refreshtoken", refreshToken)
 

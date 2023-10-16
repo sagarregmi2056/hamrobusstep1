@@ -86,11 +86,11 @@ exports.uploadOwnerAvatar = multer({ storage: ownerAvatar }).single("photo");
 
 // newly added avatar
 
-exports.uploadPvtltdAvatar = multer({ storage: nationalID }).single("nationalid");
+exports.uploadPvtltdAvatar = multer({ storage: nationalID }).single("nationalId");
 exports.uploadCitizenshipAvatar = multer({ storage: citizenshipImage }).single(
   "citizenship"
 );
-exports.uploadChequeAvatar = multer({ storage: lisence }).single("lisence");
+exports.uploadChequeAvatar = multer({ storage: lisence }).single("DriverLisence");
 exports.uploadPancardAvatar = multer({ storage: PanCardImage }).single(
   "pancard"
 );
