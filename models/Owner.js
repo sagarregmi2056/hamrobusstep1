@@ -48,11 +48,11 @@ const ownerSchema = new mongoose.Schema(
     email: {
       type: String,
       trim: true,
-      require:true
     },
     name: {
       type: String,
       trim: true,
+    
       // maxlength: 32,
     },
 

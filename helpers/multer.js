@@ -4,6 +4,7 @@ const multer = require("multer");
 //storage management for the file
 //that will be uploaded
 const busImage = multer.diskStorage({
+  
   destination: function (req, file, cb) {
     cb(null, "./public/uploads/busimage");
   },
@@ -86,11 +87,11 @@ exports.uploadOwnerAvatar = multer({ storage: ownerAvatar }).single("photo");
 
 // newly added avatar
 
-exports.uploadPvtltdAvatar = multer({ storage: nationalID }).single("nationalId");
-exports.uploadCitizenshipAvatar = multer({ storage: citizenshipImage }).single(
+exports.uploadnationalid = multer({ storage: nationalID }).single("nationalId");
+exports.uploadCitizenshipimage = multer({ storage: citizenshipImage }).single(
   "citizenship"
 );
-exports.uploadChequeAvatar = multer({ storage: lisence }).single("DriverLisence");
-exports.uploadPancardAvatar = multer({ storage: PanCardImage }).single(
+exports.uploaddriverlisence = multer({ storage: lisence }).single("DriverLisence");
+exports.uploadpancard = multer({ storage: PanCardImage }).single(
   "pancard"
 );

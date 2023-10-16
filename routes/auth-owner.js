@@ -1,4 +1,5 @@
 const express = require("express");
+// import { owner } from './../seeds/superadmin';
 
 const {
   signup,
@@ -6,8 +7,8 @@ const {
   refreshToken
 } = require("../controllers/auth-owner");
 
-const { userSignupValidator } = require("../validator");
-// const { signup } = require("../controllers/auth-user");
+const { ownerSignupValidator} = require("../validator");
+
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ const router = express.Router();
 
 
 
-router.post("/signup",userSignupValidator,signup);
+router.post("/signup",ownerSignupValidator,signup);
 router.post("/signin", signin);
 router.post("/refreshtoken", refreshToken)
 
