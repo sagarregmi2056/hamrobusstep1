@@ -11,8 +11,9 @@ const {
 const { userSignupValidator, passwordResetValidator } = require("../validator");
 
 const router = express.Router();
+// removed user signup validator function from /signup routes
 
-router.post("/signup", userSignupValidator, signup);
+router.post("/signup",  signup);
 router.post("/signin", signin);
 
 router.post("/social-login", socialLogin);
