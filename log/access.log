@@ -40,3 +40,7 @@
 ::ffff:127.0.0.1 - - [02/Oct/2023:14:54:11 +0000] "POST /api/auth-user/signup HTTP/1.1" 200 206 "-" "Thunder Client (https://www.thunderclient.com)"
 ::ffff:127.0.0.1 - - [02/Oct/2023:14:55:08 +0000] "POST /api/auth-user/signin HTTP/1.1" 200 220 "-" "Thunder Client (https://www.thunderclient.com)"
 ::ffff:127.0.0.1 - - [02/Oct/2023:16:30:33 +0000] "POST /api/auth-owner/signup HTTP/1.1" 200 217 "-" "Thunder Client (https://www.thunderclient.com)"
+::1 - - [16/Oct/2023:07:34:19 +0000] "GET /api/auth-user/signup HTTP/1.1" 404 159 "-" "PostmanRuntime/7.32.3"
+::1 - - [16/Oct/2023:07:34:25 +0000] "POST /api/auth-user/signup HTTP/1.1" 400 28 "-" "PostmanRuntime/7.32.3"
+::1 - - [16/Oct/2023:07:34:58 +0000] "POST /api/auth-user/signup HTTP/1.1" 200 193 "-" "PostmanRuntime/7.32.3"
+::1 - - [16/Oct/2023:07:41:36 +0000] "POST /api/auth-user/signin HTTP/1.1" 200 228 "-" "PostmanRuntime/7.32.3"
