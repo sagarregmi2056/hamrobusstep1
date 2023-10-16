@@ -70,7 +70,7 @@ const citizenshipImage = multer.diskStorage({
 
 const nationalID = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./public/uploads/nationalid");
+    cb(null, "./public/uploads/nationalID");
   },
   filename: function (req, file, cb) {
     cb(
@@ -83,11 +83,12 @@ const nationalID = multer.diskStorage({
 //management of the storage and the file that will be uploaded
 //.single expects the name of the file input field
 exports.uploadBusImage = multer({ storage: busImage }).single("image");
+
 exports.uploadOwnerAvatar = multer({ storage: ownerAvatar }).single("photo");
 
 // newly added avatar
 
-exports.uploadnationalid = multer({ storage: nationalID }).single("nationalId");
+exports.uploadnationalID = multer({ storage: nationalID }).single("nationalID");
 exports.uploadCitizenshipimage = multer({ storage: citizenshipImage }).single(
   "citizenship"
 );

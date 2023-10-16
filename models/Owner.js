@@ -14,6 +14,7 @@ const ownerSchema = new mongoose.Schema(
     travelName:{
       type: String,
       trim: true,
+      // required: true,
       // maxlength: 32,
 
     },
@@ -41,6 +42,7 @@ const ownerSchema = new mongoose.Schema(
       type: Number,
       max: 9999999999,
       // maxlength: 30,
+      // required: true,
       
      
     },
@@ -103,6 +105,7 @@ const ownerSchema = new mongoose.Schema(
     citizenshipNumber: {
       type: String,
       trim: true,
+      // required: true,
      
       // maxlength: 32,
     },
@@ -149,7 +152,7 @@ const ownerSchema = new mongoose.Schema(
 
     hashed_password: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     //  document requirements haru

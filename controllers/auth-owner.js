@@ -2,25 +2,122 @@ const Owner = require("../models/Owner");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 
-exports.signup = async (req, res) => {
+const {
+  uploadOwnerAvatar,
+
+  uploadCitizenshipimage,
+  uploaddriverlisence,
+  uploadpancard,
+  uploadnationalID,
+} = require('../helpers');
 
 
-  const ownerExists = await Owner.findOne({ email: req.body.email });
+// exports.signup = async (req, res) => {
+
+// //  console.log(req.body.email);
+
+//   const ownerExists = await Owner.findOne({ email: req.body.email });
 
 
-  if (ownerExists)
-    return res.status(403).json({
-      error: "Email is taken!"
-    });
-  const newowner = new Owner(req.body);
-  const owner = await newowner.save();
+
+//   if (ownerExists)
+//     return res.status(403).json({
+//       error: "Email is taken!"
+//     });
+//   const newowner = new Owner(req.body);
+//   const owner = await newowner.save();
 
   
 
-  owner.salt = undefined;
-  owner.hashed_password = undefined;
-  res.json(owner);
-};
+//   owner.salt = undefined;
+//   owner.hashed_password = undefined;
+//   res.json(owner);
+// };
+
+
+
+// updated code
+
+
+
+
+
+
+// exports.signup = (req, res) => {
+//   Owner.findOne({ email: req.body.email }, async (err, ownerExists) => {
+//     if (err) {
+//       return res.status(500).json({ error: 'Internal Server Error' });
+//     }
+
+//     if (ownerExists) {
+//       return res.status(403).json({ error: 'Email is taken' });
+//     }
+
+//     // Handle file uploads using Multer
+//     uploadOwnerAvatar(req, res, async (uploadOwnerAvatarError) => {
+//       if (uploadOwnerAvatarError) {
+//         return res.status(500).json({ error: 'Owner avatar upload failed' });
+//       }
+
+//       uploadnationalId(req, res, async (uploadnationalIdError) => {
+//         if (uploadnationalIdError) {
+//           return res.status(500).json({ error: 'National ID upload failed' });
+//         }
+
+//         uploadCitizenshipimage(req, res, async (uploadCitizenshipimageError) => {
+//           if (uploadCitizenshipimageError) {
+//             return res.status(500).json({ error: 'Citizenship image upload failed' });
+//           }
+
+//           uploaddriverlisence(req, res, async (uploaddriverlisenceError) => {
+//             if (uploaddriverlisenceError) {
+//               return res.status(500).json({ error: 'Driver license upload failed' });
+//             }
+
+//             uploadpancard(req, res, async (uploadpancardError) => {
+//               if (uploadpancardError) {
+//                 return res.status(500).json({ error: 'Pancard upload failed' });
+//               }
+
+//               // Create a new owner
+//               const newOwner = new Owner(req.body);
+
+//               // Modify the owner data to include file paths
+//               if (req.file1) {
+//                 newOwner.photo = 'ownerAvatar/' + req.file.filename;
+//               }
+//               if (req.file2) {
+//                 newOwner.nationalID = 'nationalid/' + req.file2.filename;
+//               }
+//               if (req.file3) {
+//                 newOwner.citizenship = 'Citizenship/' + req.file3.filename;
+//               }
+//               if (req.file4) {
+//                 newOwner.DriverLisence = 'lisence/' + req.file4.filename;
+//               }
+//               if (req.file5) {
+//                 newOwner.pancard = 'panCard/' + req.file5.filename;
+//               }
+
+//               try {
+//                 const owner = await newOwner.save();
+
+//                 // Exclude sensitive information from the response
+//                 owner.salt = undefined;
+//                 owner.hashed_password = undefined;
+
+//                 res.json(owner);
+//               } catch (saveError) {
+//                 return res.status(500).json({ error: 'Owner registration failed' });
+//               }
+//             });
+//           });
+//         });
+//       });
+//     });
+//   };
+
+
 
 exports.signin = async (req, res) => {
   const { email, password } = req.body;
@@ -171,4 +268,105 @@ exports.isAuth = (req, res, next) => {
     });
   }
   next();
+};
+
+
+exports.signup = async (req, res) => {
+  try {
+    const ownerExists = await Owner.findOne({ email: req.body.email }).exec();
+    
+    if (ownerExists) {
+      return res.status(403).json({ error: 'Email is taken' });
+    }
+
+    // Handle file uploads using Multer middleware
+    const uploadOwnerAvatarPromise = new Promise((resolve, reject) => {
+      uploadOwnerAvatar.single('photo')(req, res, (uploadOwnerAvatarError) => {
+        if (uploadOwnerAvatarError) {
+          reject('Owner avatar upload failed');
+        } else {
+          resolve();
+        }
+      });
+    });
+
+    const uploadnationalIdPromise = new Promise((resolve, reject) => {
+      uploadnationalID.single('nationalID')(req, res, (uploadnationalIDError) => {
+        if (uploadnationalIDError) {
+          reject('National ID upload failed');
+        } else {
+          resolve();
+        }
+      });
+    });
+
+    const uploadCitizenshipimagePromise = new Promise((resolve, reject) => {
+      uploadCitizenshipimage.single('citizenship')(req, res, (uploadCitizenshipimageError) => {
+        if (uploadCitizenshipimageError) {
+          reject('Citizenship image upload failed');
+        } else {
+          resolve();
+        }
+      });
+    });
+
+    const uploaddriverlisencePromise = new Promise((resolve, reject) => {
+      uploaddriverlisence.single('DriverLisence')(req, res, (uploaddriverlisenceError) => {
+        if (uploaddriverlisenceError) {
+          reject('Driver license upload failed');
+        } else {
+          resolve();
+        }
+      });
+    });
+
+    const uploadpancardPromise = new Promise((resolve, reject) => {
+      uploadpancard.single('pancard')(req, res, (uploadpancardError) => {
+        if (uploadpancardError) {
+          reject('Pancard upload failed');
+        } else {
+          resolve();
+        }
+      });
+    });
+
+    // Await all file upload promises
+    await Promise.all([
+      uploadOwnerAvatarPromise,
+      uploadnationalIdPromise,
+      uploadCitizenshipimagePromise,
+      uploaddriverlisencePromise,
+      uploadpancardPromise,
+    ]);
+
+    // Create a new owner
+    const newOwner = new Owner(req.body);
+
+    // Modify the owner data to include file paths
+    if (req.file) {
+      newOwner.photo = 'ownerAvatar/' + req.file.filename;
+    }
+    if (req.file2) {
+      newOwner.nationalID = 'nationalID/' + req.file2.filename;
+    }
+    if (req.file3) {
+      newOwner.citizenship = 'Citizenship/' + req.file3.filename;
+    }
+    if (req.file4) {
+      newOwner.DriverLisence = 'lisence/' + req.file4.filename;
+    }
+    if (req.file5) {
+      newOwner.pancard = 'panCard/' + req.file5.filename;
+    }
+
+    const owner = await newOwner.save();
+
+    // Exclude sensitive information from the response
+    owner.salt = undefined;
+    owner.hashed_password = undefined;
+
+    res.json(owner);
+  } catch (error) {
+    return res.status(500).json({ error: 'Owner registration failed' });
+  }
 };
