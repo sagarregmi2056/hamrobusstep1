@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test API</title>
+</head>
+
+<body>
+    <h1>Test API</h1>
+
+    <form action="http://localhost:8525/api/auth-owner/signup" method="post" enctype="multipart/form-data">
+        <!-- Input fields for data -->
+        <label for="email">Email:</label>
+        <input type="text" name="email" id="email" required>
+        <br>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required>
+        <br>
+
+        <!-- File input fields for file uploads -->
+        <!-- <label for="photo">Photo:</label>
+        <input type="file" name="photo" id="photo">
+        <br> -->
+
+        <label for="pancard">pancard:</label>
+        <input type="file" name="pancard" id="pancard">
+        <br>
+
+
+
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+
+</html>

@@ -26,7 +26,10 @@ const ownerAvatar = multer.diskStorage({
       file.fieldname + "-" +  Date.now() + path.extname(file.originalname)
     );
   },
-});
+
+}
+
+);
 
 //  yo chai pan card ko lagi
 
@@ -82,6 +85,9 @@ const nationalID = multer.diskStorage({
 
 
 
+
+
+
 const fileFilter = (req, file, callback) => {
   const ext = path.extname(file.originalname);
   if (ext !== '.png' && ext !== '.jpg' && ext !== '.JPG' && ext !== '.jpeg') {
@@ -94,15 +100,16 @@ const fileFilter = (req, file, callback) => {
 //.single expects the name of the file input field
 exports.uploadBusImage = multer({ storage: busImage ,fileFilter}).single("image");
 
-exports.uploadOwnerAvatar = multer({ storage: ownerAvatar,fileFilter }).array("photo");
+exports.uploadOwnerAvatar = multer({ storage: ownerAvatar,fileFilter }).single('photo');
 
 // newly added avatar
 
-exports.uploadnationalID = multer({ storage: nationalID,fileFilter }).array("nationalID");
+exports.uploadnationalID = multer({ storage: nationalID,fileFilter }).fields([{name:'nationalID',maxCount:1}]);
+
 exports.uploadCitizenshipimage = multer({ storage: citizenshipImage }).array(
-  "citizenship"
+  "citizenship",1
 );
-exports.uploaddriverlisence = multer({ storage: lisence,fileFilter }).array("DriverLisence");
-exports.uploadpancard = multer({ storage: PanCardImage,fileFilter }).array(
-  "pancard"
+exports.uploaddriverlisence = multer({ storage: lisence,fileFilter }).array("DriverLisence",1);
+exports.uploadpancard = multer({ storage: PanCardImage,fileFilter }).single(
+  "pancard",1
 );

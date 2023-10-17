@@ -2,6 +2,8 @@
 const expressValidator = require("express-validator");
 const context = require("./context");
 require("./stagingmode/stages");
+const path= require('path');
+
 
 const express = require("express");
 require("express-async-errors");
@@ -81,7 +83,8 @@ logger(app);
 app.use(cors());
 app.use(express.json());
 app.use(expressValidator());
-app.use(express.static("public"));
+// app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/graphql', graphqlPlayground({ endpoint: '/graphql' }));
