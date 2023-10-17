@@ -2,6 +2,14 @@ const Owner = require("../models/Owner");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 
+
+
+
+
+const sharp = require("sharp");
+const path = require("path");
+const fs = require("fs");
+
 const {
   uploadOwnerAvatar,
 
@@ -370,3 +378,82 @@ exports.signup = async (req, res) => {
     return res.status(500).json({ error: 'Owner registration failed' });
   }
 };
+
+
+
+// exports.signup = async (req, res) => {
+
+  
+//     const ownerExists = await Owner.findOne({ email: req.body.email });
+    
+//     if (ownerExists) {
+//       return res.status(403).json({ error: 'Email is taken' });
+//     }
+  
+//     if (req.file !== undefined) {
+//       const { filename: image } = req.file;
+  
+//       //Compress image
+//       await sharp(req.file.path)
+//         .resize(800)
+//         .jpeg({ quality: 100 })
+//         .toFile(path.resolve(req.file.destination, "resized", image));
+//       fs.unlinkSync(req.file.path);
+//       req.body.image = "busimage/resized/" + image;
+//     }
+  
+  
+  
+  
+//   }
+
+
+
+
+  exports.uploadDocumentImages = async (req, res) => {
+    try {
+      const ownerExists = await Owner.findOne({ email: req.body.email });
+      if (ownerExists) {
+        return res.status(403).json({ error: 'Email is taken' });
+      }
+  
+      const uploadPromises = [];
+  
+      // Define an array of image fields and corresponding storage directories
+      const imageFields = [
+        { fieldname: 'photo', directory: 'ownerAvatar' },
+        { fieldname: 'nationalID', directory: 'nationalID' },
+        { fieldname: 'citizenship', directory: 'citizenshipImage' },
+        { fieldname: 'DriverLisence', directory: 'lisence' },
+        { fieldname: 'pancard', directory: 'PanCardImage' },
+      ];
+  
+      for (const fieldInfo of imageFields) {
+        if (req.file[fieldInfo.fieldname]) {
+          const { filename: image } = req.file[fieldInfo.fieldname];
+  
+          // Compress image
+          await sharp(req.file[fieldInfo.fieldname].path)
+            .resize(800)
+            .jpeg({ quality: 100 })
+            .toFile(path.resolve(req.file[fieldInfo.fieldname].destination, 'resized', image));
+          fs.unlinkSync(req.file[fieldInfo.fieldname].path);
+  
+          req.body[fieldInfo.fieldname] = fieldInfo.directory + '/resized/' + image;
+        }
+      }
+  
+      // Continue with saving the owner information
+      const newOwner = new Owner(req.body);
+      const owner = await newOwner.save();
+  
+      // Exclude sensitive information from the response
+      owner.salt = undefined;
+      owner.hashed_password = undefined;
+  
+      res.json(owner);
+    } catch (error) {
+      return res.status(500).json({ error: 'Owner registration failed' });
+    }
+  };
+  

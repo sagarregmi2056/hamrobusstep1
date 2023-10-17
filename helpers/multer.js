@@ -11,7 +11,7 @@ const busImage = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(
       null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+      file.fieldname + "-" +  Date.now() + path.extname(file.originalname)
     );
   },
 });
@@ -23,7 +23,7 @@ const ownerAvatar = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(
       null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+      file.fieldname + "-" +  Date.now() + path.extname(file.originalname)
     );
   },
 });
@@ -32,7 +32,7 @@ const ownerAvatar = multer.diskStorage({
 
 const PanCardImage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./public/uploads/panCard");
+    cb(null, "./public/uploads/PanCardImage");
   },
   filename: function (req, file, cb) {
     cb(
@@ -58,12 +58,12 @@ const lisence= multer.diskStorage({
 
 const citizenshipImage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./public/uploads/Citizenship");
+    cb(null, "./public/uploads/citizenshipImage");
   },
   filename: function (req, file, cb) {
     cb(
       null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+      file.fieldname + "-" + Date.now() +  path.extname(file.originalname)
     );
   },
 });
@@ -75,24 +75,34 @@ const nationalID = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(
       null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+      file.fieldname + "-" + Date.now()+ path.extname(file.originalname)
     );
   },
 });
 
+
+
+const fileFilter = (req, file, callback) => {
+  const ext = path.extname(file.originalname);
+  if (ext !== '.png' && ext !== '.jpg' && ext !== '.JPG' && ext !== '.jpeg') {
+    return callback(new Error('Not Image'))
+  }
+  callback(null, true)
+}
+// const limits = { fileSize: 2480 * 3230 }
 //management of the storage and the file that will be uploaded
 //.single expects the name of the file input field
-exports.uploadBusImage = multer({ storage: busImage }).single("image");
+exports.uploadBusImage = multer({ storage: busImage ,fileFilter}).single("image");
 
-exports.uploadOwnerAvatar = multer({ storage: ownerAvatar }).single("photo");
+exports.uploadOwnerAvatar = multer({ storage: ownerAvatar,fileFilter }).array("photo");
 
 // newly added avatar
 
-exports.uploadnationalID = multer({ storage: nationalID }).single("nationalID");
-exports.uploadCitizenshipimage = multer({ storage: citizenshipImage }).single(
+exports.uploadnationalID = multer({ storage: nationalID,fileFilter }).array("nationalID");
+exports.uploadCitizenshipimage = multer({ storage: citizenshipImage }).array(
   "citizenship"
 );
-exports.uploaddriverlisence = multer({ storage: lisence }).single("DriverLisence");
-exports.uploadpancard = multer({ storage: PanCardImage }).single(
+exports.uploaddriverlisence = multer({ storage: lisence,fileFilter }).array("DriverLisence");
+exports.uploadpancard = multer({ storage: PanCardImage,fileFilter }).array(
   "pancard"
 );

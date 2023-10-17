@@ -3,6 +3,7 @@ const express = require("express");
 
 const {
   signup,
+  uploadDocumentImages,
   signin,
   refreshToken
 } = require("../controllers/auth-owner");
@@ -36,9 +37,9 @@ const router = express.Router();
 // updated code
 
 router.post(
-  '/signup',uploadOwnerAvatar,
+  '/signup',uploadOwnerAvatar, uploadnationalID, uploadCitizenshipimage, uploaddriverlisence, uploadpancard,
   // uploadnationalID, uploadCitizenshipimage, uploaddriverlisence, uploadpancard, // Validation middleware for owner signup
-  signup // Owner signup controller function
+  uploadDocumentImages // Owner signup controller function
 );
 router.post("/signin", signin);
 router.post("/refreshtoken", refreshToken)
