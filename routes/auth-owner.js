@@ -4,8 +4,6 @@ const multer = require("multer");
 
 const {
   signup,
-  submitdata,
- 
   signin,
   refreshToken
 } = require("../controllers/auth-owner");
@@ -21,7 +19,8 @@ const {
 
 
 // updated code
-const { uploadOwnerAvatar, uploadnationalID, uploadCitizenshipimage, uploaddriverlisence, uploadpancard } = require('../helpers/multer');
+// const { uploadOwnerAvatar, uploadnationalID, uploadCitizenshipimage, uploaddriverlisence, uploadpancard } = require('../helpers/multer');
+const { uploadowner } = require("../helpers");
 
 
 const router = express.Router();
@@ -31,7 +30,7 @@ const router = express.Router();
 
 
 
-router.post('/signup',uploadpancard, signup);
+router.post('/signup',uploadowner,signup);
 router.post("/signin", signin);
 router.post("/refreshtoken", refreshToken)
 
