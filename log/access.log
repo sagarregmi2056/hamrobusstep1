@@ -3,3 +3,8 @@
 ::ffff:127.0.0.1 - - [18/Oct/2023:03:17:19 +0000] "POST /api/auth-owner/signup HTTP/1.1" 500 54 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
 ::ffff:127.0.0.1 - - [18/Oct/2023:03:18:08 +0000] "POST /api/auth-owner/signup HTTP/1.1" 500 54 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
 ::ffff:127.0.0.1 - - [18/Oct/2023:03:26:11 +0000] "POST /api/auth-owner/signup HTTP/1.1" 200 180 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
+::ffff:127.0.0.1 - - [18/Oct/2023:05:33:18 +0000] "POST /api/auth-owner/signup HTTP/1.1" 200 727 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
+::ffff:127.0.0.1 - - [18/Oct/2023:06:07:43 +0000] "POST /api/auth-owner/signin HTTP/1.1" 401 43 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
+::ffff:127.0.0.1 - - [18/Oct/2023:06:08:01 +0000] "POST /api/auth-owner/signin HTTP/1.1" 401 43 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
+::ffff:127.0.0.1 - - [18/Oct/2023:06:08:10 +0000] "POST /api/auth-owner/signin HTTP/1.1" 401 43 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
+::ffff:127.0.0.1 - - [18/Oct/2023:06:12:46 +0000] "POST /api/auth-owner/signin HTTP/1.1" 401 43 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
