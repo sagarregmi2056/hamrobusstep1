@@ -15,3 +15,4 @@
 ::ffff:127.0.0.1 - - [20/Oct/2023:05:31:53 +0000] "POST /api/auth-user/signup HTTP/1.1" 200 376 "-" "Thunder Client (https://www.thunderclient.com)"
 ::ffff:127.0.0.1 - - [20/Oct/2023:05:34:36 +0000] "POST /api/auth-user/signin HTTP/1.1" 200 225 "-" "Thunder Client (https://www.thunderclient.com)"
 ::ffff:127.0.0.1 - - [20/Oct/2023:05:39:58 +0000] "POST /api/auth-owner/signup HTTP/1.1" 200 756 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
+::ffff:127.0.0.1 - - [20/Oct/2023:07:06:30 +0000] "POST /api/auth-owner/signin HTTP/1.1" 200 353 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"
