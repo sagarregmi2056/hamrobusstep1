@@ -5,8 +5,14 @@ const _ = require("lodash");
 const { sendEmail } = require("../helpers");
 
 exports.signup = async (req, res) => {
+
+  // req.body.email
+
+  // userexists =  bibek 
  
   const userExists = await User.findOne({ email: req.body.email });
+
+
   if (userExists)
     return res.status(403).json({
       error: "Email is taken!"

@@ -92,7 +92,7 @@ app.get('/graphql', graphqlPlayground({ endpoint: '/graphql' }));
 // Routes
 app.get("/", (req, res) => {
   // res.redirect("/api/users");
-  res.send("welcome to HAMRO BUS signup dashbord of user");
+  res.send("welcome to HAMRO BUS Home ");
 });
 
 app.use("/api/auth-owner", require("./routes/auth-owner"));
