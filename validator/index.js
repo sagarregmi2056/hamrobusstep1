@@ -9,7 +9,7 @@ exports.userSignupValidator = (req, res, next) => {
     // email is not null, valid and normalized
     req.check("email", "Email must be between 3 to 32 characters")
         .matches(/.+\@.+\..+/)
-        .withMessage("Invalid email")
+        .withMessage("Invalid email :must be on appropriate order")
         .isLength({
             min: 4,
             max: 2000
@@ -27,7 +27,8 @@ exports.userSignupValidator = (req, res, next) => {
     // if error show the first one as they happen
     if (errors) {
         const firstError = errors.map(error => error.msg)[0];
-        return res.status(400).json({ error: firstError });
+        return res.status(400).json({ error: firstError ,errors});
+        
     }
     // proceed to next middleware
     next();

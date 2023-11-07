@@ -8,7 +8,7 @@ const {
   refreshToken
 } = require("../controllers/auth-owner");
 
-// const { userSignupValidator} = require("../validator");
+const { userSignupValidator} = require("../validator");
 
 
 
@@ -30,7 +30,7 @@ const router = express.Router();
 
 
 
-router.post('/signup',uploadowner,signup);
+router.post('/signup',uploadowner,userSignupValidator,signup);
 router.post("/signin", signin);
 router.post("/refreshtoken", refreshToken)
 
