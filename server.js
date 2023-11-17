@@ -106,6 +106,7 @@ app.use("/api/travels", require("./routes/travel"));
 app.use("/api/users", require("./routes/user"));
 
 app.use("/api/admin", require("./routes/admin"));
+app.use("/api/otpauth",require("./routes/otpauth"))
 
 // Error handling middleware
 app.use(function (err, req, res, next) {

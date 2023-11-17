@@ -34,5 +34,6 @@ router.post('/signup',uploadowner,userSignupValidator,signup);
 router.post("/signin", signin);
 router.post("/refreshtoken", refreshToken)
 
+
 module.exports = router;
 
