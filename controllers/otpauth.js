@@ -1,6 +1,6 @@
 const { generateOTP, verifyOTP } = require('../utils/otpUtils');
 const jwt = require('jsonwebtoken');
-const Owner = require('../models/Owner'); // Assuming your Owner model is in a separate file
+
 
 exports.generateOtpAndSignin = async (req, res) => {
   const { phone } = req.body;
