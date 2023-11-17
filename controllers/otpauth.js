@@ -15,8 +15,24 @@ exports.generateOtpAndSignin = async (req, res) => {
   // Generate and send OTP to the owner's phone number
   const otp = generateOTP(phone);
 
-  // In a real-world scenario, you would send this OTP to the user via SMS or other means
-  // For simplicity, we'll just send it in the response for demonstration purposes
+// *************in case of sms provider we will be using like this just it is different that we are sending json directly********
+
+//   try {
+//     await client.messages.create({
+//       body: `Your OTP is: ${otp}`,
+//       to: `+${phone}`, // Ensure phone numbers are in E.164 format, for example, +14155238886
+//       from: twilioPhoneNumber,
+//     });
+
+//     res.json({ success: true, message: 'OTP sent successfully.' });
+//   } catch (error) {
+//     console.error('Error sending OTP:', error);
+//     res.status(500).json({ success: false, message: 'Error sending OTP.' });
+//   }
+// };
+
+
+
   res.json({ otp });
 };
 
@@ -46,6 +62,8 @@ exports.generateOtpAndSignin = async (req, res) => {
 
 //   return res.json({ token });
 // };
+
+
 exports.verifyOtpAndSignin = async (req, res) => {
     const { phone, userOTP } = req.body;
   
@@ -65,7 +83,26 @@ exports.verifyOtpAndSignin = async (req, res) => {
   
     // In a real-world scenario, you might want to save the phone number to the database here
   
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' });
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '6M' });
   
     return res.json({ token });
   };
+
+
+
+  exports.verifyToken = (req, res, next) => {
+    const token = req.headers.authorization;
+  
+    if (!token) {
+      return res.status(401).json({ error: 'Authorization token is missing' });
+    }
+  
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET); 
+      req.owner = decoded; // Attach the decoded token payload to the request object
+      next();
+    } catch (error) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+  };
+// using firebase once  for testing i have commented the whole code 
