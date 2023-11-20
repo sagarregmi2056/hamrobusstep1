@@ -205,6 +205,9 @@ const ownerSchema = new mongoose.Schema(
       // maxlength: 30,
       
     },
+    // files:{
+    //   type:String
+    // },
 
     salt: String,
     role: {

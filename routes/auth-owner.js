@@ -29,9 +29,9 @@ const router = express.Router();
 
 
 
+// first am removing verifytoken function from here we will add it after some testing    verifyToken,
 
-
-router.post('/signup',verifyToken,uploadowner,userSignupValidator,signup);
+router.post('/signup',uploadowner,userSignupValidator,signup);
 router.post("/signin", signin);
 router.post("/refreshtoken", refreshToken)
 

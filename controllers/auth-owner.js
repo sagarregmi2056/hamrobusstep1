@@ -465,52 +465,13 @@ exports.signup = async (req, res) => {
     
   
       
-  
+    
      
-  const newowner = new Owner({
+  const newowner = new Owner(req.body
+  );
 
-    travelName:req.body.travelName,
-    pincode: req.body.pincode,
-    state:req.body.state,
-    city: req.body.city,
-    phone:req.body.phone,
-    email:req.body.email,
-    name:req.body.name,
-    country:req.body.country,
-    district:req.body.district,
-    bankName:req.body.bankName,
-    accountNumber:req.body.accountNumber,
-    beneficaryName:req.body.beneficaryName,
-    bankaccountType:req.body.bankaccountType,
-    citizenshipNumber:req.body.citizenshipNumber,
-    panName:req.body.panName,
-    panAddress:req.body.panAddress,
-    issuedate:req.body.issuedate,
-    dateofbirth:req.body.dateofbirth,
-    status:req.body.status,
-    // nationalID:req.filename.nationalID,
-    // DriverLisence:req.filename.DriverLicense,
-    // citizenship:req.filename.citizenship,
-    // pancard:req.filename.pancard,
-    // photo:req.filename.photo,
+ 
 
-    nationalID: req.files.nationalIDImage[0].path,
-  DriverLicense: req.files.DriverLicense[0].path,
-  citizenship: req.files.citizenship[0].path,
-  pancard: req.files.pancard[0].path,
-  photo: req.files.photo[0].path,
-
-    businessBackground:req.body.businessBackground,
-    postalCode:req.body.postalCode,
-    optionalEmailid:req.body.optionalEmailid,
-    panNumber:req.body.panNumber,
-    role:req.body.role,
-    password:req.body.password
-
-
-
-
-  });
   const owner = await newowner.save();
 
   owner.salt = undefined;
