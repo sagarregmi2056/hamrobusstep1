@@ -484,129 +484,129 @@ exports.signup = async (req, res) => {
 
 
 
-exports.submitdata = async (req, res) => {
+// exports.submitdata = async (req, res) => {
 
 
   
-    // console.log(req.body.email)
+//     // console.log(req.body.email)
 
-    // // console.log(req.bo)
-    // const email  = req.body.email;
-    // console.log(email)
-    // // console.log(req.body.email)
+//     // // console.log(req.bo)
+//     // const email  = req.body.email;
+//     // console.log(email)
+//     // // console.log(req.body.email)
    
   
-    // // console.log(req.body.email);
+//     // // console.log(req.body.email);
 
-    // // console.log({email});
-    // // Check if the owner with the same email exists
-    // const ownerExists = await Owner.findOne({ email });
+//     // // console.log({email});
+//     // // Check if the owner with the same email exists
+//     // const ownerExists = await Owner.findOne({ email });
    
-    // if (ownerExists) {
+//     // if (ownerExists) {
 
-    //   return res.status(403).json({ error: 'Email is taken ' });
-    // }
+//     //   return res.status(403).json({ error: 'Email is taken ' });
+//     // }
 
-    // Handle file uploads using Multer middleware
-    const uploadOwnerAvatarPromise = new Promise((resolve, reject) => {
-      uploadOwnerAvatar.array('photo', 1)(req, res, (uploadOwnerAvatarError) => {
-        if (uploadOwnerAvatarError) {
-          reject('Owner avatar upload failed');
-        } else {
-          resolve();
-        }
-      });
-    });
+//     // Handle file uploads using Multer middleware
+//     const uploadOwnerAvatarPromise = new Promise((resolve, reject) => {
+//       uploadOwnerAvatar.array('photo', 1)(req, res, (uploadOwnerAvatarError) => {
+//         if (uploadOwnerAvatarError) {
+//           reject('Owner avatar upload failed');
+//         } else {
+//           resolve();
+//         }
+//       });
+//     });
 
-    const uploadNationalIDPromise = new Promise((resolve, reject) => {
-      uploadnationalID.array('nationalID', 1)(req, res, (uploadNationalIDError) => {
-        if (uploadNationalIDError) {
-          reject('National ID upload failed');
-        } else {
-          resolve();
-        }
-      });
-    });
+//     const uploadNationalIDPromise = new Promise((resolve, reject) => {
+//       uploadnationalID.array('nationalID', 1)(req, res, (uploadNationalIDError) => {
+//         if (uploadNationalIDError) {
+//           reject('National ID upload failed');
+//         } else {
+//           resolve();
+//         }
+//       });
+//     });
 
-    const uploadCitizenshipImagePromise = new Promise((resolve, reject) => {
-      uploadCitizenshipimage.array('citizenship', 1)(req, res, (uploadCitizenshipImageError) => {
-        if (uploadCitizenshipImageError) {
-          reject('Citizenship image upload failed');
-        } else {
-          resolve();
-        }
-      });
-    });
+//     const uploadCitizenshipImagePromise = new Promise((resolve, reject) => {
+//       uploadCitizenshipimage.array('citizenship', 1)(req, res, (uploadCitizenshipImageError) => {
+//         if (uploadCitizenshipImageError) {
+//           reject('Citizenship image upload failed');
+//         } else {
+//           resolve();
+//         }
+//       });
+//     });
 
-    const uploadDriverLicensePromise = new Promise((resolve, reject) => {
-      uploaddriverlisence.array('DriverLicense', 1)(req, res, (uploadDriverLicenseError) => {
-        if (uploadDriverLicenseError) {
-          reject('Driver license upload failed');
-        } else {
-          resolve();
-        }
-      });
-    });
+//     const uploadDriverLicensePromise = new Promise((resolve, reject) => {
+//       uploaddriverlisence.array('DriverLicense', 1)(req, res, (uploadDriverLicenseError) => {
+//         if (uploadDriverLicenseError) {
+//           reject('Driver license upload failed');
+//         } else {
+//           resolve();
+//         }
+//       });
+//     });
 
-    const uploadPanCardPromise = new Promise((resolve, reject) => {
-      uploadpancard.array('panCard', 1)(req, res, (uploadPanCardError) => {
-        if (uploadPanCardError) {
-          reject('Pancard upload failed');
-        } else {
-          resolve();
-        }
-      });
-    });
+//     const uploadPanCardPromise = new Promise((resolve, reject) => {
+//       uploadpancard.array('panCard', 1)(req, res, (uploadPanCardError) => {
+//         if (uploadPanCardError) {
+//           reject('Pancard upload failed');
+//         } else {
+//           resolve();
+//         }
+//       });
+//     });
 
-    // Await all file upload promises
-    await Promise.all([
-      uploadOwnerAvatarPromise,
-      uploadNationalIDPromise,
-      uploadCitizenshipImagePromise,
-      uploadDriverLicensePromise,
-      uploadPanCardPromise,
-    ]);
+//     // Await all file upload promises
+//     await Promise.all([
+//       uploadOwnerAvatarPromise,
+//       uploadNationalIDPromise,
+//       uploadCitizenshipImagePromise,
+//       uploadDriverLicensePromise,
+//       uploadPanCardPromise,
+//     ]);
 
-    // Create a new owner
-    const newOwner = new Owner(req.body);
+//     // Create a new owner
+//     const newOwner = new Owner(req.body);
 
-    // Modify the owner data to include file paths
-    if (req.files && req.files[0]) {
-      newOwner.photo = 'ownerAvatar/' + req.files[0].filename;
-    }
+//     // Modify the owner data to include file paths
+//     if (req.files && req.files[0]) {
+//       newOwner.photo = 'ownerAvatar/' + req.files[0].filename;
+//     }
 
 
 
-    // Modify the owner data to include file paths
-    if (req.files && req.files[0]) {
-      newOwner.photo = 'ownerAvatar/' + req.files[0].filename;
-    }
-    if (req.files && req.files[1]) {
-      newOwner.nationalID = 'nationalID/' + req.files[1].filename;
-    }
-    if (req.files && req.files[2]) {
-      newOwner.citizenship = 'Citizenship/' + req.files[2].filename;
-    }
-    if (req.files && req.files[3]) {
-      newOwner.DriverLicense = 'DriverLicense/' + req.files[3].filename;
-    }
-    if (req.files && req.files[4]) {
-      newOwner.pancard = 'pancard/' + req.files[4].filename;
-    }
-    // Modify other fields as well for the other uploaded files
+//     // Modify the owner data to include file paths
+//     if (req.files && req.files[0]) {
+//       newOwner.photo = 'ownerAvatar/' + req.files[0].filename;
+//     }
+//     if (req.files && req.files[1]) {
+//       newOwner.nationalID = 'nationalID/' + req.files[1].filename;
+//     }
+//     if (req.files && req.files[2]) {
+//       newOwner.citizenship = 'Citizenship/' + req.files[2].filename;
+//     }
+//     if (req.files && req.files[3]) {
+//       newOwner.DriverLicense = 'DriverLicense/' + req.files[3].filename;
+//     }
+//     if (req.files && req.files[4]) {
+//       newOwner.pancard = 'pancard/' + req.files[4].filename;
+//     }
+//     // Modify other fields as well for the other uploaded files
 
-    // Save the owner to the database
-    const owner = await newOwner.save();
+//     // Save the owner to the database
+//     const owner = await newOwner.save();
 
-    // Exclude sensitive information from the response
-    owner.salt = undefined;
-    owner.hashed_password = undefined;
+//     // Exclude sensitive information from the response
+//     owner.salt = undefined;
+//     owner.hashed_password = undefined;
 
-    res.json(owner);
-  {
-    return res.status(500).json({ error: 'Owner registration failed' });
-  }
-};
+//     res.json(owner);
+//   {
+//     return res.status(500).json({ error: 'Owner registration failed' });
+//   }
+// };
 
 
 

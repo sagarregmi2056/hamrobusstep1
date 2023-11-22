@@ -12,6 +12,13 @@ exports.generateOtpAndSignin = async (req, res) => {
 //     });
 //   }
 
+
+if (!isValidPhoneNumber(phone)) {
+  return res.status(400).json({
+    error: "Invalid Nepali phone number format.",
+  });
+}
+
   // Generate and send OTP to the owner's phone number
   const otp = generateOTP(phone);
 
@@ -36,6 +43,15 @@ exports.generateOtpAndSignin = async (req, res) => {
   res.json({ otp });
 };
 
+
+
+
+function isValidPhoneNumber(phone) {
+  // Use a regular expression to check for a valid phone number format
+  const phoneRegex =  /^\+977\s*[1-9]\d\s?\d{8}$/;
+
+  return phoneRegex.test(phone);
+}
 // exports.verifyOtpAndSignin = async (req, res) => {
 //   const { phone, userOTP } = req.body;
 //   const owner = await Owner.findOne({ phone });
