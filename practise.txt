@@ -1,0 +1,89 @@
+const express = require('express');
+const router = express.Router();
+const Owner = require('../models/Owner');
+
+// Step 1: Create a new owner with personal details
+router.post('/step1', async (req, res) => {
+  try {
+    const { travelName, pincode, state, city, phone, email, name, country, district } = req.body;
+    const newOwner = new Owner({
+      travelName,
+      pincode,
+      state,
+      city,
+      phone,
+      email,
+      name,
+      country,
+      district,
+    });
+
+    const savedOwner = await newOwner.save();
+
+    // Return the saved owner ID or any other relevant information for the frontend
+    res.json({ ownerId: savedOwner._id });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error creating owner in Step 1' });
+  }
+});
+
+module.exports = router;
+
+
+
+
+// routes/ownerRoutes.js
+
+// ... (previous imports)
+
+// Step 2: Update owner with additional data for Step 2 (Bank Details)
+router.post('/step2/:ownerId', async (req, res) => {
+  try {
+    const ownerId = req.params.ownerId;
+    const { bankName, accountNumber, beneficaryName, bankaccountType, citizenshipNumber } = req.body;
+
+    const updatedOwner = await Owner.findByIdAndUpdate(
+      ownerId,
+      { bankName, accountNumber, beneficaryName, bankaccountType, citizenshipNumber },
+      { new: true }
+    );
+
+    // Return any relevant information for the frontend
+    res.json({ updatedOwner });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error updating owner in Step 2' });
+  }
+});
+
+module.exports = router;
+
+
+
+
+// routes/ownerRoutes.js
+
+// ... (previous imports)
+
+// Step 3: Update owner with additional data for Step 3 (Pan Card Details)
+router.post('/step3/:ownerId', async (req, res) => {
+  try {
+    const ownerId = req.params.ownerId;
+    const { panName, panAddress, issuedate, dateofbirth } = req.body;
+
+    const finalOwner = await Owner.findByIdAndUpdate(
+      ownerId,
+      { panName, panAddress, issuedate, dateofbirth },
+      { new: true }
+    );
+
+    // Return any relevant information for the frontend
+    res.json({ finalOwner });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error updating owner in Step 3' });
+  }
+});
+
+module.exports = router;
