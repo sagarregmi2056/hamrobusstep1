@@ -5,7 +5,8 @@ const multer = require("multer");
 const {
   signup,
   signin,
-  refreshToken
+  refreshToken,
+  stepone
 } = require("../controllers/auth-owner");
 
 const { userSignupValidator} = require("../validator");
@@ -25,6 +26,12 @@ const { verifyToken } = require("../controllers/otpauth");
 
 
 const router = express.Router();
+
+
+
+
+
+router.post('/stepone',verifyToken,stepone);
 
 
 

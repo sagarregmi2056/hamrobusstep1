@@ -21,6 +21,35 @@ const {
 } = require('../helpers');
 
 
+
+exports.stepone = async (req, res) => {
+
+try {
+  // data hamro steo one ko lagi k k xa tyo request.body bata fetch hunxa hai
+  const { travelName, pincode, state, city, phone, email, name, country, district } = req.body;
+  const newOwner = new Owner({
+    travelName,
+    pincode,
+    state,
+    city,
+    phone,
+    email,
+    name,
+    country,
+    district,
+  });
+
+  const savedOwner = await newOwner.save();
+
+  // Return the saved owner ID or any other relevant information for the frontend
+  res.json({ ownerId: savedOwner._id });
+} catch (error) {
+  console.error(error);
+  res.status(500).json({ error: 'Error creating owner in Step 1' });
+}
+};
+
+
 // exports.signup = async (req, res) => {
 
 // //  console.log(req.body.email);
@@ -461,12 +490,6 @@ exports.signup = async (req, res) => {
     return res.status(403).json({
       error: "Email is taken for sure!"
     });
-
-    
-  
-      
-    
-     
   const newowner = new Owner(req.body
   );
 
