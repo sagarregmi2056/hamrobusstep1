@@ -24,7 +24,7 @@ const { userSignupValidator} = require("../validator");
 // updated code
 // const { uploadOwnerAvatar, uploadnationalID, uploadCitizenshipimage, uploaddriverlisence, uploadpancard } = require('../helpers/multer');
 const { uploadowner } = require("../helpers");
-// const { verifyToken } = require("../controllers/otpauth");
+const { verifyToken } = require("../controllers/otpauth");
 
 
 const router = express.Router();
@@ -33,7 +33,7 @@ const router = express.Router();
 
 
 
-router.post('/stepone',stepone);
+router.post('/stepone',verifyToken,stepone);
 
 router.post('/steptwo/:ownerId',steptwo);
 

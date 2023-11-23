@@ -121,6 +121,14 @@ const ownerSchema = new mongoose.Schema(
       // maxlength: 70,
       
     },
+
+    panNumber: {
+      type: String,
+      // maxlength: 30,
+      
+    },
+
+    
     issuedate:{
      
         type: String,
@@ -183,28 +191,24 @@ const ownerSchema = new mongoose.Schema(
     },
 
     // yaha chai addition requirements haru
-    businessBackground: {
-      type: String,
-      trim: true,
+    // businessBackground: {
+    //   type: String,
+    //   trim: true,
      
-      // maxlength: 200,
-    },
+    //   // maxlength: 200,
+    // },
     
-    postalCode: {
-      type: String,
-      // maxlength: 10,
+    // postalCode: {
+    //   type: String,
+    //   // maxlength: 10,
      
-    },
+    // },
   
    
-    optionalEmailid: {
-      type: String,
-    },
-    panNumber: {
-      type: String,
-      // maxlength: 30,
-      
-    },
+    // optionalEmailid: {
+    //   type: String,
+    // },
+    
     // files:{
     //   type:String
     // },

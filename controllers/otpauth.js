@@ -1,6 +1,10 @@
 const { generateOTP, verifyOTP } = require('../utils/otpUtils');
 const jwt = require('jsonwebtoken');
 
+// require("dotenv").config();
+
+
+
 
 exports.generateOtpAndSignin = async (req, res) => {
   const { phone } = req.body;
@@ -101,31 +105,61 @@ exports.verifyOtpAndSignin = async (req, res) => {
     // In a real-world scenario, you might want to save the phone number to the database here
   
     // const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '6M' });
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { algorithm: 'HS256', expiresIn: '6M' });
+
+  
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {  expiresIn: '6h' });
 
   
     return res.json({token});
   };
 
+
+
+
+
+
+
+
+  exports.verifyToken = (req, res, next) => {
+    const authHeader = req.headers["authorization"];
+  
+    //Extracting token from authorization header
+    const token = authHeader && authHeader.split(" ")[1];
+  
+    //Checking if the token is null
+    if (!token) {
+      return res.status(401).send("Authorization failed. No access token.");
+    }
+  
+    //Verifying if the token is valid.
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+      if (err) {
+        console.log(err);
+        return res.status(403).send("Could not verify token");
+      }
+      // req.user = user;
+    });
+    next();
+  };
  
 
   // exports.verifyToken = (req, res, next) => {
-  //   const token = req.headers.authorization;
-  
-  //   if (!token) {
-  //     return res.status(401).json({ error: 'Authorization token is missing' });
-  //   }
-   
-  //   try {
-  //     const decoded = jwt.verify(token, process.env.JWT_SECRET); 
-      
+  // //  const tokenofuser = req.headers.authorization;
+  // const token = req.headers.authorization;
+  // if (token) {
 
-  //     console.log('Decoded Token:', decoded);
-  //     req.owner = decoded; // Attach the decoded token payload to the request object
-  //     next();
-  //   } catch (error) {
-  //     return res.status(401).json({ error: 'Invalid token' });
-  //   }
+  //   const owner = parseToken(token);
+  //   next();
+
+  // }
+  
+  // else{
+  //   res.status(401).json({ error: "Not authorized" });
+  // }
+
+
+  //   //     const owner = parseToken(token);
+    
   // };
 // using firebase once  for testing i have commented the whole code 
 
@@ -152,10 +186,10 @@ exports.verifyOtpAndSignin = async (req, res) => {
 //   }
 // };
 
-// function parseToken(token) {
-//   try {
-//     return jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
-//   } catch (err) {
-//     return false;
-//   }
-// }
+function parseToken(token) {
+  try {
+    return jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
+  } catch (err) {
+    return false;
+  }
+}
