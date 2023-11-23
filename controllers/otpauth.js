@@ -81,44 +81,81 @@ function isValidPhoneNumber(phone) {
 
 
 exports.verifyOtpAndSignin = async (req, res) => {
-    const { phone, userOTP } = req.body;
+    const { phone, otp } = req.body;
   
     // Skip checking the phone number in the database
   
     // Verify OTP
-    if (!verifyOTP(phone, userOTP)) {
+    if (!verifyOTP(phone,otp)) {
       return res.status(401).json({
         error: "Incorrect OTP"
       });
     }
   
     // OTP verification successful, generate JWT token
-    const payload = {
-      phone: phone // Include the phone number directly in the payload
-    };
+    // const payload = {
+    //   phone: phone,
+    //   otp:otp // Include the phone number directly in the payload
+    // };
   
     // In a real-world scenario, you might want to save the phone number to the database here
   
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '6M' });
+    // const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '6M' });
+    // const token = jwt.sign(payload, process.env.JWT_SECRET, { algorithm: 'HS256', expiresIn: '6M' });
+
   
-    return res.json({ token });
+    return res.json('correct otp welcome to owner dashboard');
   };
 
+ 
 
+  // exports.verifyToken = (req, res, next) => {
+  //   const token = req.headers.authorization;
+  
+  //   if (!token) {
+  //     return res.status(401).json({ error: 'Authorization token is missing' });
+  //   }
+   
+  //   try {
+  //     const decoded = jwt.verify(token, process.env.JWT_SECRET); 
+      
 
-  exports.verifyToken = (req, res, next) => {
-    const token = req.headers.authorization;
-  
-    if (!token) {
-      return res.status(401).json({ error: 'Authorization token is missing' });
-    }
-  
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET); 
-      req.owner = decoded; // Attach the decoded token payload to the request object
-      next();
-    } catch (error) {
-      return res.status(401).json({ error: 'Invalid token' });
-    }
-  };
+  //     console.log('Decoded Token:', decoded);
+  //     req.owner = decoded; // Attach the decoded token payload to the request object
+  //     next();
+  //   } catch (error) {
+  //     return res.status(401).json({ error: 'Invalid token' });
+  //   }
+  // };
 // using firebase once  for testing i have commented the whole code 
+
+// exports.verifyToken = async (req, res, next) => {
+//   const token = req.headers.authorization;
+
+  
+
+//   if (token) {
+//     const owner = parseToken(token);
+//     // console.log("hehe")
+
+//     const foundowner = await Owner.findById(owner._id).select("name role salt hashed_password");
+
+//     // console.log("hehe")
+
+//     if (foundowner && foundowner.role === "owner") {
+//       // console.log("hehe")
+//       req.ownerauth = foundowner;
+//       next();
+//     } else res.status(401).json({ error: "Not authorized!" });
+//   } else {
+//     res.status(401).json({ error: "Not authorized" });
+//   }
+// };
+
+// function parseToken(token) {
+//   try {
+//     return jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
+//   } catch (err) {
+//     return false;
+//   }
+// }
