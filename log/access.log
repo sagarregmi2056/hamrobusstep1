@@ -113,3 +113,7 @@
 ::1 - - [23/Nov/2023:08:31:57 +0000] "POST /api/auth-owner/stepone HTTP/1.1" 401 25 "-" "PostmanRuntime/7.35.0"
 ::1 - - [23/Nov/2023:08:40:16 +0000] "POST /api/otpauth/generateotp HTTP/1.1" 200 16 "-" "PostmanRuntime/7.35.0"
 ::1 - - [23/Nov/2023:08:40:46 +0000] "POST /api/otpauth/verifyotp HTTP/1.1" 200 40 "-" "PostmanRuntime/7.35.0"
+::1 - - [23/Nov/2023:08:50:44 +0000] "POST /api/auth-owner/stepone HTTP/1.1" 200 38 "-" "PostmanRuntime/7.35.0"
+::1 - - [23/Nov/2023:08:59:44 +0000] "POST /api/auth-owner/steptwo/655f1264f1c912a4f1214484 HTTP/1.1" 404 187 "-" "PostmanRuntime/7.35.0"
+::1 - - [23/Nov/2023:09:00:26 +0000] "POST /api/auth-owner/steptwo/655f1264f1c912a4f1214484 HTTP/1.1" 200 469 "-" "PostmanRuntime/7.35.0"
+::1 - - [23/Nov/2023:09:05:25 +0000] "POST /api/auth-owner/stepthree/655f1264f1c912a4f1214484 HTTP/1.1" 200 582 "-" "PostmanRuntime/7.35.0"

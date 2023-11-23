@@ -104,7 +104,7 @@ exports.verifyOtpAndSignin = async (req, res) => {
     // const token = jwt.sign(payload, process.env.JWT_SECRET, { algorithm: 'HS256', expiresIn: '6M' });
 
   
-    return res.json('correct otp welcome to owner dashboard');
+    return res.json('welcome to owner dashboard');
   };
 
  

@@ -27,6 +27,14 @@ exports.stepone = async (req, res) => {
 try {
   // data hamro steo one ko lagi k k xa tyo request.body bata fetch hunxa hai
   const { travelName, pincode, state, city, phone, email, name, country, district } = req.body;
+
+  const ownerExists = await Owner.findOne({ email: req.body.email });
+  if (ownerExists)
+    return res.status(403).json({
+      error: "Owner with that email already exists"
+    });
+
+
   const newOwner = new Owner({
     travelName,
     pincode,
@@ -47,6 +55,46 @@ try {
   console.error(error);
   res.status(500).json({ error: 'Error creating owner in Step 1' });
 }
+};
+
+
+
+exports.steptwo =async (req, res) => {
+  try {
+    const ownerId = req.params.ownerId;
+    const { bankName, accountNumber, beneficaryName, bankaccountType, citizenshipNumber } = req.body;
+
+    const updatedOwner = await Owner.findByIdAndUpdate(
+      ownerId,
+      { bankName, accountNumber, beneficaryName, bankaccountType, citizenshipNumber },
+      { new: true }
+    );
+
+    // Return any relevant information for the frontend
+    res.json({ updatedOwner });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error updating owner in Step 2' });
+  }
+};
+
+exports.stepthree = async (req, res) => {
+  try {
+    const ownerId = req.params.ownerId;
+    const { panName, panAddress, issuedate, dateofbirth } = req.body;
+
+    const finalOwner = await Owner.findByIdAndUpdate(
+      ownerId,
+      { panName, panAddress, issuedate, dateofbirth },
+      { new: true }
+    );
+
+    // Return any relevant information for the frontend
+    res.json({ finalOwner });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error updating owner in Step 3' });
+  }
 };
 
 

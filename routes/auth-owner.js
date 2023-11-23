@@ -6,7 +6,9 @@ const {
   signup,
   signin,
   refreshToken,
-  stepone
+  stepone,
+  steptwo,
+  stepthree
 } = require("../controllers/auth-owner");
 
 const { userSignupValidator} = require("../validator");
@@ -32,6 +34,10 @@ const router = express.Router();
 
 
 router.post('/stepone',stepone);
+
+router.post('/steptwo/:ownerId',steptwo);
+
+router.post('/stepthree/:ownerId',stepthree);
 
 
 
