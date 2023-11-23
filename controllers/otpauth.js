@@ -93,18 +93,18 @@ exports.verifyOtpAndSignin = async (req, res) => {
     }
   
     // OTP verification successful, generate JWT token
-    // const payload = {
-    //   phone: phone,
-    //   otp:otp // Include the phone number directly in the payload
-    // };
+    const payload = {
+      phone: phone,
+      otp:otp // Include the phone number directly in the payload
+    };
   
     // In a real-world scenario, you might want to save the phone number to the database here
   
     // const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '6M' });
-    // const token = jwt.sign(payload, process.env.JWT_SECRET, { algorithm: 'HS256', expiresIn: '6M' });
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { algorithm: 'HS256', expiresIn: '6M' });
 
   
-    return res.json('welcome to owner dashboard');
+    return res.json({token});
   };
 
  
