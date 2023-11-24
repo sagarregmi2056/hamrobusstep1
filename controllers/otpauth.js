@@ -1,5 +1,6 @@
 const { generateOTP, verifyOTP } = require('../utils/otpUtils');
 const jwt = require('jsonwebtoken');
+const Owner = require('../models/Owner')
 
 // require("dotenv").config();
 
@@ -8,13 +9,6 @@ const jwt = require('jsonwebtoken');
 
 exports.generateOtpAndSignin = async (req, res) => {
   const { phone } = req.body;
-//   const owner = await Owner.findOne({ phone });
-
-//   if (!owner) {
-//     return res.status(401).json({
-//       error: "Owner with that phone number does not exist."
-//     });
-//   }
 
 
 if (!isValidPhoneNumber(phone)) {
@@ -28,19 +22,6 @@ if (!isValidPhoneNumber(phone)) {
 
 // *************in case of sms provider we will be using like this just it is different that we are sending json directly********
 
-//   try {
-//     await client.messages.create({
-//       body: `Your OTP is: ${otp}`,
-//       to: `+${phone}`, // Ensure phone numbers are in E.164 format, for example, +14155238886
-//       from: twilioPhoneNumber,
-//     });
-
-//     res.json({ success: true, message: 'OTP sent successfully.' });
-//   } catch (error) {
-//     console.error('Error sending OTP:', error);
-//     res.status(500).json({ success: false, message: 'Error sending OTP.' });
-//   }
-// };
 
 
 
@@ -56,45 +37,33 @@ function isValidPhoneNumber(phone) {
 
   return phoneRegex.test(phone);
 }
-// exports.verifyOtpAndSignin = async (req, res) => {
-//   const { phone, userOTP } = req.body;
-//   const owner = await Owner.findOne({ phone });
-
-//   if (!owner) {
-//     return res.status(401).json({
-//       error: "Owner with that phone number does not exist."
-//     });
-//   }
-
-//   // Verify OTP
-//   if (!verifyOTP(phone, userOTP)) {
-//     return res.status(401).json({
-//       error: "Incorrect OTP"
-//     });
-//   }
-
-//   // OTP verification successful, generate JWT token
-//   const payload = {
-//     phone: owner.phone // Only include the phone number in the payload
-//   };
-
-//   const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' });
-
-//   return res.json({ token });
-// };
+// exp
 
 
 exports.verifyOtpAndSignin = async (req, res) => {
     const { phone, otp } = req.body;
   
     // Skip checking the phone number in the database
-  
+    const owner = new Owner({phone});
+
+
     // Verify OTP
     if (!verifyOTP(phone,otp)) {
       return res.status(401).json({
         error: "Incorrect OTP"
       });
     }
+
+
+    try {
+      await owner.save();
+  } catch (error) {
+      console.error("Error saving owner's phone number:", error);
+      return res.status(500).json({
+          error: "Internal Server Error"
+      });
+  }
+
   
     // OTP verification successful, generate JWT token
     const payload = {
@@ -103,8 +72,6 @@ exports.verifyOtpAndSignin = async (req, res) => {
     };
   
     // In a real-world scenario, you might want to save the phone number to the database here
-  
-    // const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '6M' });
 
   
     const token = jwt.sign(payload, process.env.JWT_SECRET, {  expiresIn: '6h' });
@@ -143,48 +110,7 @@ exports.verifyOtpAndSignin = async (req, res) => {
   };
  
 
-  // exports.verifyToken = (req, res, next) => {
-  // //  const tokenofuser = req.headers.authorization;
-  // const token = req.headers.authorization;
-  // if (token) {
-
-  //   const owner = parseToken(token);
-  //   next();
-
-  // }
   
-  // else{
-  //   res.status(401).json({ error: "Not authorized" });
-  // }
-
-
-  //   //     const owner = parseToken(token);
-    
-  // };
-// using firebase once  for testing i have commented the whole code 
-
-// exports.verifyToken = async (req, res, next) => {
-//   const token = req.headers.authorization;
-
-  
-
-//   if (token) {
-//     const owner = parseToken(token);
-//     // console.log("hehe")
-
-//     const foundowner = await Owner.findById(owner._id).select("name role salt hashed_password");
-
-//     // console.log("hehe")
-
-//     if (foundowner && foundowner.role === "owner") {
-//       // console.log("hehe")
-//       req.ownerauth = foundowner;
-//       next();
-//     } else res.status(401).json({ error: "Not authorized!" });
-//   } else {
-//     res.status(401).json({ error: "Not authorized" });
-//   }
-// };
 
 function parseToken(token) {
   try {
