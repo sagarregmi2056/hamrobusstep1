@@ -112,10 +112,10 @@ exports.verifyOtpAndSignin = async (req, res) => {
 
   
 
-function parseToken(token) {
-  try {
-    return jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
-  } catch (err) {
-    return false;
-  }
-}
+// function parseToken(token) {
+//   try {
+//     return jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
+//   } catch (err) {
+//     return false;
+//   }
+// }
