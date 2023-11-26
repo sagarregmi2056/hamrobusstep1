@@ -158,6 +158,12 @@ const ownerSchema = new mongoose.Schema(
     },
     
 
+    vendorDetail:{
+      type:String,
+      enum:["personalDetail","bankDetail","panDetail","DocumentsDetail"],
+      default:"personalDetail",
+    },
+
     hashed_password: {
       type: String,
       // required: true,

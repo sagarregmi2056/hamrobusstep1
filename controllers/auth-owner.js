@@ -22,43 +22,85 @@ const {
 
 
 
+// exports.stepone = async (req, res) => {
+
+
+// //  this is for the step one of owner verification
+//   try {
+//     const ownerId = req.params.ownerId;
+//     const { travelName, pincode, state, city, phone, email, name, country, district } = req.body;
+
+
+//     const ownerExists = await Owner.findOne({ email });
+
+//   if (ownerExists)
+//     return res.status(403).json({
+//       error: "Owner with that email already exists"
+//     });
+
+
+
+
+//     const updatedOwner = await Owner.findByIdAndUpdate(
+//       ownerId,
+//       { travelName, pincode, state, city, phone, email, name, country, district },
+//       { new: true }
+//     );
+
+
+//     // Return any relevant information for the frontend
+//     res.json({ updatedOwner });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Error updating owner in Step 2' });
+//   }
+
+
+// };
+
+
+
 exports.stepone = async (req, res) => {
+  try {
+    const ownerId = req.params.ownerId;
+    const { travelName, pincode, state, city, phone, email, name, country, district } = req.body;
 
-try {
-  // data hamro steo one ko lagi k k xa tyo request.body bata fetch hunxa hai
-  const { travelName, pincode, state, city, phone, email, name, country, district } = req.body;
+    const ownerExists = await Owner.findOne({ email });
 
-  const ownerExists = await Owner.findOne({ email: req.body.email });
-  if (ownerExists)
-    return res.status(403).json({
-      error: "Owner with that email already exists"
+    if (ownerExists) {
+      return res.status(403).json({
+        error: "Owner with that email already exists"
+      });
+    }
+
+    const updatedOwner = await Owner.findByIdAndUpdate(
+      ownerId,
+      { travelName, pincode, state, city, phone, email, name, country, district, vendorDetail: "bankDetail" },
+      { new: true }
+    );
+
+    if (!updatedOwner) {
+      return res.status(404).json({
+        error: "Owner not found or not updated"
+      });
+    }
+
+    // Return only essential information
+    res.json({
+      ownerId: updatedOwner._id,
+      message: "Step one completed successfully"
     });
-
-
-  const newOwner = new Owner({
-    travelName,
-    pincode,
-    state,
-    city,
-    phone,
-    email,
-    name,
-    country,
-    district,
-  });
-
-  const savedOwner = await newOwner.save();
-
-  // Return the saved owner ID or any other relevant information for the frontend
-  res.json({ ownerId: savedOwner._id });
-} catch (error) {
-  console.error(error);
-  res.status(500).json({ error: 'Error creating owner in Step 1' });
-}
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error updating owner in Step 2' });
+  }
 };
 
 
 
+
+
+//  this is for the step  of owner verification
 exports.steptwo =async (req, res) => {
   try {
     const ownerId = req.params.ownerId;
@@ -66,17 +108,24 @@ exports.steptwo =async (req, res) => {
 
     const updatedOwner = await Owner.findByIdAndUpdate(
       ownerId,
-      { bankName, accountNumber, beneficaryName, bankaccountType, citizenshipNumber },
+      { bankName, accountNumber, beneficaryName, bankaccountType, citizenshipNumber,vendorDetail: "panDetail" },
       { new: true }
     );
 
     // Return any relevant information for the frontend
-    res.json({ updatedOwner });
+    res.json({
+      ownerId: updatedOwner._id,
+      message: "Step three completed successfully"
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error updating owner in Step 2' });
   }
 };
+
+
+
+
 
 exports.stepthree = async (req, res) => {
   try {
@@ -85,12 +134,15 @@ exports.stepthree = async (req, res) => {
 
     const finalOwner = await Owner.findByIdAndUpdate(
       ownerId,
-      { panName, panAddress, issuedate, dateofbirth },
+      { panName, panAddress, issuedate, dateofbirth ,vendorDetail:"documentsDetail"},
       { new: true }
     );
 
     // Return any relevant information for the frontend
-    res.json({ finalOwner });
+    res.json({
+      ownerId: finalOwner._id,
+      message: "Step three completed successfully"
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error updating owner in Step 3' });

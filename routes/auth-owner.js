@@ -33,7 +33,7 @@ const router = express.Router();
 
 
 
-router.post('/stepone',verifyToken,stepone);
+router.post('/stepone/:ownerId',verifyToken,stepone);
 
 router.post('/steptwo/:ownerId',steptwo);
 

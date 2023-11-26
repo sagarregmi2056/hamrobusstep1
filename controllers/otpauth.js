@@ -40,45 +40,50 @@ function isValidPhoneNumber(phone) {
 // exp
 
 
-exports.verifyOtpAndSignin = async (req, res) => {
-    const { phone, otp } = req.body;
+// exports.verifyOtpAndSignin = async (req, res) => {
+//     const { phone, otp } = req.body;
   
-    // Skip checking the phone number in the database
-    const owner = new Owner({phone});
+//     // Skip checking the phone number in the database
+                     
+   
+//     const owner = new Owner({phone});
 
 
-    // Verify OTP
-    if (!verifyOTP(phone,otp)) {
-      return res.status(401).json({
-        error: "Incorrect OTP"
-      });
-    }
+//     // Verify OTP
+    
+//     if (!verifyOTP(phone,otp)) {
+//       return res.status(401).json({
+//         error: "Incorrect OTP"
+//       });
+//     }
 
 
-    try {
-      await owner.save();
-  } catch (error) {
-      console.error("Error saving owner's phone number:", error);
-      return res.status(500).json({
-          error: "Internal Server Error"
-      });
-  }
-
-  
-    // OTP verification successful, generate JWT token
-    const payload = {
-      phone: phone,
-      otp:otp // Include the phone number directly in the payload
-    };
-  
-    // In a real-world scenario, you might want to save the phone number to the database here
+//     try {
+//       await owner.save();
+//   } catch (error) {
+//       console.error("Error saving owner's phone number:", error);
+//       return res.status(500).json({
+//           error: "Internal Server Error"
+//       });
+//   }
 
   
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {  expiresIn: '6h' });
+//     // OTP verification successful, generate JWT token
+//     const payload = {
+//       phone: phone
+//        // Include the phone number directly in the payload
+//     };
+  
+//     // In a real-world scenario, you might want to save the phone number to the database here
 
   
-    return res.json({token});
-  };
+//     const token = jwt.sign(payload, process.env.JWT_SECRET, {  expiresIn: '6h' });
+
+//     const ownerId = owner._id;
+
+  
+//     return res.json({token, ownerId });
+//   };
 
 
 
@@ -110,12 +115,50 @@ exports.verifyOtpAndSignin = async (req, res) => {
   };
  
 
-  
 
-// function parseToken(token) {
-//   try {
-//     return jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
-//   } catch (err) {
-//     return false;
-//   }
-// }
+exports.verifyOtpAndSignin = async (req, res) => {
+  const { phone, otp } = req.body;
+
+  // Check if owner with the given phone number already exists
+  let owner = await Owner.findOne({ phone });
+
+  if (owner) {
+      // Owner already exists, verify OTP
+      if (!verifyOTP(phone, otp)) {
+          return res.status(401).json({
+              error: "Incorrect OTP"
+          });
+      }
+  } else {
+      // Owner doesn't exist, create a new owner
+      owner = new Owner({ phone });
+
+      try {
+          await owner.save();
+      } catch (error) {
+          console.error("Error saving owner's phone number:", error);
+          return res.status(500).json({
+              error: "Internal Server Error"
+          });
+      }
+
+      // Verify OTP for the newly created owner
+      if (!verifyOTP(phone, otp)) {
+          return res.status(401).json({
+              error: "Incorrect OTP"
+          });
+      }
+  }
+
+  // OTP verification successful or owner already existed, generate JWT token
+  const payload = {
+      phone: phone
+      // Include the phone number directly in the payload
+  };
+
+  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '6h' });
+
+  const ownerId = owner._id;
+
+  return res.json({ ownerId, token });
+};
