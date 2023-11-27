@@ -41,7 +41,7 @@ router.put('/addBankDetail/:ownerId',steptwo);
 
 router.put('/addPanDetail/:ownerId',stepthree);
 
-router.get('/getCurrentSection/:ownerId',getOwnerDetails);
+router.get('/getCurrentSection/:ownerId',verifyToken,getOwnerDetails);
 
 
 
