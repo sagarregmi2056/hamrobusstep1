@@ -22,41 +22,6 @@ const {
 
 
 
-// exports.stepone = async (req, res) => {
-
-
-// //  this is for the step one of owner verification
-//   try {
-//     const ownerId = req.params.ownerId;
-//     const { travelName, pincode, state, city, phone, email, name, country, district } = req.body;
-
-
-//     const ownerExists = await Owner.findOne({ email });
-
-//   if (ownerExists)
-//     return res.status(403).json({
-//       error: "Owner with that email already exists"
-//     });
-
-
-
-
-//     const updatedOwner = await Owner.findByIdAndUpdate(
-//       ownerId,
-//       { travelName, pincode, state, city, phone, email, name, country, district },
-//       { new: true }
-//     );
-
-
-//     // Return any relevant information for the frontend
-//     res.json({ updatedOwner });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Error updating owner in Step 2' });
-//   }
-
-
-// };
 
 
 
@@ -115,7 +80,7 @@ exports.steptwo =async (req, res) => {
     // Return any relevant information for the frontend
     res.json({
       ownerId: updatedOwner._id,
-      message: "Step three completed successfully"
+      message: "Step two completed successfully"
     });
   } catch (error) {
     console.error(error);
@@ -151,34 +116,44 @@ exports.stepthree = async (req, res) => {
 
 
 
+exports.getOwnerDetails = async (req, res) => {
+  try {
+    const ownerId = req.params.ownerId;
+
+    // Retrieve owner details
+    const ownerDetails = await Owner.findById(ownerId);
+
+    if (!ownerDetails) {
+      return res.status(404).json({
+        error: "Owner not found"
+      });
+    }
+
+    // Return owner details, including vendorDetail and status
+    res.json({
+      ownerId: ownerDetails._id,
+      travelName: ownerDetails.travelName,
+      pincode: ownerDetails.pincode,
+      state: ownerDetails.state,
+      city: ownerDetails.city,
+      phone: ownerDetails.phone,
+      email: ownerDetails.email,
+      name: ownerDetails.name,
+      country: ownerDetails.country,
+      district: ownerDetails.district,
+      vendorDetail: ownerDetails.vendorDetail,
+      status: ownerDetails.status  // Assuming 'status' is a property of the Owner model
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error retrieving owner details' });
+  }
+};
 
 
 
-// exports.signup = async (req, res) => {
-
-// //  console.log(req.body.email);
-
-//   const ownerExists = await Owner.findOne({ email: req.body.email });
 
 
-
-//   if (ownerExists)
-//     return res.status(403).json({
-//       error: "Email is taken!"
-//     });
-//   const newowner = new Owner(req.body);
-//   const owner = await newowner.save();
-
-  
-
-//   owner.salt = undefined;
-//   owner.hashed_password = undefined;
-//   res.json(owner);
-// };
-
-
-
-// updated code
 
 
 

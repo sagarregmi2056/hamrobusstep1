@@ -8,7 +8,8 @@ const {
   refreshToken,
   stepone,
   steptwo,
-  stepthree
+  stepthree,
+  getOwnerDetails
 } = require("../controllers/auth-owner");
 
 const { userSignupValidator} = require("../validator");
@@ -33,11 +34,14 @@ const router = express.Router();
 
 
 
-router.post('/stepone/:ownerId',verifyToken,stepone);
+router.post('/addPersonalDetail/:ownerId',verifyToken,stepone);
 
-router.post('/steptwo/:ownerId',steptwo);
 
-router.post('/stepthree/:ownerId',stepthree);
+router.put('/addBankDetail/:ownerId',steptwo);
+
+router.put('/addPanDetail/:ownerId',stepthree);
+
+router.get('/getCurrentSection/:ownerId',getOwnerDetails);
 
 
 

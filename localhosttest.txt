@@ -1,0 +1,24 @@
+
+url
+post http://localhost:8525/api/auth-owner/addPersonalDetail/656443e6d29e68f7f509c33d
+
+body:  
+
+{
+  "travelName": "Test Travel",
+  "pincode": "12345",
+  "state": "Test State",
+  "city": "Test City",
+  "phone": "1234567890",
+  "email": "test@example.com",
+  "name": "Test Owner",
+  "country": "Test Country",
+  "district": "Test District"
+}
+
+
+output:
+{
+    "ownerId": "656443e6d29e68f7f509c33d",
+    "message": "Step one completed successfully"
+}

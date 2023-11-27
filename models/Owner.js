@@ -40,7 +40,7 @@ const ownerSchema = new mongoose.Schema(
 
     phone: {
       type: Number,
-      max: 9999999999,
+      // max: 999999999999,
       // maxlength: 30,
       // required: true,
       
@@ -160,7 +160,7 @@ const ownerSchema = new mongoose.Schema(
 
     vendorDetail:{
       type:String,
-      enum:["personalDetail","bankDetail","panDetail","DocumentsDetail"],
+      enum:["personalDetail","bankDetail","panDetail","documentsDetail"],
       default:"personalDetail",
     },
 

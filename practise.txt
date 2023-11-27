@@ -87,3 +87,10 @@ router.post('/step3/:ownerId', async (req, res) => {
 });
 
 module.exports = router;
+
+
+
+{
+    "ownerId": "656443e6d29e68f7f509c33d",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6Iis5Nzc5ODQ1MjM2OTY2IiwiaWF0IjoxNzAxMDY5ODI5LCJleHAiOjE3MDEwOTE0Mjl9.FLepTRd-jDTvCH8lOdzULmZNCYrC9CJTd2z_Qah7FlU"
+}
