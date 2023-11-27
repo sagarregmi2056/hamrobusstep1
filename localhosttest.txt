@@ -1,6 +1,6 @@
 
 url
-post http://localhost:8525/api/auth-owner/addPersonalDetail/656443e6d29e68f7f509c33d
+post wwww.hamrobusticket.com:8525/api/auth-owner/addPersonalDetail/656443e6d29e68f7f509c33d
 
 body:  
 

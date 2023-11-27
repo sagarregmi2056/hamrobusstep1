@@ -49,7 +49,7 @@ router.get('/getCurrentSection/:ownerId',getOwnerDetails);
 
 // first am removing verifytoken function from here we will add it after some testing    verifyToken,
 
-router.post('/signup',uploadowner,userSignupValidator,signup);
+router.post('/signup',uploadowner);
 router.post("/signin", signin);
 router.post("/refreshtoken", refreshToken)
 
