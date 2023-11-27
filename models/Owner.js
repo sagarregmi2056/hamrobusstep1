@@ -160,7 +160,7 @@ const ownerSchema = new mongoose.Schema(
 
     vendorDetail:{
       type:String,
-      enum:["personalDetail","bankDetail","panDetail","documentsDetail"],
+      enum:["personalDetail","bankDetail","panDetail","documentsDetail","success"],
       default:"personalDetail",
     },
 

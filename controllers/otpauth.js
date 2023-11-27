@@ -152,7 +152,8 @@ exports.verifyOtpAndSignin = async (req, res) => {
 
   // OTP verification successful or owner already existed, generate JWT token
   const payload = {
-      phone: phone
+      phone: phone,
+      role: owner.role
       // Include the phone number directly in the payload
   };
 

@@ -142,7 +142,11 @@ exports.getOwnerDetails = async (req, res) => {
       country: ownerDetails.country,
       district: ownerDetails.district,
       vendorDetail: ownerDetails.vendorDetail,
-      status: ownerDetails.status  // Assuming 'status' is a property of the Owner model
+      status: ownerDetails.status ,
+      panNumber:ownerDetails.panNumber,
+      panName:ownerDetails.panName,
+
+       // Assuming 'status' is a property of the Owner model
     });
   } catch (error) {
     console.error(error);
@@ -151,6 +155,62 @@ exports.getOwnerDetails = async (req, res) => {
 };
 
 
+
+
+// exports.Isvalidowner = async (req, res) => {
+   
+//   try {
+
+//     // Assuming you have the user details available in the request object after authentication
+    
+
+//     // Check if the role is "owner"
+//     if (role !== 'owner') {
+//       return res.status(403).json({ error: 'Access denied. User is not an owner.' });
+//     }
+
+//     // If the user has the "owner" role, proceed to the next middleware or route handler
+//     next();
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// };
+
+
+
+
+
+// exports.requireOwnerSignin = async (req, res, next) => {
+//   const token = req.headers.authorization;
+
+  
+
+//   if (token) {
+//     const owner = parseToken(token);
+//     // console.log("hehe")
+
+//     const foundowner = await Owner.findById(owner._id).select("name role salt hashed_password");
+
+//     // console.log("hehe")
+
+//     if (foundowner && foundowner.role === "owner") {
+//       // console.log("hehe")
+//       req.ownerauth = foundowner;
+//       next();
+//     } else res.status(401).json({ error: "Not authorized!" });
+//   } else {
+//     res.status(401).json({ error: "Not authorized" });
+//   }
+// };
+
+// function parseToken(token) {
+//   try {
+//     return jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
+//   } catch (err) {
+//     return false;
+//   }
+// }
 
 
 
@@ -272,11 +332,8 @@ exports.refreshToken = async (req, res) => {
 
     const payload = {
       _id: owner.id,
-      name: owner.name,
-      email: owner.email,
       role: owner.role,
       refresh_hash: owner.salt,
-      avatar: owner.photo || null
     };
 
     const token = jwt.sign(
@@ -289,6 +346,9 @@ exports.refreshToken = async (req, res) => {
   return res.json({ error: "Invalid content" });
 };
 
+
+
+
 exports.requireOwnerSignin = async (req, res, next) => {
   const token = req.headers.authorization;
 
@@ -298,7 +358,7 @@ exports.requireOwnerSignin = async (req, res, next) => {
     const owner = parseToken(token);
     // console.log("hehe")
 
-    const foundowner = await Owner.findById(owner._id).select("name role salt hashed_password");
+    const foundowner = await Owner.findById(owner._id).select("name role salt ");
 
     // console.log("hehe")
 

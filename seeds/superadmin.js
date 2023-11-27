@@ -26,6 +26,8 @@ exports.seedSuperAdmin = async () => {
         name: 'SAdmin',
         citizenshipNumber: '980-422-8593',
         phone: 9804228593,
+        status: "approved",
+        vendorDetail:"success",
         isVerified: true
     });
 

@@ -9,7 +9,8 @@ const {
   stepone,
   steptwo,
   stepthree,
-  getOwnerDetails
+  getOwnerDetails,
+  Isvalidowner
 } = require("../controllers/auth-owner");
 
 const { userSignupValidator} = require("../validator");
@@ -41,7 +42,7 @@ router.put('/addBankDetail/:ownerId',steptwo);
 
 router.put('/addPanDetail/:ownerId',stepthree);
 
-router.get('/getCurrentSection/:ownerId',verifyToken,getOwnerDetails);
+router.get('/getCurrentSection/:ownerId',getOwnerDetails);
 
 
 
