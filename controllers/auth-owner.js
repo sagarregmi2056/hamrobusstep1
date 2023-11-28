@@ -2,10 +2,6 @@ const Owner = require("../models/Owner");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 
-
-
-
-
 const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
@@ -18,79 +14,100 @@ const {
   uploaddriverlisence,
   uploadpancard,
   // uploadnationalID,
-} = require('../helpers');
-
-
-
-
-
+} = require("../helpers");
 
 exports.stepone = async (req, res) => {
   try {
     const ownerId = req.params.ownerId;
-    const { travelName, pincode, state, city, phone, email, name, country, district } = req.body;
+    const {
+      travelName,
+      pincode,
+      state,
+      city,
+      phone,
+      email,
+      name,
+      country,
+      district,
+    } = req.body;
 
     const ownerExists = await Owner.findOne({ email });
 
     if (ownerExists) {
       return res.status(403).json({
-        error: "Owner with that email already exists"
+        error: "Owner with that email already exists",
       });
     }
 
     const updatedOwner = await Owner.findByIdAndUpdate(
       ownerId,
-      { travelName, pincode, state, city, phone, email, name, country, district, vendorDetail: "bankDetail" },
+      {
+        travelName,
+        pincode,
+        state,
+        city,
+        phone,
+        email,
+        name,
+        country,
+        district,
+        vendorDetail: "bankDetail",
+      },
       { new: true }
     );
 
     if (!updatedOwner) {
       return res.status(404).json({
-        error: "Owner not found or not updated"
+        error: "Owner not found or not updated",
       });
     }
 
     // Return only essential information
     res.json({
       ownerId: updatedOwner._id,
-      message: "Step one completed successfully"
+      message: "Step one completed successfully",
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error updating owner in Step 2' });
+    res.status(500).json({ error: "Error updating owner in Step 2" });
   }
 };
 
-
-
-
-
 //  this is for the step  of owner verification
-exports.steptwo =async (req, res) => {
+exports.steptwo = async (req, res) => {
   try {
     const ownerId = req.params.ownerId;
-    const { bankName, accountNumber, beneficaryName, bankaccountType, citizenshipNumber } = req.body;
+    const {
+      bankName,
+      accountNumber,
+      beneficaryName,
+      bankaccountType,
+      citizenshipNumber,
+    } = req.body;
 
     const updatedOwner = await Owner.findByIdAndUpdate(
       ownerId,
-      { bankName, accountNumber, beneficaryName, bankaccountType, citizenshipNumber,vendorDetail: "panDetail" },
+      {
+        bankName,
+        accountNumber,
+        beneficaryName,
+        bankaccountType,
+        citizenshipNumber,
+        vendorDetail: "panDetail",
+      },
       { new: true }
     );
 
     // Return any relevant information for the frontend
     res.json({
       ownerId: updatedOwner._id,
-      message: "Step two completed successfully"
+      message: "Step two completed successfully",
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error updating owner in Step 2' });
+    res.status(500).json({ error: "Error updating owner in Step 2" });
   }
 };
-
-
-
-
 
 exports.stepthree = async (req, res) => {
   try {
@@ -99,22 +116,26 @@ exports.stepthree = async (req, res) => {
 
     const finalOwner = await Owner.findByIdAndUpdate(
       ownerId,
-      { panName, panAddress, issuedate, dateofbirth ,vendorDetail:"documentsDetail"},
+      {
+        panName,
+        panAddress,
+        issuedate,
+        dateofbirth,
+        vendorDetail: "documentsDetail",
+      },
       { new: true }
     );
 
     // Return any relevant information for the frontend
     res.json({
       ownerId: finalOwner._id,
-      message: "Step three completed successfully"
+      message: "Step three completed successfully",
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error updating owner in Step 3' });
+    res.status(500).json({ error: "Error updating owner in Step 3" });
   }
 };
-
-
 
 exports.getOwnerDetails = async (req, res) => {
   try {
@@ -125,7 +146,7 @@ exports.getOwnerDetails = async (req, res) => {
 
     if (!ownerDetails) {
       return res.status(404).json({
-        error: "Owner not found"
+        error: "Owner not found",
       });
     }
 
@@ -142,27 +163,23 @@ exports.getOwnerDetails = async (req, res) => {
       country: ownerDetails.country,
       district: ownerDetails.district,
       vendorDetail: ownerDetails.vendorDetail,
-      status: ownerDetails.status ,
-      panNumber:ownerDetails.panNumber,
-      panName:ownerDetails.panName,
+      status: ownerDetails.status,
+      panNumber: ownerDetails.panNumber,
+      panName: ownerDetails.panName,
 
-       // Assuming 'status' is a property of the Owner model
+      // Assuming 'status' is a property of the Owner model
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error retrieving owner details' });
+    res.status(500).json({ error: "Error retrieving owner details" });
   }
 };
 
-
-
-
 // exports.Isvalidowner = async (req, res) => {
-   
+
 //   try {
 
 //     // Assuming you have the user details available in the request object after authentication
-    
 
 //     // Check if the role is "owner"
 //     if (role !== 'owner') {
@@ -177,14 +194,8 @@ exports.getOwnerDetails = async (req, res) => {
 //   }
 // };
 
-
-
-
-
 // exports.requireOwnerSignin = async (req, res, next) => {
 //   const token = req.headers.authorization;
-
-  
 
 //   if (token) {
 //     const owner = parseToken(token);
@@ -211,14 +222,6 @@ exports.getOwnerDetails = async (req, res) => {
 //     return false;
 //   }
 // }
-
-
-
-
-
-
-
-
 
 // exports.signup = (req, res) => {
 //   Owner.findOne({ email: req.body.email }, async (err, ownerExists) => {
@@ -294,34 +297,30 @@ exports.getOwnerDetails = async (req, res) => {
 //     });
 //   })}
 
-
-
 exports.signin = async (req, res) => {
   const { email, password } = req.body;
   const owner = await Owner.findOne({ email });
 
   if (!owner) {
     return res.status(401).json({
-      error: "owner with that email does not exist."
+      error: "owner with that email does not exist.",
     });
   }
 
   if (!owner.authenticate(password)) {
     return res.status(401).json({
-      error: "Email and password do not match"
+      error: "Email and password do not match",
     });
   }
 
   const payload = {
     _id: owner.id,
-    name: owner.name,
-    email: owner.email,
+
     role: owner.role,
     refresh_hash: owner.salt,
-    avatar: owner.photo || null
   };
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: '2h' });
+  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
 
   return res.json({ token });
 };
@@ -346,19 +345,16 @@ exports.refreshToken = async (req, res) => {
   return res.json({ error: "Invalid content" });
 };
 
-
-
-
 exports.requireOwnerSignin = async (req, res, next) => {
   const token = req.headers.authorization;
-
-  
 
   if (token) {
     const owner = parseToken(token);
     // console.log("hehe")
 
-    const foundowner = await Owner.findById(owner._id).select("name role salt ");
+    const foundowner = await Owner.findById(owner._id).select(
+      "name role salt "
+    );
 
     // console.log("hehe")
 
@@ -409,7 +405,7 @@ exports.isPoster = (req, res, next) => {
 
   if (!isPoster) {
     return res.status(403).json({
-      error: "User is not authorized to perform this action"
+      error: "User is not authorized to perform this action",
     });
   }
   next();
@@ -428,7 +424,7 @@ exports.isBookingOwner = (req, res, next) => {
 
   if (!isPoster) {
     return res.status(403).json({
-      error: "User is not authorized to perform this action"
+      error: "User is not authorized to perform this action",
     });
   }
   next();
@@ -441,17 +437,16 @@ exports.isAuth = (req, res, next) => {
     req.ownerprofile._id.toString() === req.ownerauth._id.toString();
   if (!user) {
     return res.status(403).json({
-      error: "Access denied"
+      error: "Access denied",
     });
   }
   next();
 };
 
-
 // exports.signup = async (req, res) => {
- 
+
 //     const ownerExists = await Owner.findOne({ email: req.body.email });
-    
+
 //     if (ownerExists) {
 //       return res.status(403).json({ error: 'Email is taken' });
 //     }
@@ -542,23 +537,19 @@ exports.isAuth = (req, res, next) => {
 //     owner.salt = undefined;
 //     owner.hashed_password = undefined;
 
-  
 // };
-
-
 
 // exports.signup = async (req, res) => {
 
-  
 //     const ownerExists = await Owner.findOne({ email: req.body.email });
-    
+
 //     if (ownerExists) {
 //       return res.status(403).json({ error: 'Email is taken' });
 //     }
-  
+
 //     if (req.file !== undefined) {
 //       const { filename: image } = req.file;
-  
+
 //       //Compress image
 //       await sharp(req.file.path)
 //         .resize(800)
@@ -567,72 +558,61 @@ exports.isAuth = (req, res, next) => {
 //       fs.unlinkSync(req.file.path);
 //       req.body.image = "busimage/resized/" + image;
 //     }
-  
-  
-  
-  
+
 //   }
 
+// exports.uploadDocumentImages = async (req, res) => {
+//   try {
 
+//     const uploadPromises = [];
 
+//     // Define an array of image fields and corresponding storage directories
+//     const imageFields = [
+//       { fieldname: 'photo', directory: 'ownerAvatar' },
+//       { fieldname: 'nationalID', directory: 'nationalID' },
+//       { fieldname: 'citizenship', directory: 'citizenshipImage' },
+//       { fieldname: 'DriverLisence', directory: 'lisence' },
+//       { fieldname: 'pancard', directory: 'PanCardImage' },
+//     ];
 
-  // exports.uploadDocumentImages = async (req, res) => {
-  //   try {
-    
-  //     const uploadPromises = [];
-  
-  //     // Define an array of image fields and corresponding storage directories
-  //     const imageFields = [
-  //       { fieldname: 'photo', directory: 'ownerAvatar' },
-  //       { fieldname: 'nationalID', directory: 'nationalID' },
-  //       { fieldname: 'citizenship', directory: 'citizenshipImage' },
-  //       { fieldname: 'DriverLisence', directory: 'lisence' },
-  //       { fieldname: 'pancard', directory: 'PanCardImage' },
-  //     ];
-  
-  //     for (const fieldInfo of imageFields) {
-  //       if (req.file[fieldInfo.fieldname]) {
-  //         const { filename: image } = req.file[fieldInfo.fieldname];
-  
-  //         // Compress image
-  //         await sharp(req.file[fieldInfo.fieldname].path)
-  //           .resize(800)
-  //           .jpeg({ quality: 100 })
-  //           .toFile(path.resolve(req.file[fieldInfo.fieldname].destination, 'resized', image));
-  //         fs.unlinkSync(req.file[fieldInfo.fieldname].path);
-  
-  //         req.body[fieldInfo.fieldname] = fieldInfo.directory + '/resized/' + image;
-  //       }
-  //     }
-  
-  //     // Continue with saving the owner information
-  //     const newOwner = new Owner(req.body);
-  //     const owner = await newOwner.save();
-  
-  //     // Exclude sensitive information from the response
-  //     owner.salt = undefined;
-  //     owner.hashed_password = undefined;
-  
-  //     res.json(owner);
-  //   } catch (error) {
-  //     return res.status(500).json({ error: 'Owner registration failed' });
-  //   }
-  // };
+//     for (const fieldInfo of imageFields) {
+//       if (req.file[fieldInfo.fieldname]) {
+//         const { filename: image } = req.file[fieldInfo.fieldname];
+
+//         // Compress image
+//         await sharp(req.file[fieldInfo.fieldname].path)
+//           .resize(800)
+//           .jpeg({ quality: 100 })
+//           .toFile(path.resolve(req.file[fieldInfo.fieldname].destination, 'resized', image));
+//         fs.unlinkSync(req.file[fieldInfo.fieldname].path);
+
+//         req.body[fieldInfo.fieldname] = fieldInfo.directory + '/resized/' + image;
+//       }
+//     }
+
+//     // Continue with saving the owner information
+//     const newOwner = new Owner(req.body);
+//     const owner = await newOwner.save();
+
+//     // Exclude sensitive information from the response
+//     owner.salt = undefined;
+//     owner.hashed_password = undefined;
+
+//     res.json(owner);
+//   } catch (error) {
+//     return res.status(500).json({ error: 'Owner registration failed' });
+//   }
+// };
 // exports.uploadDocumentImages async (req, res) => {
-
-
 
 // }
 exports.signup = async (req, res) => {
   const ownerExists = await Owner.findOne({ email: req.body.email });
   if (ownerExists)
     return res.status(403).json({
-      error: "Email is taken for sure!"
+      error: "Email is taken for sure!",
     });
-  const newowner = new Owner(req.body
-  );
-
- 
+  const newowner = new Owner(req.body);
 
   const owner = await newowner.save();
 
@@ -641,29 +621,21 @@ exports.signup = async (req, res) => {
   res.json(owner);
 };
 
-
-
-
-
-
 // exports.submitdata = async (req, res) => {
 
-
-  
 //     // console.log(req.body.email)
 
 //     // // console.log(req.bo)
 //     // const email  = req.body.email;
 //     // console.log(email)
 //     // // console.log(req.body.email)
-   
-  
+
 //     // // console.log(req.body.email);
 
 //     // // console.log({email});
 //     // // Check if the owner with the same email exists
 //     // const ownerExists = await Owner.findOne({ email });
-   
+
 //     // if (ownerExists) {
 
 //     //   return res.status(403).json({ error: 'Email is taken ' });
@@ -737,8 +709,6 @@ exports.signup = async (req, res) => {
 //       newOwner.photo = 'ownerAvatar/' + req.files[0].filename;
 //     }
 
-
-
 //     // Modify the owner data to include file paths
 //     if (req.files && req.files[0]) {
 //       newOwner.photo = 'ownerAvatar/' + req.files[0].filename;
@@ -769,7 +739,3 @@ exports.signup = async (req, res) => {
 //     return res.status(500).json({ error: 'Owner registration failed' });
 //   }
 // };
-
-
-
-
