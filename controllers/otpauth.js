@@ -135,5 +135,5 @@ exports.verifyOtpAndSignin = async (req, res) => {
 
   const ownerId = owner._id;
 
-  return res.json({ ownerId, token });
+  return res.json({ ownerId, token, owner });
 };

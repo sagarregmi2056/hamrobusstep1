@@ -1,42 +1,27 @@
 const express = require("express");
 
-
 const {
-  getAllAdminOwners,
   updateOwnerStatus,
   approveOwner,
-  rejectOwner
-
-} = require("../controllers/admin.js")
+  rejectOwner,
+  getOwnerDetails,
+} = require("../controllers/admin.js");
 const { requireSuperadminSignin } = require("../controllers/auth-owner");
 // const { getAllUsers,userById } = require("../controllers/user");
 
 const router = express.Router();
 // recently added routes
-router.get("/allowners", requireSuperadminSignin,getAllAdminOwners );
+router.get("/allowners", requireSuperadminSignin, getOwnerDetails);
 router.put("/owners/status", requireSuperadminSignin, updateOwnerStatus);
 
-
-
-
-
-
-
-router.put("/owners/:ownerId", requireSuperadminSignin,updateOwnerStatus);
+router.put("/owners/:ownerId", requireSuperadminSignin, updateOwnerStatus);
 // Route to approve an owner
 router.put("/owners/:ownerId/approve", requireSuperadminSignin, approveOwner);
 
-// Route to rejecting  owner with a reason yaha chai reject chai hamro reason ho 
+// Route to rejecting  owner with a reason yaha chai reject chai hamro reason ho
 router.put("/owners/:ownerId/reject", requireSuperadminSignin, rejectOwner);
 
-
-
-
-
-
-
-
-// old routes 
+// old routes
 
 // router.get("/:ownerId", requireSuperadminSignin, read);
 
