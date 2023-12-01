@@ -203,3 +203,6 @@
 ::1 - - [27/Nov/2023:08:41:47 +0000] "GET /api/auth-owner/getCurrentSection/656443e6d29e68f7f509c33d HTTP/1.1" 500 33 "-" "PostmanRuntime/7.35.0"
 ::1 - - [27/Nov/2023:09:55:21 +0000] "PUT /api/auth-owner/addBankDetail/656443e6d29e68f7f509c33d HTTP/1.1" 200 82 "-" "PostmanRuntime/7.35.0"
 ::1 - - [27/Nov/2023:09:59:03 +0000] "PUT /api/auth-owner/addpanDetail/656443e6d29e68f7f509c33d HTTP/1.1" 200 84 "-" "PostmanRuntime/7.35.0"
+::1 - - [29/Nov/2023:05:36:51 +0000] "PUT /api/otpaut/generateotp HTTP/1.1" 404 161 "-" "PostmanRuntime/7.35.0"
+::1 - - [29/Nov/2023:05:36:57 +0000] "POST /api/otpaut/generateotp HTTP/1.1" 404 162 "-" "PostmanRuntime/7.35.0"
+::1 - - [29/Nov/2023:05:37:41 +0000] "POST /api/otpauth/generateotp HTTP/1.1" 200 16 "-" "PostmanRuntime/7.35.0"
