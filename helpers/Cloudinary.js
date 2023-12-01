@@ -23,11 +23,9 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({ storage, fileFilter });
 
 const uploadFields = [
-  { name: "nationalID", maxCount: 1 },
   { name: "citizenship", maxCount: 1 },
   { name: "DriverLisence", maxCount: 1 },
   { name: "pancard", maxCount: 1 },
-  { name: "passport", maxCount: 1 },
 ];
 
 const uploadowner = upload.fields(uploadFields);

@@ -16,6 +16,9 @@ const {
   // uploadnationalID,
 } = require("../helpers");
 
+const cloudinary = require("../helpers/Cloudinary"); // Import your Cloudinary setup
+const uploadowner = require("../helpers/Cloudinary").uploadowner;
+
 exports.stepone = async (req, res) => {
   try {
     const ownerId = req.params.ownerId;
@@ -134,6 +137,48 @@ exports.stepthree = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error updating owner in Step 3" });
+  }
+};
+
+exports.stepfour = async (req, res) => {
+  try {
+    const cloudinaryUrls = {};
+
+    for (const field of uploadFields) {
+      const files = req.files[field.name];
+      if (files && files.length > 0) {
+        const result = await cloudinary.uploader.upload(
+          files[0].buffer.toString("base64")
+        );
+        cloudinaryUrls[field.name] = result.secure_url;
+      }
+    }
+
+    // Get the ownerId from the request (you need to ensure this is available in your route)
+    const ownerId = req.params.ownerId;
+
+    // Update the owner with the document URLs
+    const updatedOwner = await Owner.findByIdAndUpdate(
+      ownerId,
+      {
+        $set: {
+          citizenship: cloudinaryUrls.citizenship,
+          DriverLisence: cloudinaryUrls.DriverLisence,
+          pancard: cloudinaryUrls.pancard,
+        },
+      },
+      { new: true }
+    );
+
+    res
+      .status(201)
+      .json({
+        message: "Documents uploaded successfully!",
+        owner: updatedOwner,
+      });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error from documents" });
   }
 };
 

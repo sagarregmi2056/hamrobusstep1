@@ -4,6 +4,7 @@ const multer = require("multer");
 
 const {
   signup,
+  stepfour,
   signin,
   refreshToken,
   stepone,
@@ -31,6 +32,15 @@ router.put("/addBankDetail/:ownerId", steptwo);
 router.put("/addPanDetail/:ownerId", stepthree);
 
 router.get("/getCurrentSection/:ownerId", verifyToken, getOwnerDetails);
+router.post(
+  "/adddocuments/:ownerId",
+  upload.fields([
+    { name: "citizenship", maxCount: 1 },
+    { name: "DriverLisence", maxCount: 1 },
+    { name: "pancard", maxCount: 1 },
+  ]),
+  stepfour
+);
 
 // first am removing verifytoken function from here we will add it after some testing    verifyToken,
 
