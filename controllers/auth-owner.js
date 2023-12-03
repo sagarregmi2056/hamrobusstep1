@@ -165,17 +165,16 @@ exports.stepfour = async (req, res) => {
           citizenship: cloudinaryUrls.citizenship,
           DriverLisence: cloudinaryUrls.DriverLisence,
           pancard: cloudinaryUrls.pancard,
+          vendorDetail: "success",
         },
       },
       { new: true }
     );
 
-    res
-      .status(201)
-      .json({
-        message: "Documents uploaded successfully!",
-        owner: updatedOwner,
-      });
+    res.status(201).json({
+      message: "Documents uploaded successfully!",
+      owner: updatedOwner,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error from documents" });
