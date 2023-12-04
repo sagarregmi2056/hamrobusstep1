@@ -20,7 +20,7 @@ const { userSignupValidator } = require("../validator");
 
 // updated code
 // const { uploadOwnerAvatar, uploadnationalID, uploadCitizenshipimage, uploaddriverlisence, uploadpancard } = require('../helpers/multer');
-const { uploadowner } = require("../helpers");
+const { uploadowner } = require("../helpers/Cloudinary");
 const { verifyToken } = require("../controllers/otpauth");
 
 const router = express.Router();
@@ -32,15 +32,7 @@ router.put("/addBankDetail/:ownerId", steptwo);
 router.put("/addPanDetail/:ownerId", stepthree);
 
 router.get("/getCurrentSection/:ownerId", verifyToken, getOwnerDetails);
-router.post(
-  "/adddocuments/:ownerId",
-  upload.fields([
-    { name: "citizenship", maxCount: 1 },
-    { name: "DriverLisence", maxCount: 1 },
-    { name: "pancard", maxCount: 1 },
-  ]),
-  stepfour
-);
+router.post("/adddocuments/:ownerId", stepfour);
 
 // first am removing verifytoken function from here we will add it after some testing    verifyToken,
 
