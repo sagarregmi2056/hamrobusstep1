@@ -6,6 +6,8 @@ const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
 
+const axios = require("axios");
+
 const {
   uploadOwnerAvatar,
   uploadnationalID,
@@ -140,44 +142,58 @@ exports.stepthree = async (req, res) => {
   }
 };
 
-exports.stepfour = async (req, res) => {
+async function uploadToCloudflare(imageData) {
+  const apiKey = "your-cloudflare-api-key"; // Replace with your Cloudflare API key
+  const apiToken = "your-cloudflare-api-token"; // Replace with your Cloudflare API token
+
   try {
-    const cloudinaryUrls = {};
-
-    for (const field of uploadFields) {
-      const files = req.files[field.name];
-      if (files && files.length > 0) {
-        const result = await cloudinary.uploader.upload(
-          files[0].buffer.toString("base64")
-        );
-        cloudinaryUrls[field.name] = result.secure_url;
-      }
-    }
-
-    // Get the ownerId from the request (you need to ensure this is available in your route)
-    const ownerId = req.params.ownerId;
-
-    // Update the owner with the document URLs
-    const updatedOwner = await Owner.findByIdAndUpdate(
-      ownerId,
+    const response = await axios.post(
+      "https://api.cloudflare.com/upload",
+      { data: imageData },
       {
-        $set: {
-          citizenship: cloudinaryUrls.citizenship,
-          DriverLisence: cloudinaryUrls.DriverLisence,
-          pancard: cloudinaryUrls.pancard,
-          vendorDetail: "success",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiToken}`,
+          "X-Auth-Key": apiKey,
         },
-      },
-      { new: true }
+      }
     );
 
-    res.status(201).json({
-      message: "Documents uploaded successfully!",
-      owner: updatedOwner,
-    });
+    if (response.status === 200) {
+      return response.data.url; // Assuming the Cloudflare API response contains the image URL
+    } else {
+      throw new Error("Failed to upload image to Cloudflare");
+    }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error from documents" });
+    throw new Error("Error uploading image to Cloudflare: " + error.message);
+  }
+}
+
+exports.stepfour = async (req, res) => {
+  const { ownerId, images } = req.body;
+
+  try {
+    const owner = await Owner.findOne({ _id: ObjectId(ownerId) });
+    if (!owner) {
+      return res.status(404).send("Owner not found");
+    }
+
+    for (const image of images) {
+      const { type, data } = image;
+
+      // Assume uploadToCloudflare is a function for uploading images
+      const cloudflareUrl = await uploadToCloudflare(data);
+
+      // Update the MongoDB document with the Cloudflare image URL
+      await owner.updateOne({
+        $push: { images: { type, url: cloudflareUrl } },
+      });
+    }
+
+    res.send("Images uploaded successfully");
+  } catch (error) {
+    console.error("Error handling image upload", error);
+    res.status(500).send("Internal Server Error");
   }
 };
 
