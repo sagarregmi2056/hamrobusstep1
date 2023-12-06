@@ -21,8 +21,7 @@ const {
   // uploadnationalID,
 } = require("../helpers");
 
-const cloudinary = require("../helpers/Cloudinary"); // Import your Cloudinary setup
-const uploadowner = require("../helpers/Cloudinary").uploadowner;
+// Import your Cloudinary setup
 
 exports.stepone = async (req, res) => {
   try {
@@ -175,39 +174,28 @@ async function uploadToCloudflare(imageData) {
 exports.stepfour = async (req, res) => {
   try {
     const ownerId = req.params.ownerId;
-    const { images } = req.body;
-    // const owner = await Owner.findOne({ _id: ObjectId(ownerId) });
+    const imageType = req.params.imageType;
 
-    const imageUrls = [];
-
-    if (Array.isArray(images)) {
-      for (const image of images) {
-        const { data } = image;
-
-        // Assume uploadToCloudflare is a function for uploading images
-        const cloudflareUrl = await uploadToCloudflare(data);
-        imageUrls.push({ url: cloudflareUrl });
-      }
-    } else {
-      return res.status(400).send("Images should be an array");
+    // Check if the owner exists
+    const owner = await Owner.findOne({ _id: ownerId });
+    if (!owner) {
+      return res.status(404).send("Owner not found");
     }
 
-    // Update the MongoDB document with the Cloudflare image URLs and other details
-    const finalOwner = await Owner.findByIdAndUpdate(
-      ownerId,
-      {
-        $set: {
-          images: imageUrls,
-          vendorDetail: "documentsDetail",
-        },
-      },
-      { new: true }
-    );
+    const imageUrl = await uploadToCloudflare(req.file.buffer);
 
-    res.send("Images and details uploaded successfully");
+    // Save the image URL to the Owner schema based on image type
+    await Owner.findByIdAndUpdate(ownerId, {
+      $push: { images: { type: imageType, url: imageUrl } },
+    });
+
+    res.json({
+      url: imageUrl,
+      message: `Image (${imageType}) uploaded and saved to Owner schema successfully`,
+    });
   } catch (error) {
-    console.error("Error handling image upload and details update", error);
-    res.status(500).send("Internal Server Error");
+    console.error("Error handling image upload:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

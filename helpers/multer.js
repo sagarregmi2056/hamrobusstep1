@@ -4,14 +4,13 @@ const multer = require("multer");
 //storage management for the file
 //that will be uploaded
 const busImage = multer.diskStorage({
-  
   destination: function (req, file, cb) {
     cb(null, "./public/uploads/busimage");
   },
   filename: function (req, file, cb) {
     cb(
       null,
-      file.fieldname + "-" +  Date.now() + path.extname(file.originalname)
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
     );
   },
 });
@@ -23,13 +22,10 @@ const ownerAvatar = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(
       null,
-      file.fieldname + "-" +  Date.now() + path.extname(file.originalname)
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
     );
   },
-
-}
-
-);
+});
 
 //  yo chai pan card ko lagi
 
@@ -45,9 +41,9 @@ const PanCardImage = multer.diskStorage({
   },
 });
 
-//  llisence 
+//  llisence
 
-const lisence= multer.diskStorage({
+const lisence = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./public/uploads/lisence");
   },
@@ -66,7 +62,7 @@ const citizenshipImage = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(
       null,
-      file.fieldname + "-" + Date.now() +  path.extname(file.originalname)
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
     );
   },
 });
@@ -78,46 +74,29 @@ const nationalID = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(
       null,
-      file.fieldname + "-" + Date.now()+ path.extname(file.originalname)
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
     );
   },
 });
 
-
-
-
-
-
 const fileFilter = (req, file, callback) => {
   const ext = path.extname(file.originalname);
-  if (ext !== '.png' && ext !== '.jpg' && ext !== '.JPG' && ext !== '.jpeg') {
-    return callback(new Error('Not Image'))
+  if (ext !== ".png" && ext !== ".jpg" && ext !== ".JPG" && ext !== ".jpeg") {
+    return callback(new Error("Not Image"));
   }
-  callback(null, true)
-}
+  callback(null, true);
+};
 
-
-
-
-
-
-const storage= multer.diskStorage({
+const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-
-
-
-    if(file.fieldname==='photo')
-    cb(null, "./public/uploads/ownerAvatar");
-    if(file.fieldname==='nationalID')
-
-    cb(null,"./public/uploads/nationalID");
-    if(file.fieldname==='citizenship')
-    cb(null,"./public/uploads/citizenshipimage");
-    if(file.fieldname==='DriverLisence')
-    cb(null,"./public/uploads/lisence");
-    if(file.fieldname==='pancard')
-    cb(null,"./public/uploads/PanCardImage");
- 
+    if (file.fieldname === "photo") cb(null, "./public/uploads/ownerAvatar");
+    if (file.fieldname === "nationalID")
+      cb(null, "./public/uploads/nationalID");
+    if (file.fieldname === "citizenship")
+      cb(null, "./public/uploads/citizenshipimage");
+    if (file.fieldname === "DriverLisence")
+      cb(null, "./public/uploads/lisence");
+    if (file.fieldname === "pancard") cb(null, "./public/uploads/PanCardImage");
   },
 
   filename: function (req, file, cb) {
@@ -130,23 +109,37 @@ const storage= multer.diskStorage({
 // const limits = { fileSize: 2480 * 3230 }
 //management of the storage and the file that will be uploaded
 //.single expects the name of the file input field
-exports.uploadBusImage = multer({ storage: busImage ,fileFilter}).single("image");
+exports.uploadBusImage = multer({ storage: busImage, fileFilter }).single(
+  "image"
+);
 
-exports.uploadOwnerAvatar = multer({ storage: ownerAvatar,fileFilter }).single('photo');
+exports.uploadOwnerAvatar = multer({ storage: ownerAvatar, fileFilter }).single(
+  "photo"
+);
 
 // newly added avatar
 
-exports.uploadnationalID = multer({ storage: nationalID,fileFilter }).fields([{name:'nationalID',maxCount:1}]);
+exports.uploadnationalID = multer({ storage: nationalID, fileFilter }).fields([
+  { name: "nationalID", maxCount: 1 },
+]);
 
 exports.uploadCitizenshipimage = multer({ storage: citizenshipImage }).array(
-  "citizenship",1
+  "citizenship",
+  1
 );
-exports.uploaddriverlisence = multer({ storage: lisence,fileFilter }).array("DriverLisence",1);
-exports.uploadpancard = multer({ storage: PanCardImage,fileFilter }).single(
-  "pancard",1
+exports.uploaddriverlisence = multer({ storage: lisence, fileFilter }).single(
+  "DriverLisence",
+  1
+);
+exports.uploadpancard = multer({ storage: PanCardImage, fileFilter }).single(
+  "pancard",
+  1
 );
 
-
-exports.uploadowner= multer({ storage: storage,fileFilter }).fields(
-  [{name:'photo',maxCount:1},{name:'nationalID',maxCount:1},{name:'citizenship',maxCount:1},{name:'DriverLisence',maxCount:1},{name:'pancard',maxCount:1}]
-);
+exports.uploadowner = multer({ storage: storage, fileFilter }).fields([
+  { name: "photo", maxCount: 1 },
+  { name: "nationalID", maxCount: 1 },
+  { name: "citizenship", maxCount: 1 },
+  { name: "DriverLisence", maxCount: 1 },
+  { name: "pancard", maxCount: 1 },
+]);
