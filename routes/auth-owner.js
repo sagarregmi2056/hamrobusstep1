@@ -41,7 +41,8 @@ async function uploadToCloudflare(imageData) {
 
   try {
     const response = await axios.post(
-      "https://api.cloudflare.com/client/v4/accounts/f6cbe271191b3ad841b63ec6b129869d/images/v1",
+      "https://api.cloudflare.com/client/v4/accounts/f6cbe271191b3ad841b63ec6b129869d/images/v2/direct_upload",
+
       { data: imageData },
       {
         headers: {
@@ -75,7 +76,8 @@ router.post(
       if (!owner) {
         return res.status(404).send("Owner not found");
       }
-      console.log(req.file);
+      // console.log(req.file);
+
       const imageUrl = req.file
         ? await uploadToCloudflare(req.file.buffer)
         : null;
