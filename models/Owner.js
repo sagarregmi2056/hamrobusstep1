@@ -163,8 +163,11 @@ const ownerSchema = new mongoose.Schema(
 
     images: [
       {
-        type: String, // Example: 'pancard', 'citizenship', 'driverlicense', etc.
-        url: String, // Example: '/uploads/pancard/123456_image.jpg'
+        type: {
+          type: String,
+          required: true,
+        },
+        url: String,
       },
     ],
 

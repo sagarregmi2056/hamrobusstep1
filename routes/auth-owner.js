@@ -3,7 +3,8 @@ const multer = require("multer");
 
 const Owner = require("../models/Owner");
 
-const axios = require("axios");
+const axios = require("axios").default;
+const path = require("path");
 
 const app = express();
 
@@ -32,36 +33,53 @@ router.put("/addBankDetail/:ownerId", steptwo);
 router.put("/addPanDetail/:ownerId", stepthree);
 
 router.get("/getCurrentSection/:ownerId", verifyToken, getOwnerDetails);
-router.post("/adddocuments/:ownerId/pancard", stepfour);
-
-async function uploadToCloudflare(imageData) {
-  console.log(imageData);
-  const apiKey = process.env.CLOUDFLAR_API_KEY; // Replace with your Cloudflare API key
-  const apiToken = process.env.CLOUDFLAR_API_TOKEN; // Replace with your Cloudflare API token
-
+// router.post("/adddocuments/:ownerId/pancard", stepfour);
+const fs = require("fs");
+async function uploadToCloudflare(imageBuffer) {
   try {
-    const response = await axios.post(
-      "https://api.cloudflare.com/client/v4/accounts/f6cbe271191b3ad841b63ec6b129869d/images/v2/direct_upload",
+    const apiKey = process.env.CLOUDFLARE_API_KEY;
+    const apiToken = process.env.CLOUDFLARE_API_TOKEN;
+    const filePath = "uploads/pancard/file.jpg";
+    const directoryPath = path.dirname(filePath);
 
-      { data: imageData },
+    if (!fs.existsSync(directoryPath)) {
+      fs.mkdirSync(directoryPath, { recursive: true });
+    }
+
+    // Write image buffer to file
+    fs.writeFileSync(filePath, imageBuffer);
+
+    const boundary = "---011000010111000001101001";
+    const contentType = "image/jpeg"; // Adjust this based on your image type
+
+    // Construct form data
+    const formData = `--${boundary}\r\nContent-Disposition: form-data; name="file"; filename="file.jpg"\r\nContent-Type: ${contentType}\r\n\r\n${imageBuffer}\r\n--${boundary}--`;
+
+    // Log formData for debugging
+    console.log("formData:", formData);
+
+    // Make the API request
+    const response = await axios.post(
+      "https://api.cloudflare.com/client/v4/accounts/f6cbe271191b3ad841b63ec6b129869d/images/v1",
+      formData,
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": `multipart/form-data; boundary=${boundary}`,
           Authorization: `Bearer ${apiToken}`,
-          "X-Auth-Key": apiKey,
         },
       }
     );
 
-    if (response.status === 200) {
-      return response.data.url; // Assuming the Cloudflare API response contains the image URL
-    } else {
-      throw new Error("Failed to upload image to Cloudflare");
-    }
+    return response.data.result.info.url;
   } catch (error) {
-    throw new Error("Error uploading image to Cloudflare: " + error.message);
+    console.error(
+      "An error occurred:",
+      error.response ? error.response.data : error.message
+    );
+    throw error;
   }
 }
+
 router.post(
   "/adddocuments/:ownerId/driverlicense",
   uploaddriverlisence,
@@ -76,7 +94,6 @@ router.post(
       if (!owner) {
         return res.status(404).send("Owner not found");
       }
-      // console.log(req.file);
 
       const imageUrl = req.file
         ? await uploadToCloudflare(req.file.buffer)
@@ -89,7 +106,7 @@ router.post(
 
       res.json({
         url: imageUrl,
-        message: `Driver's license image uploaded and saved to Owner schema successfully`,
+        message: `Driver's license image URL saved to Owner schema successfully`,
       });
     } catch (error) {
       console.error("Error handling image upload:", error);
