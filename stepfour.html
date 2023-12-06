@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Endpoint</title>
+</head>
+<body>
+
+  <h2>Test Endpoint</h2>
+
+  <form action="http://localhost:8525/api/auth-owner/adddocuments/:ownerId" method="post" enctype="multipart/form-data">
+    <label for="ownerId">Owner ID:</label>
+    <input type="hidden" name="ownerId" value="656443e6d29e68f7f509c33d">
+   
+      <!-- Other fields -->
+    
+     <!-- PAN Card Image -->
+     <label for="panCardImage">PAN Card Image:</label>
+     <input type="file" id="panCardImage" name="images[]" accept="image/*" required>
+     
+     <!-- Passport Image -->
+     <label for="passportImage">Passport Image:</label>
+     <input type="file" id="passportImage" name="images[]" accept="image/*" required>
+     
+     <!-- Driver's License Image -->
+     <label for="driverLicenseImage">Driver's License Image:</label>
+     <input type="file" id="driverLicenseImage" name="images[]" accept="image/*" required>
+
+    <button type="submit">Submit</button>
+  </form>
+
+</body>
+</html>

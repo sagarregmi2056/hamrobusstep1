@@ -4,23 +4,19 @@ const crypto = require("crypto");
 
 const ownerSchema = new mongoose.Schema(
   {
-  //  part one  for the registration
-  // phone number double xa hai 
+    //  part one  for the registration
+    // phone number double xa hai
 
+    // personal details
 
-
-  // personal details 
-
-    travelName:{
+    travelName: {
       type: String,
       trim: true,
       // required: true,
       // maxlength: 32,
-
     },
 
-
-    pincode:{
+    pincode: {
       type: String,
       trim: true,
       // maxlength: 32,
@@ -29,13 +25,11 @@ const ownerSchema = new mongoose.Schema(
     state: {
       type: String,
       // maxlength: 30,
-      
     },
 
     city: {
       type: String,
       // maxlength: 30,
-    
     },
 
     phone: {
@@ -43,8 +37,6 @@ const ownerSchema = new mongoose.Schema(
       // max: 999999999999,
       // maxlength: 30,
       // required: true,
-      
-     
     },
 
     email: {
@@ -54,99 +46,73 @@ const ownerSchema = new mongoose.Schema(
     name: {
       type: String,
       trim: true,
-    
+
       // maxlength: 32,
     },
 
-
-    country:{
+    country: {
       type: String,
       // maxlength: 32,
       trim: true,
-     
-
     },
 
-    
     district: {
       type: String,
       // maxlength: 30,
       trim: true,
-      
     },
 
-
-    // bank details 
-    bankName:{
+    // bank details
+    bankName: {
       type: String,
       // maxlength: 70,
       trim: true,
-     
-    
-     
     },
-    accountNumber:{
+    accountNumber: {
       type: String,
       // maxlength: 70,
-      
     },
-    beneficaryName:{
+    beneficaryName: {
       type: String,
       // maxlength: 70,
-    
     },
 
-    bankaccountType:{
+    bankaccountType: {
       type: String,
       // maxlength: 70,
-   
     },
-    
+
     citizenshipNumber: {
       type: String,
       trim: true,
       // required: true,
-     
+
       // maxlength: 32,
     },
     // pancard details step 3
-    panName:{
+    panName: {
       type: String,
       // maxlength: 70,
-     
-    
     },
-    panAddress:{
+    panAddress: {
       type: String,
       // maxlength: 70,
-      
     },
 
     panNumber: {
       type: String,
       // maxlength: 30,
-      
     },
 
-    
-    issuedate:{
-     
-        type: String,
-        // maxlength: 30,
-       
-      
+    issuedate: {
+      type: String,
+      // maxlength: 30,
     },
-    dateofbirth:{
-      
-        type: String,
-        // maxlength: 30,
-       
-      
+    dateofbirth: {
+      type: String,
+      // maxlength: 30,
     },
 
-
-
-   
     // isVerified: {
     //   type: Boolean,
     //   default: false,
@@ -156,12 +122,17 @@ const ownerSchema = new mongoose.Schema(
       enum: ["pending", "approved", "rejected"],
       default: "pending",
     },
-    
 
-    vendorDetail:{
-      type:String,
-      enum:["personalDetail","bankDetail","panDetail","documentsDetail","success"],
-      default:"personalDetail",
+    vendorDetail: {
+      type: String,
+      enum: [
+        "personalDetail",
+        "bankDetail",
+        "panDetail",
+        "documentsDetail",
+        "success",
+      ],
+      default: "personalDetail",
     },
 
     hashed_password: {
@@ -172,49 +143,49 @@ const ownerSchema = new mongoose.Schema(
     //  document requirements haru
     nationalID: {
       type: String,
-     
-      
     },
 
     DriverLisence: {
       type: String,
-     
     },
 
     citizenship: {
       type: String,
-   
     },
 
     pancard: {
       type: String,
-     
     },
 
     photo: {
       type: String,
-     
     },
+
+    images: [
+      {
+        type: String, // Example: 'pancard', 'citizenship', 'driverlicense', etc.
+        url: String, // Example: '/uploads/pancard/123456_image.jpg'
+      },
+    ],
 
     // yaha chai addition requirements haru
     // businessBackground: {
     //   type: String,
     //   trim: true,
-     
+
     //   // maxlength: 200,
     // },
-    
+
     // postalCode: {
     //   type: String,
     //   // maxlength: 10,
-     
+
     // },
-  
-   
+
     // optionalEmailid: {
     //   type: String,
     // },
-    
+
     // files:{
     //   type:String
     // },

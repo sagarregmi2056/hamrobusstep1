@@ -1,10 +1,13 @@
 const Owner = require("../models/Owner");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 const _ = require("lodash");
 
 const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
+
+const { ObjectId } = require("mongoose").Types;
 
 const axios = require("axios");
 
@@ -143,8 +146,8 @@ exports.stepthree = async (req, res) => {
 };
 
 async function uploadToCloudflare(imageData) {
-  const apiKey = "your-cloudflare-api-key"; // Replace with your Cloudflare API key
-  const apiToken = "your-cloudflare-api-token"; // Replace with your Cloudflare API token
+  const apiKey = process.env.CLOUDFLAR_API_KEY; // Replace with your Cloudflare API key
+  const apiToken = process.env.CLOUDFLAR_API_TOKEN; // Replace with your Cloudflare API token
 
   try {
     const response = await axios.post(
@@ -170,29 +173,40 @@ async function uploadToCloudflare(imageData) {
 }
 
 exports.stepfour = async (req, res) => {
-  const { ownerId, images } = req.body;
-
   try {
-    const owner = await Owner.findOne({ _id: ObjectId(ownerId) });
-    if (!owner) {
-      return res.status(404).send("Owner not found");
+    const ownerId = req.params.ownerId;
+    const { images } = req.body;
+    // const owner = await Owner.findOne({ _id: ObjectId(ownerId) });
+
+    const imageUrls = [];
+
+    if (Array.isArray(images)) {
+      for (const image of images) {
+        const { data } = image;
+
+        // Assume uploadToCloudflare is a function for uploading images
+        const cloudflareUrl = await uploadToCloudflare(data);
+        imageUrls.push({ url: cloudflareUrl });
+      }
+    } else {
+      return res.status(400).send("Images should be an array");
     }
 
-    for (const image of images) {
-      const { type, data } = image;
+    // Update the MongoDB document with the Cloudflare image URLs and other details
+    const finalOwner = await Owner.findByIdAndUpdate(
+      ownerId,
+      {
+        $set: {
+          images: imageUrls,
+          vendorDetail: "documentsDetail",
+        },
+      },
+      { new: true }
+    );
 
-      // Assume uploadToCloudflare is a function for uploading images
-      const cloudflareUrl = await uploadToCloudflare(data);
-
-      // Update the MongoDB document with the Cloudflare image URL
-      await owner.updateOne({
-        $push: { images: { type, url: cloudflareUrl } },
-      });
-    }
-
-    res.send("Images uploaded successfully");
+    res.send("Images and details uploaded successfully");
   } catch (error) {
-    console.error("Error handling image upload", error);
+    console.error("Error handling image upload and details update", error);
     res.status(500).send("Internal Server Error");
   }
 };
