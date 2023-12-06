@@ -55,6 +55,8 @@ const lisence = multer.diskStorage({
   },
 });
 
+const storagee = multer.memoryStorage();
+
 const citizenshipImage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./public/uploads/citizenshipImage");
@@ -127,7 +129,12 @@ exports.uploadCitizenshipimage = multer({ storage: citizenshipImage }).array(
   "citizenship",
   1
 );
-exports.uploaddriverlisence = multer({ storage: lisence, fileFilter }).single(
+// exports.uploaddriverlisence = multer({ storage: lisence, fileFilter }).single(
+//   "DriverLisence",
+//   1
+// );
+
+exports.uploaddriverlisence = multer({ storage: storagee, fileFilter }).single(
   "DriverLisence",
   1
 );

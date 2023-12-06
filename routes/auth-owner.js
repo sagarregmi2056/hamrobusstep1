@@ -35,6 +35,7 @@ router.get("/getCurrentSection/:ownerId", verifyToken, getOwnerDetails);
 router.post("/adddocuments/:ownerId/pancard", stepfour);
 
 async function uploadToCloudflare(imageData) {
+  console.log(imageData);
   const apiKey = process.env.CLOUDFLAR_API_KEY; // Replace with your Cloudflare API key
   const apiToken = process.env.CLOUDFLAR_API_TOKEN; // Replace with your Cloudflare API token
 
@@ -74,7 +75,7 @@ router.post(
       if (!owner) {
         return res.status(404).send("Owner not found");
       }
-
+      console.log(req.file);
       const imageUrl = req.file
         ? await uploadToCloudflare(req.file.buffer)
         : null;
