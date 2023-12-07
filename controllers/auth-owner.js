@@ -273,10 +273,13 @@ exports.citizenshipController = async (req, res) => {
     // Save the image URL to the Owner schema based on image type
     await Owner.findByIdAndUpdate(ownerId, {
       $push: { images: { type: imageType, url: imageUrl } },
+      vendorDetail: "success",
     });
+    const updatedOwner = await Owner.findOne({ _id: ownerId });
 
     res.json({
       url: imageUrl,
+      vendorDetail: updatedOwner.vendorDetail,
       message: `Citizenship image URL saved to Owner schema successfully`,
     });
   } catch (error) {
@@ -304,14 +307,11 @@ exports.nationalidController = async (req, res) => {
     // Save the image URL to the Owner schema based on image type
     await Owner.findByIdAndUpdate(ownerId, {
       $push: { images: { type: imageType, url: imageUrl } },
-      vendorDetail: "success",
     });
-
-    const updatedOwner = await Owner.findOne({ _id: ownerId });
 
     res.json({
       url: imageUrl,
-      vendorDetail: updatedOwner.vendorDetail,
+
       message: `nationalid image URL saved to Owner schema successfully`,
     });
   } catch (error) {
