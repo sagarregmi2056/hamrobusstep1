@@ -138,7 +138,7 @@ exports.uploaddriverlisence = multer({ storage: storagee, fileFilter }).single(
   "DriverLisence",
   1
 );
-exports.uploadpancard = multer({ storage: PanCardImage, fileFilter }).single(
+exports.uploadpancard = multer({ storage: storagee, fileFilter }).single(
   "pancard",
   1
 );

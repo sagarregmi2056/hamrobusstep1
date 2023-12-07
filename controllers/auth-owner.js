@@ -11,6 +11,8 @@ const { ObjectId } = require("mongoose").Types;
 
 const axios = require("axios");
 
+const multer = require("multer");
+
 const {
   uploadOwnerAvatar,
   uploadnationalID,

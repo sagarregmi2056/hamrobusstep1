@@ -7,6 +7,7 @@ const axios = require("axios").default;
 const path = require("path");
 
 const app = express();
+const FormData = require("form-data");
 
 const {
   stepfour,
@@ -35,28 +36,13 @@ router.put("/addPanDetail/:ownerId", stepthree);
 router.get("/getCurrentSection/:ownerId", verifyToken, getOwnerDetails);
 // router.post("/adddocuments/:ownerId/pancard", stepfour);
 const fs = require("fs");
-async function uploadToCloudflare(imageBuffer) {
+async function uploadToCloudflare(image) {
   try {
-    const apiKey = process.env.CLOUDFLARE_API_KEY;
     const apiToken = process.env.CLOUDFLARE_API_TOKEN;
-    const filePath = "uploads/pancard/file.jpg";
-    const directoryPath = path.dirname(filePath);
 
-    if (!fs.existsSync(directoryPath)) {
-      fs.mkdirSync(directoryPath, { recursive: true });
-    }
-
-    // Write image buffer to file
-    fs.writeFileSync(filePath, imageBuffer);
-
-    const boundary = "---011000010111000001101001";
-    const contentType = "image/jpeg"; // Adjust this based on your image type
-
-    // Construct form data
-    const formData = `--${boundary}\r\nContent-Disposition: form-data; name="file"; filename="file.jpg"\r\nContent-Type: ${contentType}\r\n\r\n${imageBuffer}\r\n--${boundary}--`;
-
-    // Log formData for debugging
-    console.log("formData:", formData);
+    // Construct form data using the form-data library
+    const formData = new FormData();
+    formData.append("file", image, { filename: "file.jpg" });
 
     // Make the API request
     const response = await axios.post(
@@ -64,22 +50,36 @@ async function uploadToCloudflare(imageBuffer) {
       formData,
       {
         headers: {
-          "Content-Type": `multipart/form-data; boundary=${boundary}`,
+          ...formData.getHeaders(),
           Authorization: `Bearer ${apiToken}`,
         },
       }
     );
 
-    return response.data.result.info.url;
+    // Log the complete response for inspection
+    console.log("Cloudflare API Response:", response.data);
+
+    // Check if the response contains the expected data structure
+    if (
+      response.data.result &&
+      response.data.result.variants &&
+      response.data.result.variants.length > 0
+    ) {
+      // Extract the URL from the variants array
+      const imageUrl = response.data.result.variants[0];
+
+      return imageUrl;
+    } else {
+      throw new Error("Unexpected response format from Cloudflare API");
+    }
   } catch (error) {
     console.error(
-      "An error occurred:",
+      "Error handling image upload:",
       error.response ? error.response.data : error.message
     );
     throw error;
   }
 }
-
 router.post(
   "/adddocuments/:ownerId/driverlicense",
   uploaddriverlisence,
