@@ -2,6 +2,7 @@ const Owner = require("../models/Owner");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const _ = require("lodash");
+const FormData = require("form-data");
 
 const sharp = require("sharp");
 const path = require("path");
@@ -146,37 +147,56 @@ exports.stepthree = async (req, res) => {
   }
 };
 
-async function uploadToCloudflare(imageData) {
-  const apiKey = process.env.CLOUDFLAR_API_KEY; // Replace with your Cloudflare API key
-  const apiToken = process.env.CLOUDFLAR_API_TOKEN; // Replace with your Cloudflare API token
-
+async function uploadToCloudflare(image) {
   try {
+    const apiToken = process.env.CLOUDFLARE_API_TOKEN;
+
+    // Construct form data using the form-data library
+    const formData = new FormData();
+    formData.append("file", image, { filename: "file.jpg" });
+
+    // Make the API request
     const response = await axios.post(
-      "https://api.cloudflare.com/upload",
-      { data: imageData },
+      "https://api.cloudflare.com/client/v4/accounts/f6cbe271191b3ad841b63ec6b129869d/images/v1",
+      formData,
       {
         headers: {
-          "Content-Type": "application/json",
+          ...formData.getHeaders(),
           Authorization: `Bearer ${apiToken}`,
-          "X-Auth-Key": apiKey,
         },
       }
     );
 
-    if (response.status === 200) {
-      return response.data.url; // Assuming the Cloudflare API response contains the image URL
+    // Log the complete response for inspection
+    console.log("Cloudflare API Response:", response.data);
+
+    // Check if the response contains the expected data structure
+    if (
+      response.data.result &&
+      response.data.result.variants &&
+      response.data.result.variants.length > 0
+    ) {
+      // Extract the URL from the variants array
+      const imageUrl = response.data.result.variants[0];
+
+      return imageUrl;
     } else {
-      throw new Error("Failed to upload image to Cloudflare");
+      throw new Error("Unexpected response format from Cloudflare API");
     }
   } catch (error) {
-    throw new Error("Error uploading image to Cloudflare: " + error.message);
+    console.error(
+      "Error handling image upload:",
+      error.response ? error.response.data : error.message
+    );
+    throw error;
   }
 }
 
-exports.stepfour = async (req, res) => {
+exports.uploaddriverlisencecontroller = async (req, res) => {
   try {
     const ownerId = req.params.ownerId;
-    const imageType = req.params.imageType;
+    console.log(ownerId);
+    const imageType = "driverlicense"; // Assuming this is the type for driver's license
 
     // Check if the owner exists
     const owner = await Owner.findOne({ _id: ownerId });
@@ -184,7 +204,9 @@ exports.stepfour = async (req, res) => {
       return res.status(404).send("Owner not found");
     }
 
-    const imageUrl = await uploadToCloudflare(req.file.buffer);
+    const imageUrl = req.file
+      ? await uploadToCloudflare(req.file.buffer)
+      : null;
 
     // Save the image URL to the Owner schema based on image type
     await Owner.findByIdAndUpdate(ownerId, {
@@ -193,7 +215,7 @@ exports.stepfour = async (req, res) => {
 
     res.json({
       url: imageUrl,
-      message: `Image (${imageType}) uploaded and saved to Owner schema successfully`,
+      message: `Driver's license image URL saved to Owner schema successfully`,
     });
   } catch (error) {
     console.error("Error handling image upload:", error);
@@ -201,6 +223,36 @@ exports.stepfour = async (req, res) => {
   }
 };
 
+exports.uploadPanCardController = async (req, res) => {
+  try {
+    const ownerId = req.params.ownerId;
+    console.log(ownerId);
+    const imageType = "pancard"; // Assuming this is the type for PAN card
+
+    // Check if the owner exists
+    const owner = await Owner.findOne({ _id: ownerId });
+    if (!owner) {
+      return res.status(404).send("Owner not found");
+    }
+
+    const imageUrl = req.file
+      ? await uploadToCloudflare(req.file.buffer)
+      : null;
+
+    // Save the image URL to the Owner schema based on image type
+    await Owner.findByIdAndUpdate(ownerId, {
+      $push: { images: { type: imageType, url: imageUrl } },
+    });
+
+    res.json({
+      url: imageUrl,
+      message: `PAN card image URL saved to Owner schema successfully`,
+    });
+  } catch (error) {
+    console.error("Error handling image upload:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 exports.getOwnerDetails = async (req, res) => {
   try {
     const ownerId = req.params.ownerId;
