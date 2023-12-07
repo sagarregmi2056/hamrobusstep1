@@ -43,3 +43,4 @@
 ::1 - - [07/Dec/2023:07:19:40 +0000] "POST /api/auth-owner/adddocuments/656443e6d29e68f7f509c33d/citizenship HTTP/1.1" 200 171 "-" "PostmanRuntime/7.35.0"
 ::1 - - [07/Dec/2023:07:28:47 +0000] "POST /api/auth-owner/adddocuments/656443e6d29e68f7f509c33d/nationalid HTTP/1.1" 500 54 "-" "PostmanRuntime/7.35.0"
 ::1 - - [07/Dec/2023:07:29:59 +0000] "POST /api/auth-owner/adddocuments/656443e6d29e68f7f509c33d/nationalid HTTP/1.1" 200 170 "-" "PostmanRuntime/7.35.0"
+::1 - - [07/Dec/2023:07:37:33 +0000] "POST /api/auth-owner/adddocuments/656443e6d29e68f7f509c33d/nationalid HTTP/1.1" 200 195 "-" "PostmanRuntime/7.35.0"
