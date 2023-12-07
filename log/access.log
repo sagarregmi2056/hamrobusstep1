@@ -38,3 +38,6 @@
 ::1 - - [07/Dec/2023:06:33:07 +0000] "POST /api/auth-owner/adddocuments/656443e6d29e68f7f509c33d/driverlicense HTTP/1.1" 200 176 "-" "PostmanRuntime/7.35.0"
 ::1 - - [07/Dec/2023:06:37:38 +0000] "GET /api/auth-owner/adddocuments/656443e6d29e68f7f509c33d/pancard HTTP/1.1" 404 199 "-" "PostmanRuntime/7.35.0"
 ::1 - - [07/Dec/2023:06:37:48 +0000] "POST /api/auth-owner/adddocuments/656443e6d29e68f7f509c33d/pancard HTTP/1.1" 200 168 "-" "PostmanRuntime/7.35.0"
+::1 - - [07/Dec/2023:07:07:26 +0000] "GET /api/auth-owner/getownerdocuments/656443e6d29e68f7f509c33d HTTP/1.1" 200 2370 "-" "PostmanRuntime/7.35.0"
+::1 - - [07/Dec/2023:07:17:09 +0000] "POST /api/auth-owner/adddocuments/656443e6d29e68f7f509c33d/citizenship HTTP/1.1" 500 54 "-" "PostmanRuntime/7.35.0"
+::1 - - [07/Dec/2023:07:19:40 +0000] "POST /api/auth-owner/adddocuments/656443e6d29e68f7f509c33d/citizenship HTTP/1.1" 200 171 "-" "PostmanRuntime/7.35.0"

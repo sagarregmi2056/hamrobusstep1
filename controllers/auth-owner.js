@@ -253,6 +253,60 @@ exports.uploadPanCardController = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+exports.citizenshipController = async (req, res) => {
+  try {
+    const ownerId = req.params.ownerId;
+    console.log(ownerId);
+    const imageType = "citizenship"; // Assuming this is the type for PAN card
+
+    // Check if the owner exists
+    const owner = await Owner.findOne({ _id: ownerId });
+    if (!owner) {
+      return res.status(404).send("Owner not found");
+    }
+
+    const imageUrl = req.file
+      ? await uploadToCloudflare(req.file.buffer)
+      : null;
+
+    // Save the image URL to the Owner schema based on image type
+    await Owner.findByIdAndUpdate(ownerId, {
+      $push: { images: { type: imageType, url: imageUrl } },
+    });
+
+    res.json({
+      url: imageUrl,
+      message: `Citizenship image URL saved to Owner schema successfully`,
+    });
+  } catch (error) {
+    console.error("Error handling image upload:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.getOwnerDocumentsController = async (req, res) => {
+  try {
+    const ownerId = req.params.ownerId;
+
+    // Check if the owner exists
+    const owner = await Owner.findOne({ _id: ownerId });
+    if (!owner) {
+      return res.status(404).send("Owner not found");
+    }
+
+    // Retrieve the owner's documents
+    const ownerDocuments = owner.images;
+
+    res.json({
+      ownerDocuments,
+      message: "Owner documents retrieved successfully",
+    });
+  } catch (error) {
+    console.error("Error retrieving owner documents:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 exports.getOwnerDetails = async (req, res) => {
   try {
     const ownerId = req.params.ownerId;

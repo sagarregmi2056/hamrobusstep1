@@ -1,18 +1,17 @@
 module.exports = {
-    runEveryMidnight: require("./misc").runEveryMidnight,
-    checkDateAvailability: require("./misc").checkDateAvailability,
-    errorHandler: require("./dbErrorHandler").errorHandler,
-    uploadBusImage: require("./multer").uploadBusImage,
-    uploadOwnerAvatar: require("./multer").uploadOwnerAvatar,
+  runEveryMidnight: require("./misc").runEveryMidnight,
+  checkDateAvailability: require("./misc").checkDateAvailability,
+  errorHandler: require("./dbErrorHandler").errorHandler,
+  uploadBusImage: require("./multer").uploadBusImage,
+  uploadOwnerAvatar: require("./multer").uploadOwnerAvatar,
 
-    uploadnationalID: require("./multer").uploadnationalID,
-    uploadCitizenshipimage: require("./multer").uploadCitizenshipimage,
-    uploaddriverlisence: require("./multer").uploaddriverlisence,
-    uploadpancard: require("./multer").uploadpancard,
+  uploadnationalID: require("./multer").uploadnationalID,
+  uploadCitizenshipimages: require("./multer").uploadCitizenshipimages,
+  uploaddriverlisence: require("./multer").uploaddriverlisence,
+  uploadpancard: require("./multer").uploadpancard,
 
+  uploadowner: require("./multer").uploadowner,
 
-    uploadowner:require("./multer").uploadowner,
-    
-    sendEmail: require("./mailer").sendEmail,
-    dbConnection: require("./dbConnection"),
-}
+  sendEmail: require("./mailer").sendEmail,
+  dbConnection: require("./dbConnection"),
+};

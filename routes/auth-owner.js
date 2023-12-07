@@ -12,13 +12,15 @@ const {
   getOwnerDetails,
   uploaddriverlisencecontroller,
   uploadPanCardController,
+  getOwnerDocumentsController,
+  citizenshipController,
 } = require("../controllers/auth-owner");
 
 // updated code
 // const { uploadOwnerAvatar, uploadnationalID, uploadCitizenshipimage, uploaddriverlisence, uploadpancard } = require('../helpers/multer');
 
 const { verifyToken } = require("../controllers/otpauth");
-const { uploaddriverlisence } = require("../helpers");
+const { uploaddriverlisence, uploadCitizenshipimages } = require("../helpers");
 const { uploadpancard } = require("../helpers");
 
 const router = express.Router();
@@ -37,10 +39,18 @@ router.post(
   uploaddriverlisencecontroller
 );
 
+router.get("/getownerdocuments/:ownerId", getOwnerDocumentsController);
+
 router.post(
   "/adddocuments/:ownerId/pancard",
   uploadpancard,
   uploadPanCardController
+);
+
+router.post(
+  "/adddocuments/:ownerId/citizenship",
+  uploadCitizenshipimages,
+  citizenshipController
 );
 router.post("/signin", signin);
 router.post("/refreshtoken", refreshToken);

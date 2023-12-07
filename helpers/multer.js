@@ -57,17 +57,17 @@ const lisence = multer.diskStorage({
 
 const storagee = multer.memoryStorage();
 
-const citizenshipImage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./public/uploads/citizenshipImage");
-  },
-  filename: function (req, file, cb) {
-    cb(
-      null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
+// const citizenshipImage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "./public/uploads/citizenshipImage");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(
+//       null,
+//       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+//     );
+//   },
+// });
 
 const nationalID = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -125,21 +125,26 @@ exports.uploadnationalID = multer({ storage: nationalID, fileFilter }).fields([
   { name: "nationalID", maxCount: 1 },
 ]);
 
-exports.uploadCitizenshipimage = multer({ storage: citizenshipImage }).array(
-  "citizenship",
-  1
-);
+// exports.uploadCitizenshipimage = multer({ storage: citizenshipImage }).array(
+//   "citizenship",
+//   1
+// );
 // exports.uploaddriverlisence = multer({ storage: lisence, fileFilter }).single(
 //   "DriverLisence",
 //   1
 // );
 
+// working fine
 exports.uploaddriverlisence = multer({ storage: storagee, fileFilter }).single(
   "DriverLisence",
   1
 );
 exports.uploadpancard = multer({ storage: storagee, fileFilter }).single(
   "pancard",
+  1
+);
+exports.uploadCitizenshipimages = multer({ storage: storagee }).single(
+  "citizenship",
   1
 );
 
