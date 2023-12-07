@@ -69,17 +69,17 @@ const storagee = multer.memoryStorage();
 //   },
 // });
 
-const nationalID = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./public/uploads/nationalID");
-  },
-  filename: function (req, file, cb) {
-    cb(
-      null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
+// const nationalID = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "./public/uploads/nationalID");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(
+//       null,
+//       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+//     );
+//   },
+// });
 
 const fileFilter = (req, file, callback) => {
   const ext = path.extname(file.originalname);
@@ -121,9 +121,9 @@ exports.uploadOwnerAvatar = multer({ storage: ownerAvatar, fileFilter }).single(
 
 // newly added avatar
 
-exports.uploadnationalID = multer({ storage: nationalID, fileFilter }).fields([
-  { name: "nationalID", maxCount: 1 },
-]);
+// exports.uploadnationalID = multer({ storage: nationalID, fileFilter }).fields([
+//   { name: "nationalID", maxCount: 1 },
+// ]);
 
 // exports.uploadCitizenshipimage = multer({ storage: citizenshipImage }).array(
 //   "citizenship",
@@ -145,6 +145,10 @@ exports.uploadpancard = multer({ storage: storagee, fileFilter }).single(
 );
 exports.uploadCitizenshipimages = multer({ storage: storagee }).single(
   "citizenship",
+  1
+);
+exports.uploadnationalID = multer({ storage: storagee, fileFilter }).single(
+  "nationalID",
   1
 );
 

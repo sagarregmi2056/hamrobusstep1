@@ -14,13 +14,18 @@ const {
   uploadPanCardController,
   getOwnerDocumentsController,
   citizenshipController,
+  nationalidController,
 } = require("../controllers/auth-owner");
 
 // updated code
 // const { uploadOwnerAvatar, uploadnationalID, uploadCitizenshipimage, uploaddriverlisence, uploadpancard } = require('../helpers/multer');
 
 const { verifyToken } = require("../controllers/otpauth");
-const { uploaddriverlisence, uploadCitizenshipimages } = require("../helpers");
+const {
+  uploaddriverlisence,
+  uploadCitizenshipimages,
+  uploadnationalID,
+} = require("../helpers");
 const { uploadpancard } = require("../helpers");
 
 const router = express.Router();
@@ -52,6 +57,13 @@ router.post(
   uploadCitizenshipimages,
   citizenshipController
 );
+
+router.post(
+  "/adddocuments/:ownerId/nationalid",
+  uploadnationalID,
+  nationalidController
+);
+
 router.post("/signin", signin);
 router.post("/refreshtoken", refreshToken);
 

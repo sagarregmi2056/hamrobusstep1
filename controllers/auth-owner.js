@@ -285,6 +285,37 @@ exports.citizenshipController = async (req, res) => {
   }
 };
 
+exports.nationalidController = async (req, res) => {
+  try {
+    const ownerId = req.params.ownerId;
+    console.log(ownerId);
+    const imageType = "nationalid"; // Assuming this is the type for PAN card
+
+    // Check if the owner exists
+    const owner = await Owner.findOne({ _id: ownerId });
+    if (!owner) {
+      return res.status(404).send("Owner not found");
+    }
+
+    const imageUrl = req.file
+      ? await uploadToCloudflare(req.file.buffer)
+      : null;
+
+    // Save the image URL to the Owner schema based on image type
+    await Owner.findByIdAndUpdate(ownerId, {
+      $push: { images: { type: imageType, url: imageUrl } },
+    });
+
+    res.json({
+      url: imageUrl,
+      message: `nationalid image URL saved to Owner schema successfully`,
+    });
+  } catch (error) {
+    console.error("Error handling image upload:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 exports.getOwnerDocumentsController = async (req, res) => {
   try {
     const ownerId = req.params.ownerId;
