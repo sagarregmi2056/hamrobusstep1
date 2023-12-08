@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const {
   requireSuperadminSignin,
+  requireOwnerSignin,
 } = require("../controllers/auth-owner");
 const {
   add,
@@ -8,19 +9,16 @@ const {
   read,
   remove,
   getTravels,
-  travelById
+  travelById,
 } = require("../controllers/travel");
 
-router
-  .route("/")
-  .get(getTravels)
-  .post(requireSuperadminSignin, add);
+router.route("/").get(getTravels).post(requireOwnerSignin, add);
 
 router
   .route("/:id")
-  .get(requireSuperadminSignin, read)
-  .put(requireSuperadminSignin, update)
-  .delete(requireSuperadminSignin, remove);
+  .get(requireOwnerSignin, read)
+  .put(requireOwnerSignin, update)
+  .delete(requireOwnerSignin, remove);
 
 router.param("id", travelById);
 
