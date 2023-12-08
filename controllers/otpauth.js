@@ -127,8 +127,10 @@ exports.verifyOtpAndSignin = async (req, res) => {
 
   // OTP verification successful or owner already existed, generate JWT token
   const payload = {
+    _id: owner.id,
     phone: phone,
     role: owner.role,
+    refresh_hash: owner.salt,
     // Include the phone number directly in the payload
   };
 
