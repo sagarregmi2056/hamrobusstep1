@@ -12,13 +12,13 @@ const {
   locationById,
 } = require("../controllers/location");
 
-router.route("/").get(getLocations).post(requireOwnerSignin, add);
+router.route("/").get(getLocations).post(requireSuperadminSignin, add);
 
 router
   .route("/:id")
-  .get(requireOwnerSignin, read)
-  .put(requireOwnerSignin, update)
-  .delete(requireOwnerSignin, remove);
+  .get(requireSuperadminSignin, read)
+  .put(requireSuperadminSignin, update)
+  .delete(requireSuperadminSignin, remove);
 
 router.param("id", locationById);
 
