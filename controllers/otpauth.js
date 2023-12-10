@@ -23,8 +23,7 @@ exports.generateOtpAndSignin = async (req, res) => {
 
 function isValidPhoneNumber(phone) {
   // Use a regular expression to check for a valid phone number format
-  const phoneRegex = /^\+977\s*[1-9]\d\s?\d{8}$/;
-  x;
+  const phoneRegex = /^\+977\s*[1-9]\d\s?\d{10}$/;
 
   return phoneRegex.test(phone);
 }
