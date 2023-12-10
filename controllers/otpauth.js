@@ -2,7 +2,7 @@ const { generateOTP, verifyOTP } = require("../utils/otpUtils");
 const jwt = require("jsonwebtoken");
 const Owner = require("../models/Owner");
 
-// require("dotenv").config();
+// generating otp
 
 exports.generateOtpAndSignin = async (req, res) => {
   const { phone } = req.body;
@@ -68,6 +68,8 @@ function isValidPhoneNumber(phone) {
 //     return res.json({token, ownerId });
 //   };
 
+// token verification
+
 exports.verifyToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
 
@@ -90,6 +92,7 @@ exports.verifyToken = (req, res, next) => {
   next();
 };
 
+// verification of otp
 exports.verifyOtpAndSignin = async (req, res) => {
   const { phone, otp } = req.body;
 
@@ -130,7 +133,6 @@ exports.verifyOtpAndSignin = async (req, res) => {
     phone: phone,
     role: owner.role,
     refresh_hash: owner.salt,
-    // Include the phone number directly in the payload
   };
 
   const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
