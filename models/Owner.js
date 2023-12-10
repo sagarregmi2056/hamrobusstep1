@@ -137,7 +137,6 @@ const ownerSchema = new mongoose.Schema(
 
     hashed_password: {
       type: String,
-      // required: true,
     },
 
     //  document requirements haru

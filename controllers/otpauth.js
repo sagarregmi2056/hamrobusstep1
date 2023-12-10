@@ -132,7 +132,6 @@ exports.verifyOtpAndSignin = async (req, res) => {
     _id: owner.id,
     phone: phone,
     role: owner.role,
-    refresh_hash: owner.salt,
   };
 
   const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });

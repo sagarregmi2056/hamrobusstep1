@@ -522,7 +522,7 @@ exports.signin = async (req, res) => {
     _id: owner.id,
 
     role: owner.role,
-    refresh_hash: owner.salt,
+    phone: owner.phone,
   };
 
   const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
@@ -537,7 +537,7 @@ exports.refreshToken = async (req, res) => {
     const payload = {
       _id: owner.id,
       role: owner.role,
-      refresh_hash: owner.salt,
+      phone: owner.phone,
     };
 
     const token = jwt.sign(
@@ -557,9 +557,7 @@ exports.requireOwnerSignin = async (req, res, next) => {
     const owner = parseToken(token);
     // console.log("hehe")
 
-    const foundowner = await Owner.findById(owner._id).select(
-      "name role salt "
-    );
+    const foundowner = await Owner.findById(owner._id).select("role phone ");
 
     // console.log("hehe")
 
@@ -821,8 +819,6 @@ exports.signup = async (req, res) => {
 
   const owner = await newowner.save();
 
-  owner.salt = undefined;
-  owner.hashed_password = undefined;
   res.json(owner);
 };
 
