@@ -395,12 +395,64 @@ router.post(
   uploadPanCardController
 );
 
-router.post(
-  "/adddocuments/:ownerId/pancard",
-  uploadpancard,
-  uploadPanCardController
-);
+// router.post(
+//   "/adddocuments/:ownerId/pancard",
+//   uploadpancard,
+//   uploadPanCardController
+// );
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     CitizenshipUpload:
+ *       type: object
+ *       properties:
+ *         citizenship:
+ *           type: string
+ *           format: binary
+ *           description: Citizenship image file
+ *
+ * /api/auth-owner/adddocuments/{ownerId}/citizenship:
+ *   post:
+ *     summary: Upload Citizenship Document
+ *     description: Uploads citizenship image for the owner.
+ *     parameters:
+ *       - in: path
+ *         name: ownerId
+ *         required: true
+ *         description: ID of the owner
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []  # Assuming Bearer token authentication is required
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             $ref: '#/components/schemas/CitizenshipUpload'
+ *     responses:
+ *       200:
+ *         description: Citizenship image uploaded successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               url: 'https://example.com/citizenship.jpg'
+ *               message: "Citizenship image URL saved to Owner schema successfully"
+ *       404:
+ *         description: Owner not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Owner not found'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
+ */
 router.post(
   "/adddocuments/:ownerId/citizenship",
   uploadCitizenshipimages,
