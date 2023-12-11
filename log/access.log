@@ -94,3 +94,7 @@
 ::1 - - [11/Dec/2023:07:31:36 +0000] "POST /api/auth-owner/addBankDetail//6576aa5bd9ec4613db5b120e HTTP/1.1" 404 194 "-" "PostmanRuntime/7.35.0"
 ::1 - - [11/Dec/2023:07:31:56 +0000] "PUT /api/auth-owner/addBankDetail//6576aa5bd9ec4613db5b120e HTTP/1.1" 404 193 "-" "PostmanRuntime/7.35.0"
 ::1 - - [11/Dec/2023:07:32:11 +0000] "PUT /api/auth-owner/addBankDetail/6576aa5bd9ec4613db5b120e HTTP/1.1" 200 82 "-" "PostmanRuntime/7.35.0"
+::1 - - [11/Dec/2023:09:33:48 +0000] "PUT /api/auth-owner/addpandetail/6576aa5bd9ec4613db5b120e HTTP/1.1" 200 84 "-" "PostmanRuntime/7.35.0"
+::1 - - [11/Dec/2023:09:36:21 +0000] "GET /api/auth-owner/getCurrentSection/6576aa5bd9ec4613db5b120e HTTP/1.1" 200 322 "-" "PostmanRuntime/7.35.0"
+::1 - - [11/Dec/2023:09:50:06 +0000] "POST /api/auth-owner/adddocuments/6576aa5bd9ec4613db5b120e/driverlicense HTTP/1.1" 200 176 "-" "PostmanRuntime/7.35.0"
+::1 - - [11/Dec/2023:09:59:58 +0000] "POST /api/auth-owner/adddocuments/6576aa5bd9ec4613db5b120e/pancard HTTP/1.1" 200 168 "-" "PostmanRuntime/7.35.0"

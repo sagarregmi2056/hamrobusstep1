@@ -168,7 +168,7 @@ async function uploadToCloudflare(image) {
     );
 
     // Log the complete response for inspection
-    console.log("Cloudflare API Response:", response.data);
+    // console.log("Cloudflare API Response:", response.data);
 
     // Check if the response contains the expected data structure
     if (
@@ -226,7 +226,7 @@ exports.uploaddriverlisencecontroller = async (req, res) => {
 exports.uploadPanCardController = async (req, res) => {
   try {
     const ownerId = req.params.ownerId;
-    console.log(ownerId);
+    // console.log(ownerId);
     const imageType = "pancard"; // Assuming this is the type for PAN card
 
     // Check if the owner exists

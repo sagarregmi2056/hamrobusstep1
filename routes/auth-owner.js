@@ -214,17 +214,186 @@ router.put("/addBankDetail/:ownerId", verifyToken, steptwo);
  *               error: 'Error updating owner in Step 3'
  */
 
-router.put("/addPanDetail/:ownerId", stepthree);
+router.put("/addPanDetail/:ownerId", verifyToken, stepthree);
+
+/**
+ * @swagger
+ * /api/auth-owner/getCurrentSection/{ownerId}:
+ *   get:
+ *     summary: Get Owner Details
+ *     description: Retrieves details of a specific owner.
+ *     parameters:
+ *       - in: path
+ *         name: ownerId
+ *         required: true
+ *         description: ID of the owner
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Owner details retrieved successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               ownerId: '1234567890'
+ *               travelName: 'SampleTravel'
+ *               pincode: '12345'
+ *               state: 'SampleState'
+ *               city: 'SampleCity'
+ *               phone: '1234567890'
+ *               email: 'owner@example.com'
+ *               name: 'Owner Name'
+ *               country: 'SampleCountry'
+ *               district: 'SampleDistrict'
+ *               vendorDetail: 'bankDetail'
+ *               status: 'active'
+ *               panNumber: 'ABCPN1234C'
+ *               panName: 'PAN Owner Name'
+ *       404:
+ *         description: Owner not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Owner not found'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Error retrieving owner details'
+ */
 
 router.get("/getCurrentSection/:ownerId", verifyToken, getOwnerDetails);
 // router.post("/adddocuments/:ownerId/pancard", stepfour);
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     DriverLicenseUpload:
+ *       type: object
+ *       properties:
+ *         driverlicense:
+ *           type: string
+ *           format: binary
+ *           description: Driver's license image file
+ *
+ * /api/auth-owner/adddocuments/{ownerId}/driverlicense:
+ *   post:
+ *     summary: Upload Driver's License
+ *     description: Uploads driver's license image for the owner.
+ *     parameters:
+ *       - in: path
+ *         name: ownerId
+ *         required: true
+ *         description: ID of the owner
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             $ref: '#/components/schemas/DriverLicenseUpload'
+ *     responses:
+ *       200:
+ *         description: Driver's license image uploaded successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               url: 'https://example.com/driverlicense.jpg'
+ *               message: "Driver's license image URL saved to Owner schema successfully"
+ *       404:
+ *         description: Owner not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Owner not found'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
+ */
 router.post(
   "/adddocuments/:ownerId/driverlicense",
   uploaddriverlisence,
   uploaddriverlisencecontroller
 );
 
-router.get("/getownerdocuments/:ownerId", getOwnerDocumentsController);
+// router.post(
+//   "/adddocuments/:ownerId/driverlicense",
+//   uploaddriverlisence,
+//   uploaddriverlisencecontroller
+// );
+
+router.get(
+  "/getownerdocuments/:ownerId",
+  verifyToken,
+  getOwnerDocumentsController
+);
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     PanCardUpload:
+ *       type: object
+ *       properties:
+ *         pancard:
+ *           type: string
+ *           format: binary
+ *           description: PAN card image file
+ *
+ * /api/auth-owner/adddocuments/{ownerId}/pancard:
+ *   post:
+ *     summary: Upload PAN Card
+ *     description: Uploads PAN card image for the owner.
+ *     parameters:
+ *       - in: path
+ *         name: ownerId
+ *         required: true
+ *         description: ID of the owner
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []  # Assuming Bearer token authentication is required
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             $ref: '#/components/schemas/PanCardUpload'
+ *     responses:
+ *       200:
+ *         description: PAN card image uploaded successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               url: 'https://example.com/pancard.jpg'
+ *               message: "PAN card image URL saved to Owner schema successfully"
+ *       404:
+ *         description: Owner not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Owner not found'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
+ */
+router.post(
+  "/adddocuments/:ownerId/pancard",
+  uploadpancard,
+  uploadPanCardController
+);
 
 router.post(
   "/adddocuments/:ownerId/pancard",

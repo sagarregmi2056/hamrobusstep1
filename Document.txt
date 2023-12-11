@@ -42,6 +42,9 @@ Api:
 
 http://localhost:8525/api/auth-owner/addBankDetail/6576aa5bd9ec4613db5b120e
 
+
+
+
 method: put 
 
 
@@ -68,4 +71,75 @@ body:  {
 reponse: {
     "ownerId": "6576aa5bd9ec4613db5b120e",
     "message": "Step two completed successfully"
+}
+
+
+
+Api :
+
+method:post
+http://localhost:8525/api/auth-owner/addpandetail/6576aa5bd9ec4613db5b120e
+
+
+body :   
+ {
+  "panName": "YourPanName",
+  "panAddress": "YourPanAddress",
+  "issuedate": "2023-01-01", // Use the actual date format
+  "dateofbirth": "1990-01-01" // Use the actual date format
+}
+
+
+response:
+
+ {
+    "ownerId": "6576aa5bd9ec4613db5b120e",
+    "message": "Step three completed successfully"
+}
+
+
+
+
+Api : getownedetails 
+method : get
+
+http://localhost:8525/api/auth-owner/getCurrentSection/6576aa5bd9ec4613db5b120e
+response: 
+
+
+
+
+{
+    "ownerId": "6576aa5bd9ec4613db5b120e",
+    "travelName": "Midnepal travels",
+    "pincode": "12345",
+    "state": "Bagmati",
+    "city": "kathmandu",
+    "phone": 9779845236966,
+    "email": "sagar2056@gmail.com",
+    "name": "sagar regmi",
+    "country": "Nepal",
+    "district": "lalitpur",
+    "vendorDetail": "documentsDetail",
+    "status": "pending",
+    "panName": "sagar bahadur regmi"
+}
+
+
+
+Api :
+
+mathod:post 
+ http://localhost:8525/api/auth-owner/adddocuments/6576aa5bd9ec4613db5b120e/driverlicense
+
+
+ formdata :  DriverLisence : image type jpg
+
+
+
+ reponse : 
+ 
+ {
+    "url": "https://imagedelivery.net/-sdbRY-slZbDzF7YIcsg-g/688a15c4-865a-4d36-5681-9d3d7627da00/public",
+    "message": "Driver's license image URL saved to Owner schema successfully"
 }
