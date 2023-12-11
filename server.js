@@ -2,8 +2,7 @@
 const expressValidator = require("express-validator");
 const context = require("./context");
 require("./stagingmode/stages");
-const path= require('path');
-
+const path = require("path");
 
 const express = require("express");
 require("express-async-errors");
@@ -16,6 +15,11 @@ const { readFileSync } = require("fs");
 const { makeExecutableSchema } = require("@graphql-tools/schema");
 
 const { gql } = require("graphql-tag");
+
+// swagger ui implementation
+
+const swaggerUi = require("swagger-ui-express");
+const swaggerJSDoc = require("swagger-jsdoc");
 
 // importing swaggerui
 
@@ -32,7 +36,8 @@ const runSeed = require("./seeds");
 const mongoose = require("mongoose");
 // database connection
 
-mongoose.connect(process.env.DATABASE_URL, {
+mongoose
+  .connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -46,7 +51,8 @@ runSeed();
 
 // const { ApolloServer } = require('apollo-server');
 const { ApolloServer } = require("apollo-server-express");
-const  graphqlPlayground  = require("graphql-playground-middleware-express").default;
+const graphqlPlayground =
+  require("graphql-playground-middleware-express").default;
 // const mongoose = require('mongoose');
 async function startServer() {
   const typeDefs = gql(readFileSync("./grqphqlschema/typeDefs.gql", "utf-8"));
@@ -72,7 +78,7 @@ async function startServer() {
     console.log(
       `Server is running on port ${port} at ${process.env.NODE_ENV} mode`
     );
-    console.log('GraphQL server is ready at /graphql');
+    console.log("GraphQL server is ready at /graphql");
   });
 }
 
@@ -84,10 +90,10 @@ app.use(cors());
 app.use(express.json());
 app.use(expressValidator());
 // app.use(express.static("public"));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/graphql', graphqlPlayground({ endpoint: '/graphql' }));
+app.get("/graphql", graphqlPlayground({ endpoint: "/graphql" }));
 
 // Routes
 app.get("/", (req, res) => {
@@ -106,7 +112,7 @@ app.use("/api/travels", require("./routes/travel"));
 app.use("/api/users", require("./routes/user"));
 
 app.use("/api/admin", require("./routes/admin"));
-app.use("/api/otpauth",require("./routes/otpauth"))
+app.use("/api/otpauth", require("./routes/otpauth"));
 
 // Error handling middleware
 app.use(function (err, req, res, next) {
