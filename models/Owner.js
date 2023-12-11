@@ -52,6 +52,7 @@ const ownerSchema = new mongoose.Schema(
 
     country: {
       type: String,
+      default: "Nepal",
       // maxlength: 32,
       trim: true,
     },

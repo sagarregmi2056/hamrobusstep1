@@ -115,6 +115,13 @@ app.get("/", (req, res) => {
   res.send("welcome to HAMRO BUS Home ");
 });
 
+/**
+ * @swagger
+ * tags:
+ *   name: Owner Authentication
+ *   description: Endpoints for owner  document uploads and verification
+ */
+
 app.use("/api/auth-owner", require("./routes/auth-owner"));
 app.use("/api/auth-user", require("./routes/auth-user"));
 app.use("/api/bookings", require("./routes/booking"));
@@ -126,6 +133,14 @@ app.use("/api/travels", require("./routes/travel"));
 app.use("/api/users", require("./routes/user"));
 
 app.use("/api/admin", require("./routes/admin"));
+
+/**
+ * @swagger
+ * tags:
+ *   name: OTP Auth
+ *   description: Operations related to OTP authentication
+ */
+
 app.use("/api/otpauth", require("./routes/otpauth"));
 
 // Error handling middleware

@@ -30,6 +30,82 @@ const { uploadpancard } = require("../helpers");
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /api/auth-owner/addPersonalDetail/{ownerId}:
+ *   post:
+ *     summary: Add Personal Detail
+ *     description: Adds personal details for the owner.
+ *     parameters:
+ *       - in: path
+ *         name: ownerId
+ *         required: true
+ *         description: ID of the owner
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               travelName:
+ *                 type: string
+ *                 description: Name of the travel
+ *               pincode:
+ *                 type: string
+ *                 description: Pincode of the location
+ *               state:
+ *                 type: string
+ *                 description: State of the location
+ *               city:
+ *                 type: string
+ *                 description: City of the location
+ *               phone:
+ *                 type: string
+ *                 description: Owner's phone number
+ *               email:
+ *                 type: string
+ *                 description: Owner's email address
+ *               name:
+ *                 type: string
+ *                 description: Owner's name
+ *               country:
+ *                 type: string
+ *                 description: Country of the location
+ *               district:
+ *                 type: string
+ *                 description: District of the location
+ *     responses:
+ *       200:
+ *         description: Personal details added successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               ownerId: '1234567890'
+ *               message: 'Step one completed successfully'
+ *       403:
+ *         description: Owner with that email already exists
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Owner with that email already exists'
+ *       404:
+ *         description: Owner not found or not updated
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Owner not found or not updated'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Error updating owner in Step 1'
+ */
+
 router.post("/addPersonalDetail/:ownerId", verifyToken, stepone);
 
 router.put("/addBankDetail/:ownerId", steptwo);

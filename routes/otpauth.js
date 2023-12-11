@@ -7,13 +7,6 @@ const router = express.Router();
 
 /**
  * @swagger
- * tags:
- *   name: OTP Auth
- *   description: Operations related to OTP authentication
- */
-
-/**
- * @swagger
  * /api/otpauth/generateotp:
  *   post:
  *     summary: Generate OTP

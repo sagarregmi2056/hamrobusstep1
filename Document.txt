@@ -1,0 +1,37 @@
+
+
+Api : 
+
+http://localhost:8525/api/auth-owner//addPersonalDetail/{ownerid}  
+
+method:
+
+post 
+
+content body : 
+{
+   
+  "travelName": "Midnepal travels",
+  "pincode": "12345",
+  "state": "Bagmati",
+  "city": "kathmandu",
+  "email": "sagar2056@gmail.com",
+  "name": "sagar regmi",
+  "country": "Nepal",
+  "district": "lalitpur"
+
+
+    
+   
+}
+header : Token
+
+ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTc2YWE1YmQ5ZWM0NjEzZGI1YjEyMGUiLCJwaG9uZSI6Iis5Nzc5ODQ1MjM2OTY2Iiwicm9sZSI6Im93bmVyIiwiaWF0IjoxNzAyMjc2ODU2LCJleHAiOjE3MDIzNjMyNTZ9.e3UiXnwpK99h8FPVp-B0WiZ32ng4KcLdmVQVt_Io9M0
+
+Response:
+
+ {
+    "ownerId": "6576aa5bd9ec4613db5b120e",
+    "message": "Step one completed successfully"
+}
+
