@@ -20,7 +20,21 @@ const { gql } = require("graphql-tag");
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Hamro bus ticketing app API",
+      version: "2.0.0",
+      description: "This api is used for bus booking ticket system ",
+    },
+  },
+  apis: ["./routes/*.js"], // Replace with the actual path to your API route files
+};
 
+const swaggerSpec = swaggerJSDoc(swaggerOptions);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // importing swaggerui
 
 // const swaggerUi = require("swagger-ui-express");
