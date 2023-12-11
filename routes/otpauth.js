@@ -44,7 +44,9 @@ router.post("/generateotp", generateOtpAndSignin);
  * /api/otpauth/verifyotp:
  *   post:
  *     summary: Verify OTP and Sign In
- *     description: Verifies the provided OTP and completes the sign-in process
+ *     description: |
+ *       Verifies the provided OTP and completes the sign-in process. If the owner
+ *       with the given phone number doesn't exist, a new owner will be created.
  *     requestBody:
  *       content:
  *         application/json:
@@ -53,15 +55,34 @@ router.post("/generateotp", generateOtpAndSignin);
  *             properties:
  *               phone:
  *                 type: string
- *                 description: phone numver
+ *                 description: User's phone number
  *               otp:
  *                 type: string
  *                 description: One-time password (OTP)
  *     responses:
  *       200:
  *         description: Sign-in successful
- *       400:
- *         description: Bad request. Invalid otp try again.
+ *         content:
+ *           application/json:
+ *             example:
+ *               ownerId: '1234567890'
+ *               token: 'your_jwt_token'
+ *               owner:
+ *                 _id: '1234567890'
+ *                 phone: 'user_phone_number'
+ *                 role: 'user_role'
+ *       401:
+ *         description: Incorrect OTP or other authentication failure
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Incorrect OTP'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
  */
 router.post("/verifyotp", verifyOtpAndSignin);
 
