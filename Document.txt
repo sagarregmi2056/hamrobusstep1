@@ -35,3 +35,37 @@ Response:
     "message": "Step one completed successfully"
 }
 
+
+
+
+Api: 
+
+http://localhost:8525/api/auth-owner/addBankDetail/6576aa5bd9ec4613db5b120e
+
+method: put 
+
+
+body :
+ {
+  "bankName": "Muktinath bikash bank limited",
+  "accountNumber": "1234567890123456",
+  "beneficaryName": "sagar regmi",
+  "bankaccountType": "Savings",
+  "citizenshipNumber": "99999999999"
+}
+
+token : require
+
+body:  {
+  "bankName": "Muktinath bikash bank limited",
+  "accountNumber": "1234567890123456",
+  "beneficaryName": "sagar regmi",
+  "bankaccountType": "Savings",
+  "citizenshipNumber": "99999999999"
+}
+
+
+reponse: {
+    "ownerId": "6576aa5bd9ec4613db5b120e",
+    "message": "Step two completed successfully"
+}

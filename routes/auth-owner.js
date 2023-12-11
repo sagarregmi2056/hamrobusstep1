@@ -108,7 +108,59 @@ const router = express.Router();
 
 router.post("/addPersonalDetail/:ownerId", verifyToken, stepone);
 
-router.put("/addBankDetail/:ownerId", steptwo);
+/**
+ * @swagger
+ * /api/auth-owner/addBankDetail/{ownerId}:
+ *   put:
+ *     summary: Add Bank Detail
+ *     description: Adds bank details for the owner.
+ *     parameters:
+ *       - in: path
+ *         name: ownerId
+ *         required: true
+ *         description: ID of the owner
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               bankName:
+ *                 type: string
+ *                 description: Name of the bank
+ *               accountNumber:
+ *                 type: string
+ *                 description: Owner's bank account number
+ *               beneficaryName:
+ *                 type: string
+ *                 description: Beneficiary name for the bank account
+ *               bankaccountType:
+ *                 type: string
+ *                 description: Type of bank account (e.g., Savings, Checking)
+ *               citizenshipNumber:
+ *                 type: string
+ *                 description: Owner's citizenship number
+ *     responses:
+ *       200:
+ *         description: Bank details added successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               ownerId: '1234567890'
+ *               message: 'Step two completed successfully'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Error updating owner in Step 2'
+ */
+
+router.put("/addBankDetail/:ownerId", verifyToken, steptwo);
 
 router.put("/addPanDetail/:ownerId", stepthree);
 

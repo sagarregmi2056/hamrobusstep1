@@ -91,3 +91,6 @@
 ::1 - - [11/Dec/2023:06:40:32 +0000] "POST /api/otpauth/generateotp/ HTTP/1.1" 200 16 "-" "PostmanRuntime/7.35.0"
 ::1 - - [11/Dec/2023:06:40:56 +0000] "POST /api/otpauth/verifyotp/ HTTP/1.1" 200 503 "-" "PostmanRuntime/7.35.0"
 ::1 - - [11/Dec/2023:06:46:41 +0000] "POST /api/auth-owner//addPersonalDetail/6576aa5bd9ec4613db5b120e HTTP/1.1" 200 82 "-" "PostmanRuntime/7.35.0"
+::1 - - [11/Dec/2023:07:31:36 +0000] "POST /api/auth-owner/addBankDetail//6576aa5bd9ec4613db5b120e HTTP/1.1" 404 194 "-" "PostmanRuntime/7.35.0"
+::1 - - [11/Dec/2023:07:31:56 +0000] "PUT /api/auth-owner/addBankDetail//6576aa5bd9ec4613db5b120e HTTP/1.1" 404 193 "-" "PostmanRuntime/7.35.0"
+::1 - - [11/Dec/2023:07:32:11 +0000] "PUT /api/auth-owner/addBankDetail/6576aa5bd9ec4613db5b120e HTTP/1.1" 200 82 "-" "PostmanRuntime/7.35.0"
