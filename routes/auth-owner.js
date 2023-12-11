@@ -161,6 +161,58 @@ router.post("/addPersonalDetail/:ownerId", verifyToken, stepone);
  */
 
 router.put("/addBankDetail/:ownerId", verifyToken, steptwo);
+/**
+ * @swagger
+ * /api/auth-owner/addPanDetail/{ownerId}:
+ *   put:
+ *     summary: Add PAN Detail
+ *     description: Adds PAN details for the owner.
+ *     parameters:
+ *       - in: path
+ *         name: ownerId
+ *         required: true
+ *         description: ID of the owner
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               panName:
+ *                 type: string
+ *                 description: Name on the PAN card
+ *               panAddress:
+ *                 type: string
+ *                 description: Address on the PAN card
+ *               issuedate:
+ *                 type: string
+ *                 format: date
+ *                 description: |
+ *                   Date of issue (format: YYYY-MM-DD)
+ *               dateofbirth:
+ *                 type: string
+ *                 format: date
+ *                 description: |
+ *                   Date of birth (format: YYYY-MM-DD)
+ *     responses:
+ *       200:
+ *         description: PAN details added successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               ownerId: '1234567890'
+ *               message: 'Step three completed successfully'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Error updating owner in Step 3'
+ */
 
 router.put("/addPanDetail/:ownerId", stepthree);
 
