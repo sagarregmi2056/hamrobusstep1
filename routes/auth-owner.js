@@ -564,6 +564,52 @@ router.post(
 );
 
 router.post("/signin", signin);
+
+/**
+ * @swagger
+ * /api/auth-owner/refreshtoken:
+ *   post:
+ *     summary: Refresh Access Token
+ *     description: Refreshes the access token using a valid refresh token.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               _id:
+ *                 type: string
+ *                 description: ID of the owner for whom to refresh the token
+ *             required:
+ *               - _id
+ *     responses:
+ *       200:
+ *         description: Access token refreshed successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               token: 'new_access_token_here'
+ *       400:
+ *         description: Invalid content
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Invalid content'
+ *       404:
+ *         description: Owner not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Owner not found'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
+ */
+
 router.post("/refreshtoken", refreshToken);
 
 module.exports = router;
