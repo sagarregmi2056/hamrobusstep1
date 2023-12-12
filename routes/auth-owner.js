@@ -17,9 +17,6 @@ const {
   nationalidController,
 } = require("../controllers/auth-owner");
 
-// updated code
-// const { uploadOwnerAvatar, uploadnationalID, uploadCitizenshipimage, uploaddriverlisence, uploadpancard } = require('../helpers/multer');
-
 const { verifyToken } = require("../controllers/otpauth");
 const {
   uploaddriverlisence,

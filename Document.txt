@@ -127,7 +127,7 @@ response:
 
 
 
-Api :
+Api : upload driver lisence
 
 mathod:post 
  http://localhost:8525/api/auth-owner/adddocuments/6576aa5bd9ec4613db5b120e/driverlicense
@@ -143,3 +143,66 @@ mathod:post
     "url": "https://imagedelivery.net/-sdbRY-slZbDzF7YIcsg-g/688a15c4-865a-4d36-5681-9d3d7627da00/public",
     "message": "Driver's license image URL saved to Owner schema successfully"
 }
+
+
+
+Api : upload pancard 
+
+
+method:post
+http://localhost:8525/api/auth-owner/adddocuments/6576aa5bd9ec4613db5b120e/pancard
+
+formdata :  pancard : image type jpg
+
+
+
+response:
+{
+    "url": "https://imagedelivery.net/-sdbRY-slZbDzF7YIcsg-g/72d83eca-cbd7-45c2-ed3f-51e04896f700/public",
+    "message": "PAN card image URL saved to Owner schema successfully"
+}
+
+
+
+
+
+
+
+To add location by superadmin :   
+
+
+
+
+Api: 
+
+method : post
+
+
+ http://localhost:8525/api/locations/
+
+
+ token : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTc1NWYyZjJhZjJkYmYwYzVlYWQzN2MiLCJwaG9uZSI6Iis5Nzc5ODA0MjI4NTkzIiwicm9sZSI6InN1cGVyYWRtaW4iLCJpYXQiOjE3MDIzNzE5NjcsImV4cCI6MTcwMjQ1ODM2N30.HCor5z5II9Hizs9sZVXvXdnOlmPhtG4lFHyrjekS03Q
+
+
+ body:  
+    {
+
+  "name": "narayanghad",
+  "district": "chitwan"
+}
+
+response : {
+    "name": "gongabu",
+    "district": "kathmandu",
+    "_id": "657825f6bc334104fb674875",
+    "__v": 0
+}
+
+
+
+api : get all bus 
+
+method : get 
+
+
+http://localhost:8525/api/locations/
