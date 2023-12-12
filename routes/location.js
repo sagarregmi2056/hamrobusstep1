@@ -11,7 +11,7 @@ const {
 
 /**
  * @swagger
- * /api/locations/:
+ * /api/locations:
  *   post:
  *     summary: Add Location
  *     description: Add a new location.
@@ -22,14 +22,24 @@ const {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Location'
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Name of the location.
+ *               district:
+ *                 type: string
+ *                 description: District of the location.
+ *             required:
+ *               - name
+ *               - district
  *     responses:
  *       201:
  *         description: Location added successfully
  *         content:
  *           application/json:
  *             example:
- *               location: { _id: 'new_location_id', name: 'New Location', district: 'New District' }
+ *               location: { _id: 'new_location_id', name: 'Gongabu', district: 'Kathmandu' }
  *       401:
  *         description: Unauthorized - Superadmin signin required
  *         content:
