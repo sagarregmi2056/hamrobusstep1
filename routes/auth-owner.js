@@ -459,6 +459,59 @@ router.post(
   citizenshipController
 );
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     NationalIdUpload:
+ *       type: object
+ *       properties:
+ *         nationalid:
+ *           type: string
+ *           format: binary
+ *           description: National ID image file
+ *
+ * /api/auth-owner/adddocuments/{ownerId}/nationalid:
+ *   post:
+ *     summary: Upload National ID Document
+ *     description: Uploads national ID image for the owner.
+ *     parameters:
+ *       - in: path
+ *         name: ownerId
+ *         required: true
+ *         description: ID of the owner
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []  # Assuming Bearer token authentication is required
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             $ref: '#/components/schemas/NationalIdUpload'
+ *     responses:
+ *       200:
+ *         description: National ID image uploaded successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               url: 'https://example.com/nationalid.jpg'
+ *               message: "National ID image URL saved to Owner schema successfully"
+ *       404:
+ *         description: Owner not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Owner not found'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
+ */
+
 router.post(
   "/adddocuments/:ownerId/nationalid",
   uploadnationalID,
