@@ -331,6 +331,51 @@ router.post(
 //   uploaddriverlisencecontroller
 // );
 
+/**
+ * @swagger
+ * /api/auth-owner/getownerdocuments/{ownerId}:
+ *   get:
+ *     summary: Get Owner Documents
+ *     description: Retrieve documents uploaded by the owner.
+ *     parameters:
+ *       - in: path
+ *         name: ownerId
+ *         required: true
+ *         description: ID of the owner
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []  # Assuming Bearer token authentication is required
+ *     responses:
+ *       200:
+ *         description: Owner documents retrieved successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               ownerDocuments:
+ *                 - type: 'driverlicense'
+ *                   url: 'https://example.com/driverlicense.jpg'
+ *                 - type: 'pancard'
+ *                   url: 'https://example.com/pancard.jpg'
+ *                 - type: 'citizenship'
+ *                   url: 'https://example.com/citizenship.jpg'
+ *                 - type: 'nationalid'
+ *                   url: 'https://example.com/nationalid.jpg'
+ *               message: 'Owner documents retrieved successfully'
+ *       404:
+ *         description: Owner not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Owner not found'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
+ */
+
 router.get(
   "/getownerdocuments/:ownerId",
   verifyToken,
