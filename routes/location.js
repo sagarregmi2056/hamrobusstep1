@@ -122,6 +122,57 @@ router.route("/").get(getLocations).post(requireSuperadminSignin, add);
  *               error: 'Internal Server Error'
  */
 
+/**
+ * @swagger
+ * /api/locations/{id}:
+ *   put:
+ *     summary: Update Location by ID
+ *     description: Update details of a location by its ID.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the location
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               district:
+ *                 type: string
+ *             example:
+ *               name: "Updated Gongabu"
+ *               district: "Updated Kathmandu"
+ *     responses:
+ *       200:
+ *         description: Location details updated successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               name: "Updated Gongabu"
+ *               district: "Updated Kathmandu"
+ *       404:
+ *         description: Location not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Location not found'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
+ */
+
 router
   .route("/:id")
   .get(requireSuperadminSignin, read)
