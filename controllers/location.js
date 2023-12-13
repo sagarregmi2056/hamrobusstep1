@@ -1,16 +1,13 @@
 const Location = require("../models/Location");
 const _ = require("lodash");
 
-
-
-
 // finding location by id search type
 exports.locationById = async (req, res, next, id) => {
   const location = await Location.findById(id);
 
   if (!location) {
     return res.status(400).json({
-      error: "Location not found"
+      error: "Location not found",
     });
   }
   req.location = location; // adds location object in req with location info
@@ -26,21 +23,33 @@ exports.add = async (req, res) => {
 };
 // getfunction
 exports.getLocations = async (req, res) => {
-    // ascending order ma 
+  // ascending order ma
   const location = await Location.find({}).sort({ name: 1 });
 
   res.json(location);
 };
 
 exports.read = async (req, res) => {
-  res.json(req.location);
+  const location = req.location;
+
+  if (!location) {
+    return res.status(404).json({
+      error: "Location not found",
+    });
+  }
+
+  // Assuming your location object has properties 'name' and 'district'
+  res.json({
+    name: location.name,
+    district: location.district,
+    // Add other properties as needed
+  });
 };
 // update function
 exports.update = async (req, res) => {
   let location = req.location;
-    
 
-//   req.location lai transfer garyako
+  //   req.location lai transfer garyako
   location = _.extend(location, req.body);
 
   await location.save();

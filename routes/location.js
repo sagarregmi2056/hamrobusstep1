@@ -85,6 +85,43 @@ const {
 
 router.route("/").get(getLocations).post(requireSuperadminSignin, add);
 
+/**
+ * @swagger
+ * /api/locations/{id}:
+ *   get:
+ *     summary: Get Location by ID
+ *     description: Retrieve details of a location by its ID.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the location
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Location details retrieved successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               name: "Gongabu"
+ *               district: "Kathmandu"
+ *       404:
+ *         description: Location not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Location not found'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
+ */
+
 router
   .route("/:id")
   .get(requireSuperadminSignin, read)

@@ -8,7 +8,7 @@ exports.bookingById = async (req, res, next, id) => {
 
   if (!booking) {
     return res.status(400).json({
-      error: "booking not found"
+      error: "booking not found",
     });
   }
   req.booking = booking; // adds booking object in req with booking info
@@ -78,7 +78,7 @@ exports.getOwnerBookings = async (req, res) => {
 //   res.json(booking);
 // };
 
-// updated code of postbooking using ticket 
+// updated code of postbooking using ticket
 
 exports.postBooking = async (req, res) => {
   const booking = new Booking(req.body);
@@ -112,7 +112,7 @@ exports.postBooking = async (req, res) => {
     bus.bookedSeat.includes(booking.seatNumber)
   ) {
     return res.status(400).json({
-      error: "Not available"
+      error: "Not available",
     });
   }
 
@@ -142,13 +142,6 @@ exports.postBooking = async (req, res) => {
   });
 };
 
-
-
-
-
-
-
-
 exports.postSold = async (req, res) => {
   // console.log("hehe")
   const booking = new Booking(req.body);
@@ -163,7 +156,7 @@ exports.postSold = async (req, res) => {
     bus.bookedSeat.includes(booking.seatNumber)
   ) {
     return res.status(400).json({
-      error: "Not available"
+      error: "Not available",
     });
   }
 
@@ -198,13 +191,13 @@ exports.deleteBooking = async (req, res) => {
 
   if (booking.verification === "payed") {
     const removeIndexSold = bus.soldSeat
-      .map(seat => seat.toString())
+      .map((seat) => seat.toString())
       .indexOf(booking.seatNumber);
 
     bus.soldSeat.splice(removeIndexSold, 1);
   } else {
     const removeIndexBook = bus.bookedSeat
-      .map(seat => seat.toString())
+      .map((seat) => seat.toString())
       .indexOf(booking.seatNumber);
 
     bus.bookedSeat.splice(removeIndexBook, 1);
