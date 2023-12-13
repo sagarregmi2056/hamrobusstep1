@@ -173,6 +173,42 @@ router.route("/").get(getLocations).post(requireSuperadminSignin, add);
  *               error: 'Internal Server Error'
  */
 
+/**
+ * @swagger
+ * /api/locations/{id}:
+ *   delete:
+ *     summary: Remove Location
+ *     description: Removes a location by ID.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the location to remove
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Location removed successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: "Location removed successfully"
+ *       404:
+ *         description: Location not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Location not found"
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Internal Server Error"
+ */
+
 router
   .route("/:id")
   .get(requireSuperadminSignin, read)
