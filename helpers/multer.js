@@ -3,17 +3,17 @@ const multer = require("multer");
 
 //storage management for the file
 //that will be uploaded
-const busImage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./public/uploads/busimage");
-  },
-  filename: function (req, file, cb) {
-    cb(
-      null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
+// const busImage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "./public/uploads/busimage");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(
+//       null,
+//       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+//     );
+//   },
+// });
 // yo chai owner ko photo ko lagi
 const ownerAvatar = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -29,31 +29,31 @@ const ownerAvatar = multer.diskStorage({
 
 //  yo chai pan card ko lagi
 
-const PanCardImage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./public/uploads/PanCardImage");
-  },
-  filename: function (req, file, cb) {
-    cb(
-      null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
+// const PanCardImage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "./public/uploads/PanCardImage");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(
+//       null,
+//       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+//     );
+//   },
+// });
 
 //  llisence
 
-const lisence = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./public/uploads/lisence");
-  },
-  filename: function (req, file, cb) {
-    cb(
-      null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
+// const lisence = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "./public/uploads/lisence");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(
+//       null,
+//       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+//     );
+//   },
+// });
 
 const storagee = multer.memoryStorage();
 
@@ -111,9 +111,6 @@ const storage = multer.diskStorage({
 // const limits = { fileSize: 2480 * 3230 }
 //management of the storage and the file that will be uploaded
 //.single expects the name of the file input field
-exports.uploadBusImage = multer({ storage: busImage, fileFilter }).single(
-  "image"
-);
 
 exports.uploadOwnerAvatar = multer({ storage: ownerAvatar, fileFilter }).single(
   "photo"
@@ -150,6 +147,10 @@ exports.uploadCitizenshipimages = multer({ storage: storagee }).single(
 exports.uploadnationalID = multer({ storage: storagee, fileFilter }).single(
   "nationalID",
   1
+);
+
+exports.uploadBusImage = multer({ storage: storagee, fileFilter }).single(
+  "busimage"
 );
 
 exports.uploadowner = multer({ storage: storage, fileFilter }).fields([
