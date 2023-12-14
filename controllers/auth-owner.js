@@ -551,22 +551,52 @@ exports.refreshToken = async (req, res) => {
   return res.json({ error: "Invalid content" });
 };
 
+// exports.requireOwnerSignin = async (req, res, next) => {
+//   const token = req.headers.authorization;
+
+//   if (token) {
+//     const owner = parseToken(token);
+//     // console.log("hehe")
+
+//     const foundowner = await Owner.findById(owner._id).select("role phone ");
+
+//     // console.log("hehe")
+
+//     if (foundowner && foundowner.role === "owner") {
+//       // console.log("hehe")
+//       req.ownerauth = foundowner;
+//       next();
+//     } else res.status(401).json({ error: "Not authorized!" });
+//   } else {
+//     res.status(401).json({ error: "Not authorized" });
+//   }
+// };
+
 exports.requireOwnerSignin = async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (token) {
     const owner = parseToken(token);
-    // console.log("hehe")
 
-    const foundowner = await Owner.findById(owner._id).select("role phone ");
+    if (owner) {
+      const foundOwner = await Owner.findById(owner._id).select(
+        "role phone status vendorDetail"
+      );
 
-    // console.log("hehe")
-
-    if (foundowner && foundowner.role === "owner") {
-      // console.log("hehe")
-      req.ownerauth = foundowner;
-      next();
-    } else res.status(401).json({ error: "Not authorized!" });
+      if (
+        foundOwner &&
+        foundOwner.role === "owner" &&
+        foundOwner.status === "approved" &&
+        foundOwner.vendorDetail === "success"
+      ) {
+        req.ownerauth = foundOwner;
+        next();
+      } else {
+        res.status(401).json({ error: "Not authorized!" });
+      }
+    } else {
+      res.status(401).json({ error: "Not authorized" });
+    }
   } else {
     res.status(401).json({ error: "Not authorized" });
   }
