@@ -14,15 +14,15 @@ const {
   getAvailableBusesOfOwner,
   getUnavailableBusesOfOwner,
   getAllAvailableBuses,
-  getAllUnavailableBuses
+  getAllUnavailableBuses,
+  uploadBusImageController,
 } = require("../controllers/bus");
 
 const { uploadBusImage } = require("../helpers");
 
-router
-  .route("/")
-  .get(getBuses)
-  .post(requireOwnerSignin, uploadBusImage, create);
+router.route("/").get(getBuses).post(requireOwnerSignin, create);
+
+router.post("/uploadbusimage", requireOwnerSignin, uploadBusImageController);
 
 router.get(
   "/owner-bus-available",
@@ -44,7 +44,7 @@ router.post("/filter", searchBusByFilter);
 router
   .route("/:busSlug")
   .get(read)
-  .put(requireOwnerSignin, uploadBusImage,isPoster, update)
+  .put(requireOwnerSignin, uploadBusImage, isPoster, update)
   .delete(requireOwnerSignin, isPoster, remove);
 
 router.param("busSlug", busBySlug);

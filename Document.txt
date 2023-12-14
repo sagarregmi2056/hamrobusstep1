@@ -211,6 +211,8 @@ http://localhost:8525/api/locations/
 
 Api : update location 
 
+
+
 http://localhost:8525/api/locations/657823879e7103d4b6e3dee8
 
 body:
