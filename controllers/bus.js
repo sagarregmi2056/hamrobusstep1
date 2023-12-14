@@ -392,7 +392,7 @@ exports.uploadBusImageController = async (req, res) => {
   try {
     const ownerId = req.ownerauth._id; // Assuming the owner ID is in req.ownerauth
     console.log(ownerId);
-
+    const imageType = "busimage";
     // Check if the owner exists
     const owner = await Owner.findById(ownerId);
     if (!owner) {
@@ -406,7 +406,7 @@ exports.uploadBusImageController = async (req, res) => {
     // Save the image URL to the Bus schema
     const bus = new Bus({
       owner: ownerId,
-      image: imageUrl,
+      images: [{ type: imageType, url: imageUrl }],
     });
 
     await bus.save();

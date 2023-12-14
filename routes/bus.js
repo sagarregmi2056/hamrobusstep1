@@ -22,7 +22,12 @@ const { uploadBusImage } = require("../helpers");
 
 router.route("/").get(getBuses).post(requireOwnerSignin, create);
 
-router.post("/uploadbusimage", requireOwnerSignin, uploadBusImageController);
+router.post(
+  "/uploadbusimage",
+  requireOwnerSignin,
+  uploadBusImage,
+  uploadBusImageController
+);
 
 router.get(
   "/owner-bus-available",
