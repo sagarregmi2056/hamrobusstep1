@@ -2,9 +2,7 @@ const slug = require("mongoose-slug-generator");
 const mongoose = require("mongoose");
 const { bool } = require("sharp");
 
-
 // this is causing the error while using ..
-
 
 const { ObjectId } = mongoose.Schema;
 
@@ -14,95 +12,104 @@ const busSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: true,
-      maxlength: 32
+      maxlength: 32,
     },
     type: {
       type: String,
       enum: ["AC-SLEEPER", "NONAC-SLEEPER", "AC-SEATER", "NONAC-SEATER"],
-      default:"NORMAL"
+      default: "NORMAL",
     },
     busNumber: {
       type: String,
       trim: true,
       required: true,
-      maxlength: 70
+      maxlength: 70,
     },
     fare: {
       type: Number,
       trim: true,
       required: true,
-      maxlength: 32
+      maxlength: 32,
     },
     features: {
-      type: []
+      type: [],
     },
     isbusverified: {
-      default:false,
-      type:Boolean
+      default: false,
+      type: Boolean,
     },
     description: {
       type: String,
-      maxlength: 2000
+      maxlength: 2000,
     },
     seatsAvailable: {
       type: Number,
       trim: true,
       default: 30,
-      maxlength: 32
+      maxlength: 32,
     },
     bookedSeat: {
-      type: []
+      type: [],
     },
     soldSeat: {
-      type: []
+      type: [],
     },
     numberOfSeats: {
       type: Number,
       trim: true,
       default: 30,
-      maxlength: 32
+      maxlength: 32,
     },
-    image: {
-      type: String
-    },
+
     departure_time: {
       type: String,
       trim: true,
-      maxlength: 32
+      maxlength: 32,
     },
     isAvailable: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    travel: {type: ObjectId, ref: "Travel"},
+    travel: { type: ObjectId, ref: "Travel" },
     startLocation: { type: ObjectId, ref: "Location" },
     endLocation: { type: ObjectId, ref: "Location" },
 
     journeyDate: {
-      type: String
+      type: String,
     },
     owner: {
       type: ObjectId,
-      ref: "Owner"
+      ref: "Owner",
     },
     boardingPoints: [
       {
         type: String,
-        trim: true
-      }
+        trim: true,
+      },
     ],
     droppingPoints: [
       {
         type: String,
-        trim: true
-      }
+        trim: true,
+      },
     ],
+
+    images: [
+      {
+        type: {
+          type: String,
+          required: true,
+        },
+        url: String,
+      },
+    ],
+
     slug: {
       type: String,
       slug: "name",
       unique: true,
-      slug_padding_size: 3
-    }
+      slug_padding_size: 3,
+    },
   },
   { timestamps: true }
 );

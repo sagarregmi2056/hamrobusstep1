@@ -206,3 +206,28 @@ method : get
 
 
 http://localhost:8525/api/locations/
+
+
+
+Api : update location 
+
+http://localhost:8525/api/locations/657823879e7103d4b6e3dee8
+
+body:
+
+ {
+  "name": "Updated Location Name",
+  "district": "Updated District"
+}
+
+reponse : 
+
+{
+    "_id": "657823879e7103d4b6e3dee8",
+    "name": "Updated Location Name",
+    "district": "Updated District",
+    "__v": 0
+}
+
+
+Api : 
