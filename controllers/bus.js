@@ -246,63 +246,63 @@ async function uploadToCloudflare(image) {
   }
 }
 
-exports.create = async (req, res) => {
-  try {
-    const busExists = await Bus.findOne({ busNumber: req.body.busNumber });
-    if (busExists) {
-      return res.status(403).json({
-        error: "Bus is already added!",
-      });
-    }
+// exports.create = async (req, res) => {
+//   try {
+//     const busExists = await Bus.findOne({ busNumber: req.body.busNumber });
+//     if (busExists) {
+//       return res.status(403).json({
+//         error: "Bus is already added!",
+//       });
+//     }
+//     const imageType = "busimage";
+//     let imageUrl = null;
 
-    let imageUrl = null;
+//     // Check if an image file is attached
+//     if (req.file !== undefined) {
+//       const { buffer: imageBuffer } = req.file;
 
-    // Check if an image file is attached
-    if (req.file !== undefined) {
-      const { buffer: imageBuffer } = req.file;
+//       // Resize the image buffer using sharp
+//       const resizedImageBuffer = await sharp(imageBuffer)
+//         .resize(800)
+//         .jpeg({ quality: 100 })
+//         .toBuffer();
 
-      // Resize the image buffer using sharp
-      const resizedImageBuffer = await sharp(imageBuffer)
-        .resize(800)
-        .jpeg({ quality: 100 })
-        .toBuffer();
+//       // Upload the resized image buffer to Cloudflare
+//       imageUrl = await uploadToCloudflare(resizedImageBuffer);
 
-      // Upload the resized image buffer to Cloudflare
-      imageUrl = await uploadToCloudflare(resizedImageBuffer);
+//       req.body.image = imageUrl;
+//     }
 
-      req.body.image = imageUrl;
-    }
+//     // Split boardingPoints and droppingPoints if present
+//     try {
+//       if (req.body.boardingPoints) {
+//         req.body.boardingPoints = req.body.boardingPoints.split(",");
+//       }
+//     } catch (error) {
+//       return res.status(400).json({ error: "Invalid boarding format" });
+//     }
 
-    // Split boardingPoints and droppingPoints if present
-    try {
-      if (req.body.boardingPoints) {
-        req.body.boardingPoints = req.body.boardingPoints.split(",");
-      }
-    } catch (error) {
-      return res.status(400).json({ error: "Invalid boarding format" });
-    }
+//     if (req.body.droppingPoints) {
+//       req.body.droppingPoints = req.body.droppingPoints.split(",");
+//     }
 
-    if (req.body.droppingPoints) {
-      req.body.droppingPoints = req.body.droppingPoints.split(",");
-    }
+//     const bus = new Bus(req.body);
+//     bus.seatsAvailable = req.body.numberOfSeats;
 
-    const bus = new Bus(req.body);
-    bus.seatsAvailable = req.body.numberOfSeats;
+//     if (!checkDateAvailability(req.body.journeyDate)) {
+//       bus.isAvailable = false;
+//     }
 
-    if (!checkDateAvailability(req.body.journeyDate)) {
-      bus.isAvailable = false;
-    }
+//     bus.owner = req.ownerauth;
 
-    bus.owner = req.ownerauth;
+//     await bus.save();
 
-    await bus.save();
-
-    res.json(bus);
-  } catch (error) {
-    console.error("Error creating bus:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
+//     res.json(bus);
+//   } catch (error) {
+//     console.error("Error creating bus:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
 
 // exports.create = async (req, res) => {
 //   const busExists = await Bus.findOne({ busNumber: req.body.busNumber });
@@ -346,6 +346,45 @@ exports.create = async (req, res) => {
 
 //   res.json(bus);
 // };
+
+exports.create = async (req, res) => {
+  try {
+    const busExists = await Bus.findOne({ busNumber: req.body.busNumber });
+    if (busExists) {
+      return res.status(403).json({
+        error: "Bus is already added!",
+      });
+    }
+
+    try {
+      if (req.body.boardingPoints) {
+        req.body.boardingPoints = req.body.boardingPoints.split(",");
+      }
+    } catch (error) {
+      return res.status(400).json({ error: "Invalid boarding format" });
+    }
+
+    if (req.body.droppingPoints) {
+      req.body.droppingPoints = req.body.droppingPoints.split(",");
+    }
+
+    const bus = new Bus(req.body);
+    bus.seatsAvailable = req.body.numberOfSeats;
+
+    if (!checkDateAvailability(req.body.journeyDate)) {
+      bus.isAvailable = false;
+    }
+
+    bus.owner = req.ownerauth;
+
+    await bus.save();
+
+    res.json(bus);
+  } catch (error) {
+    console.error("Error creating bus:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
 // exports.update = async (req, res) => {
 //   if (req.file !== undefined) {
