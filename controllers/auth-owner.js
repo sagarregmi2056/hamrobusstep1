@@ -595,10 +595,10 @@ exports.requireOwnerSignin = async (req, res, next) => {
         res.status(401).json({ error: "Not authorized!" });
       }
     } else {
-      res.status(401).json({ error: "Not authorized" });
+      res.status(401).json({ error: "Not authorized " });
     }
   } else {
-    res.status(401).json({ error: "Not authorized" });
+    res.status(401).json({ error: "Not authorized token not available" });
   }
 };
 
