@@ -1,5 +1,6 @@
 const Bus = require("../models/Bus");
 const _ = require("lodash");
+const Owner = require("../models/Owner");
 
 // for image optimzation
 const sharp = require("sharp");
@@ -383,6 +384,39 @@ exports.create = async (req, res) => {
     res.json(bus);
   } catch (error) {
     console.error("Error creating bus:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.uploadBusImageController = async (req, res) => {
+  try {
+    const ownerId = req.ownerauth._id; // Assuming the owner ID is in req.ownerauth
+    console.log(ownerId);
+
+    // Check if the owner exists
+    const owner = await Owner.findById(ownerId);
+    if (!owner) {
+      return res.status(404).send("Owner not found");
+    }
+
+    const imageUrl = req.file
+      ? await uploadToCloudflare(req.file.buffer)
+      : null;
+
+    // Save the image URL to the Bus schema
+    const bus = new Bus({
+      owner: ownerId,
+      image: imageUrl,
+    });
+
+    await bus.save();
+
+    res.json({
+      url: imageUrl,
+      message: `Bus image URL saved to Bus schema successfully`,
+    });
+  } catch (error) {
+    console.error("Error handling image upload:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
