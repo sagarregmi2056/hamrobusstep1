@@ -161,6 +161,10 @@ const ownerSchema = new mongoose.Schema(
       type: String,
     },
 
+    rejectionReason: {
+      type: String,
+      default: "",
+    },
     images: [
       {
         type: {

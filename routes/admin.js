@@ -5,13 +5,24 @@ const {
   approveOwner,
   rejectOwner,
   getOwnerDetails,
+  getAllDocuments,
+  getPendingSuccessDocuments,
 } = require("../controllers/admin.js");
 const { requireSuperadminSignin } = require("../controllers/auth-owner");
 // const { getAllUsers,userById } = require("../controllers/user");
 
 const router = express.Router();
 // recently added routes
-router.get("/allowners", requireSuperadminSignin, getOwnerDetails);
+router.get("/allowners/:ownerId", requireSuperadminSignin, getOwnerDetails);
+
+router.get("/alldocuments", requireSuperadminSignin, getAllDocuments);
+
+router.get(
+  "/pendingsuccessdocuments",
+  requireSuperadminSignin,
+  getPendingSuccessDocuments
+);
+
 router.put("/owners/status", requireSuperadminSignin, updateOwnerStatus);
 
 router.put("/owners/:ownerId", requireSuperadminSignin, updateOwnerStatus);

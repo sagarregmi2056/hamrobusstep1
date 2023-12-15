@@ -6,6 +6,8 @@ exports.getOwnerDetails = async (req, res) => {
   try {
     const ownerId = req.params.ownerId;
 
+    console.log("Received ownerId:", ownerId);
+
     // Retrieve owner details
     const ownerDetails = await Owner.findById(ownerId);
 
@@ -122,11 +124,10 @@ exports.approveOwner = async (req, res) => {
 //   };
 
 //   to reject them with a reason
-
 exports.rejectOwner = async (req, res) => {
   try {
     const ownerId = req.params.ownerId;
-    const { rejectionReason } = req.body; // Extraction of the rejection reason from the request body
+    let { rejectionReason } = req.body;
 
     // Find the owner by ID
     const owner = await Owner.findById(ownerId);
@@ -137,18 +138,58 @@ exports.rejectOwner = async (req, res) => {
 
     // Update the owner's status to "rejected" and save the rejection reason
     owner.status = "rejected";
-    owner.rejectionReason = rejectionReason;
+
+    // Check if rejectionReason is provided, otherwise set it to an empty string
+    owner.rejectionReason =
+      rejectionReason !== undefined ? rejectionReason : "";
 
     // Save the updated owner document
     await owner.save();
 
     res.json({
       message: "Owner rejected successfully",
-      reason: rejectionReason,
+      reason: owner.rejectionReason, // Use the actual stored rejection reason
       owner,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+exports.getAllDocuments = async (req, res) => {
+  try {
+    // Retrieve all owners' documents
+    const allDocuments = await Owner.find(
+      { role: "owner" },
+      "_id images phone"
+    );
+
+    // Return the list of documents
+    res.json(allDocuments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error retrieving owners' documents" });
+  }
+};
+
+exports.getPendingSuccessDocuments = async (req, res) => {
+  try {
+    // Retrieve all owners' documents with vendorDetail "success" and status "pending"
+    const pendingSuccessDocuments = await Owner.find(
+      {
+        vendorDetail: "success",
+        status: "pending",
+      },
+      "_id    travelName status images phone name email"
+    );
+
+    // Return the list of documents
+    res.json(pendingSuccessDocuments);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "Error retrieving pending success documents" });
   }
 };
