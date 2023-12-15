@@ -71,6 +71,8 @@ router.get("/allowners/:ownerId", requireSuperadminSignin, getOwnerDetails);
  *   get:
  *     summary: Get All Documents
  *     description: Retrieves details of all owners' documents.
+ *     tags:
+ *       - Admin
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -100,6 +102,7 @@ router.get("/allowners/:ownerId", requireSuperadminSignin, getOwnerDetails);
  *             example:
  *               error: "Error retrieving owners' documents"
  */
+
 router.get("/alldocuments", requireSuperadminSignin, getAllDocuments);
 
 /**
@@ -108,6 +111,8 @@ router.get("/alldocuments", requireSuperadminSignin, getAllDocuments);
  *   get:
  *     summary: Get Pending Success Documents
  *     description: Retrieves details of owners' documents with pending status for vendorDetail 'success'.
+ *     tags:
+ *       - Admin
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -149,6 +154,8 @@ router.get(
  *   put:
  *     summary: Approve Owner
  *     description: Update the status of an owner to "approved."
+ *     tags:
+ *       - Admin
  *     parameters:
  *       - in: path
  *         name: ownerId
@@ -182,14 +189,16 @@ router.get(
  *             example:
  *               error: Internal Server Error
  */
-router.put("/owners/:ownerId/approve", requireSuperadminSignin, approveOwner);
 
+router.put("/owners/:ownerId/approve", requireSuperadminSignin, approveOwner);
 /**
  * @swagger
  * /api/admin/owners/{ownerId}/reject:
  *   put:
  *     summary: Reject Owner
  *     description: Update the status of an owner to "rejected" and save the rejection reason.
+ *     tags:
+ *       - Admin
  *     parameters:
  *       - in: path
  *         name: ownerId
