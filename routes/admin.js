@@ -12,6 +12,55 @@ const { requireSuperadminSignin } = require("../controllers/auth-owner");
 // const { getAllUsers,userById } = require("../controllers/user");
 
 const router = express.Router();
+
+/**
+ * @swagger
+ * /api/admin/allowners/{ownerId}:
+ *   get:
+ *     summary: Get Owner Details
+ *     description: Retrieves details of a specific owner.
+ *     parameters:
+ *       - in: path
+ *         name: ownerId
+ *         required: true
+ *         description: ID of the owner
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Owner details retrieved successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               ownerId: '1234567890'
+ *               travelName: 'SampleTravel'
+ *               pincode: '12345'
+ *               state: 'SampleState'
+ *               city: 'SampleCity'
+ *               phone: '1234567890'
+ *               email: 'owner@example.com'
+ *               name: 'Owner Name'
+ *               country: 'SampleCountry'
+ *               district: 'SampleDistrict'
+ *               vendorDetail: 'bankDetail'
+ *               status: 'active'
+ *               panNumber: 'ABCPN1234C'
+ *               panName: 'PAN Owner Name'
+ *       404:
+ *         description: Owner not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Owner not found'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Error retrieving owner details'
+ */
 // recently added routes
 router.get("/allowners/:ownerId", requireSuperadminSignin, getOwnerDetails);
 
@@ -23,9 +72,6 @@ router.get(
   getPendingSuccessDocuments
 );
 
-router.put("/owners/status", requireSuperadminSignin, updateOwnerStatus);
-
-router.put("/owners/:ownerId", requireSuperadminSignin, updateOwnerStatus);
 // Route to approve an owner
 router.put("/owners/:ownerId/approve", requireSuperadminSignin, approveOwner);
 
