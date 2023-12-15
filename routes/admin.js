@@ -182,6 +182,58 @@ router.get(
  */
 router.put("/owners/:ownerId/approve", requireSuperadminSignin, approveOwner);
 
+/**
+ * @swagger
+ * /api/admin/owners/{ownerId}/reject:
+ *   put:
+ *     summary: Reject Owner
+ *     description: Update the status of an owner to "rejected" and save the rejection reason.
+ *     parameters:
+ *       - in: path
+ *         name: ownerId
+ *         required: true
+ *         description: ID of the owner to be rejected
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               rejectionReason:
+ *                 type: string
+ *                 description: Reason for rejecting the owner. If not provided, it will be an empty string.
+ *     responses:
+ *       '200':
+ *         description: Owner rejected successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Owner rejected successfully
+ *               reason: 'Rejection reason goes here'
+ *               owner:
+ *                 _id: 'ownerId'
+ *                 status: rejected
+ *                 rejectionReason: 'Rejection reason goes here'
+ *                 # Include other owner details as needed
+ *       '404':
+ *         description: Owner not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Owner not found
+ *       '500':
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Internal Server Error
+ */
+
 // Route to rejecting  owner with a reason yaha chai reject chai hamro reason ho
 router.put("/owners/:ownerId/reject", requireSuperadminSignin, rejectOwner);
 
