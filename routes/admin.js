@@ -63,7 +63,41 @@ const router = express.Router();
  */
 // recently added routes
 router.get("/allowners/:ownerId", requireSuperadminSignin, getOwnerDetails);
-
+/**
+ * @swagger
+ * /api/admin/alldocuments:
+ *   get:
+ *     summary: Get All Documents
+ *     description: Retrieves details of all owners' documents.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Owners' documents retrieved successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               - _id: 'ownerId1'
+ *                 images:
+ *                   - type: 'documentType1'
+ *                     url: 'https://example.com/document1.jpg'
+ *                   - type: 'documentType2'
+ *                     url: 'https://example.com/document2.jpg'
+ *                 phone: '1234567890'
+ *               - _id: 'ownerId2'
+ *                 images:
+ *                   - type: 'documentType3'
+ *                     url: 'https://example.com/document3.jpg'
+ *                   - type: 'documentType4'
+ *                     url: 'https://example.com/document4.jpg'
+ *                 phone: '9876543210'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Error retrieving owners' documents"
+ */
 router.get("/alldocuments", requireSuperadminSignin, getAllDocuments);
 
 router.get(
