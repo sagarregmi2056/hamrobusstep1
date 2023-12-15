@@ -100,13 +100,86 @@ router.get("/allowners/:ownerId", requireSuperadminSignin, getOwnerDetails);
  */
 router.get("/alldocuments", requireSuperadminSignin, getAllDocuments);
 
+/**
+ * @swagger
+ * /api/admin/pendingsuccessdocuments:
+ *   get:
+ *     summary: Get Pending Success Documents
+ *     description: Retrieves details of owners' documents with pending status for vendorDetail 'success'.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Pending success documents retrieved successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               - _id: 'ownerId1'
+ *                 images:
+ *                   - type: 'documentType1'
+ *                     url: 'https://example.com/document1.jpg'
+ *                   - type: 'documentType2'
+ *                     url: 'https://example.com/document2.jpg'
+ *                 phone: '1234567890'
+ *               - _id: 'ownerId2'
+ *                 images:
+ *                   - type: 'documentType3'
+ *                     url: 'https://example.com/document3.jpg'
+ *                   - type: 'documentType4'
+ *                     url: 'https://example.com/document4.jpg'
+ *                 phone: '9876543210'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Error retrieving pending success documents"
+ */
+
 router.get(
   "/pendingsuccessdocuments",
   requireSuperadminSignin,
   getPendingSuccessDocuments
 );
-
-// Route to approve an owner
+/**
+ * @swagger
+ * /api/admin/owners/{ownerId}/approve:
+ *   put:
+ *     summary: Approve Owner
+ *     description: Update the status of an owner to "approved."
+ *     parameters:
+ *       - in: path
+ *         name: ownerId
+ *         required: true
+ *         description: ID of the owner to be approved
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: Owner approved successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Owner approved successfully
+ *               owner:
+ *                 _id: 'ownerId'
+ *                 status: approved
+ *                 # Include other owner details as needed
+ *       '404':
+ *         description: Owner not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Owner not found
+ *       '500':
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: Internal Server Error
+ */
 router.put("/owners/:ownerId/approve", requireSuperadminSignin, approveOwner);
 
 // Route to rejecting  owner with a reason yaha chai reject chai hamro reason ho
