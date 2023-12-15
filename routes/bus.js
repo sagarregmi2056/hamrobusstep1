@@ -21,7 +21,7 @@ const {
 const { uploadBusImage } = require("../helpers");
 /**
  * @swagger
- * /api/buses:
+ * /api/bus:
  *   post:
  *     summary: Create a new bus
  *     description: Create a new bus and add it to the system.
@@ -141,7 +141,7 @@ const { uploadBusImage } = require("../helpers");
 
 /**
  * @swagger
- * /api/buses:
+ * /api/bus:
  *   get:
  *     summary: Get all buses
  *     description: Retrieve a list of all buses in the system.
@@ -213,7 +213,7 @@ router.route("/").get(getBuses).post(requireOwnerSignin, create);
 
 /**
  * @swagger
- * /api/uploadbusimage:
+ * /api/bus/uploadbusimage:
  *   post:
  *     summary: Upload Bus Image
  *     description: Uploads an image for the bus associated with the authenticated owner.
@@ -265,21 +265,372 @@ router.post(
   uploadBusImageController
 );
 
+/**
+ * @swagger
+ * /api/bus/owner-bus-available:
+ *   get:
+ *     summary: Get available buses of the owner
+ *     description: Retrieve the list of available buses owned by the authenticated owner.
+ *     tags:
+ *       - Buses
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of available buses retrieved successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               - _id: '60e778b1b535263a64a12522'
+ *                 name: 'Sample Bus 1'
+ *                 type: 'AC-SLEEPER'
+ *                 busNumber: 'ABC123'
+ *                 fare: 1000
+ *                 isbusverified: true
+ *                 description: 'A comfortable bus for your journey'
+ *                 seatsAvailable: 20
+ *                 numberOfSeats: 30
+ *                 departure_time: '08:00 AM'
+ *                 travel: '60e7788cb535263a64a12520'
+ *                 startLocation: '60e77895b535263a64a12521'
+ *                 endLocation: '60e77895b535263a64a12521'
+ *                 journeyDate: '2022-08-01'
+ *                 boardingPoints: ['Boarding Point 1', 'Boarding Point 2']
+ *                 droppingPoints: ['Dropping Point 1', 'Dropping Point 2']
+ *                 slug: 'sample-bus-1'
+ *                 createdAt: '2022-07-08T12:30:45.678Z'
+ *                 updatedAt: '2022-07-08T12:30:45.678Z'
+ *               - _id: '60e778b1b535263a64a12523'
+ *                 name: 'Sample Bus 2'
+ *                 type: 'NONAC-SEATER'
+ *                 busNumber: 'XYZ456'
+ *                 fare: 800
+ *                 isbusverified: true
+ *                 description: 'An affordable bus for short trips'
+ *                 seatsAvailable: 15
+ *                 numberOfSeats: 20
+ *                 departure_time: '10:00 AM'
+ *                 travel: '60e7788cb535263a64a12520'
+ *                 startLocation: '60e77895b535263a64a12521'
+ *                 endLocation: '60e77895b535263a64a12521'
+ *                 journeyDate: '2022-08-05'
+ *                 boardingPoints: ['Boarding Point 3', 'Boarding Point 4']
+ *                 droppingPoints: ['Dropping Point 3', 'Dropping Point 4']
+ *                 slug: 'sample-bus-2'
+ *                 createdAt: '2022-07-08T13:45:30.678Z'
+ *                 updatedAt: '2022-07-08T13:45:30.678Z'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
+ */
+
 router.get(
   "/owner-bus-available",
   requireOwnerSignin,
   getAvailableBusesOfOwner
 );
+
+/**
+ * @swagger
+ * /api/bus/owner-bus-unavailable:
+ *   get:
+ *     summary: Get unavailable buses of the owner
+ *     description: Retrieve a list of buses that belong to the authenticated owner and are currently unavailable.
+ *     tags:
+ *       - Buses
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of unavailable buses retrieved successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               - _id: '60e778b1b535263a64a12522'
+ *                 name: 'Sample Bus'
+ *                 type: 'AC-SLEEPER'
+ *                 busNumber: 'ABC123'
+ *                 fare: 1000
+ *                 isbusverified: false
+ *                 description: 'A comfortable bus for your journey'
+ *                 seatsAvailable: 30
+ *                 numberOfSeats: 30
+ *                 departure_time: '08:00 AM'
+ *                 travel: '60e7788cb535263a64a12520'
+ *                 startLocation: '60e77895b535263a64a12521'
+ *                 endLocation: '60e77895b535263a64a12521'
+ *                 journeyDate: '2022-08-01'
+ *                 boardingPoints: ['Boarding Point 1', 'Boarding Point 2']
+ *                 droppingPoints: ['Dropping Point 1', 'Dropping Point 2']
+ *                 images: [
+ *                   { type: 'front', url: 'https://example.com/front.jpg' },
+ *                   { type: 'interior', url: 'https://example.com/interior.jpg' }
+ *                 ]
+ *                 slug: 'sample-bus'
+ *                 createdAt: '2022-07-08T12:30:45.678Z'
+ *                 updatedAt: '2022-07-08T12:30:45.678Z'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
+ */
 router.get(
   "/owner-bus-unavailable",
   requireOwnerSignin,
   getUnavailableBusesOfOwner
 );
+/**
+ * @swagger
+ * /api/bus/all-bus-available:
+ *   get:
+ *     summary: Get all available buses
+ *     description: Retrieve a list of all available buses in the system.
+ *     tags:
+ *       - Buses
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of available buses
+ *         content:
+ *           application/json:
+ *             example:
+ *               - _id: '60e778b1b535263a64a12522'
+ *                 name: 'Sample Bus'
+ *                 type: 'AC-SLEEPER'
+ *                 busNumber: 'ABC123'
+ *                 fare: 1000
+ *                 isbusverified: false
+ *                 description: 'A comfortable bus for your journey'
+ *                 seatsAvailable: 30
+ *                 numberOfSeats: 30
+ *                 departure_time: '08:00 AM'
+ *                 travel:
+ *                   id: '60e7788cb535263a64a12520'
+ *                   name: 'Travel Express'
+ *                 startLocation: '60e77895b535263a64a12521'
+ *                 endLocation: '60e77895b535263a64a12521'
+ *                 journeyDate: '2022-08-01'
+ *                 boardingPoints: ['Boarding Point 1', 'Boarding Point 2']
+ *                 droppingPoints: ['Dropping Point 1', 'Dropping Point 2']
+ *                 images: [
+ *                   { type: 'front', url: 'https://example.com/front.jpg' },
+ *                   { type: 'interior', url: 'https://example.com/interior.jpg' }
+ *                 ]
+ *                 owner: { name: 'John Doe', phone: '123-456-7890' }
+ *                 createdAt: '2022-07-08T12:30:45.678Z'
+ *                 updatedAt: '2022-07-08T12:30:45.678Z'
+ *               - ... (more buses)
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
+ */
 
 router.get("/all-bus-available", getAllAvailableBuses);
+
+/**
+ * @swagger
+ * /api/bus/all-bus-unavailable:
+ *   get:
+ *     summary: Get all unavailable buses
+ *     description: Retrieve a list of all unavailable buses in the system.
+ *     tags:
+ *       - Buses
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of unavailable buses
+ *         content:
+ *           application/json:
+ *             example:
+ *               - _id: '60e778b1b535263a64a12522'
+ *                 name: 'Sample Bus'
+ *                 type: 'AC-SLEEPER'
+ *                 busNumber: 'ABC123'
+ *                 fare: 1000
+ *                 isbusverified: false
+ *                 description: 'A comfortable bus for your journey'
+ *                 seatsAvailable: 30
+ *                 numberOfSeats: 30
+ *                 departure_time: '08:00 AM'
+ *                 travel:
+ *                   id: '60e7788cb535263a64a12520'
+ *                   name: 'Travel Express'
+ *                 startLocation: '60e77895b535263a64a12521'
+ *                 endLocation: '60e77895b535263a64a12521'
+ *                 journeyDate: '2022-08-01'
+ *                 boardingPoints: ['Boarding Point 1', 'Boarding Point 2']
+ *                 droppingPoints: ['Dropping Point 1', 'Dropping Point 2']
+ *                 images: [
+ *                   { type: 'front', url: 'https://example.com/front.jpg' },
+ *                   { type: 'interior', url: 'https://example.com/interior.jpg' }
+ *                 ]
+ *                 owner: { name: 'John Doe', phone: '123-456-7890' }
+ *                 createdAt: '2022-07-08T12:30:45.678Z'
+ *                 updatedAt: '2022-07-08T12:30:45.678Z'
+ *               - ... (more buses)
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
+ */
+
 router.get("/all-bus-unavailable", getAllUnavailableBuses);
 
+/**
+ * @swagger
+ * /api/bus/search:
+ *   get:
+ *     summary: Search for available buses
+ *     description: Retrieve a list of available buses based on the search criteria.
+ *     tags:
+ *       - Buses
+ *     parameters:
+ *       - in: query
+ *         name: startLocation
+ *         required: true
+ *         description: Start location ID for the bus journey
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: endLocation
+ *         required: true
+ *         description: End location ID for the bus journey
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: journeyDate
+ *         required: true
+ *         description: Journey date of the bus in the format YYYY-MM-DD
+ *         schema:
+ *           type: string
+ *           format: date
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of available buses based on the search criteria
+ *         content:
+ *           application/json:
+ *             example:
+ *               - _id: '60e778b1b535263a64a12522'
+ *                 name: 'Sample Bus'
+ *                 type: 'AC-SLEEPER'
+ *                 busNumber: 'ABC123'
+ *                 fare: 1000
+ *                 isbusverified: false
+ *                 description: 'A comfortable bus for your journey'
+ *                 seatsAvailable: 30
+ *                 numberOfSeats: 30
+ *                 departure_time: '08:00 AM'
+ *                 travel:
+ *                   id: '60e7788cb535263a64a12520'
+ *                   name: 'Travel Express'
+ *                 startLocation: '60e77895b535263a64a12521'
+ *                 endLocation: '60e77895b535263a64a12521'
+ *                 journeyDate: '2022-08-01'
+ *                 boardingPoints: ['Boarding Point 1', 'Boarding Point 2']
+ *                 droppingPoints: ['Dropping Point 1', 'Dropping Point 2']
+ *                 images: [
+ *                   { type: 'front', url: 'https://example.com/front.jpg' },
+ *                   { type: 'interior', url: 'https://example.com/interior.jpg' }
+ *                 ]
+ *                 createdAt: '2022-07-08T12:30:45.678Z'
+ *                 updatedAt: '2022-07-08T12:30:45.678Z'
+ *               - ... (more buses)
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
+ */
+
 router.get("/search", searchBus);
+/**
+ * @swagger
+ * /api/bus/filter:
+ *   post:
+ *     summary: Filter buses based on criteria
+ *     description: Filter buses based on start location, end location, journey date, travel, and bus type.
+ *     tags:
+ *       - Buses
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               startLocation:
+ *                 type: string
+ *                 description: Start location ID
+ *               endLocation:
+ *                 type: string
+ *                 description: End location ID
+ *               journeyDate:
+ *                 type: string
+ *                 description: Journey date of the bus
+ *               travel:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Array of travel IDs
+ *               type:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Array of bus types
+ *     responses:
+ *       200:
+ *         description: Buses filtered successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               - _id: '60e778b1b535263a64a12522'
+ *                 name: 'Sample Bus'
+ *                 type: 'AC-SLEEPER'
+ *                 busNumber: 'ABC123'
+ *                 fare: 1000
+ *                 isbusverified: false
+ *                 description: 'A comfortable bus for your journey'
+ *                 seatsAvailable: 30
+ *                 numberOfSeats: 30
+ *                 departure_time: '08:00 AM'
+ *                 travel: '60e7788cb535263a64a12520'
+ *                 startLocation: '60e77895b535263a64a12521'
+ *                 endLocation: '60e77895b535263a64a12521'
+ *                 journeyDate: '2022-08-01'
+ *                 boardingPoints: ['Boarding Point 1', 'Boarding Point 2']
+ *                 droppingPoints: ['Dropping Point 1', 'Dropping Point 2']
+ *                 images: [
+ *                   { type: 'front', url: 'https://example.com/front.jpg' },
+ *                   { type: 'interior', url: 'https://example.com/interior.jpg' }
+ *                 ]
+ *                 slug: 'sample-bus'
+ *                 createdAt: '2022-07-08T12:30:45.678Z'
+ *                 updatedAt: '2022-07-08T12:30:45.678Z'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
+ */
+
 router.post("/filter", searchBusByFilter);
 
 router
