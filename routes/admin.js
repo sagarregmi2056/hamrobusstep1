@@ -12,13 +12,14 @@ const { requireSuperadminSignin } = require("../controllers/auth-owner");
 // const { getAllUsers,userById } = require("../controllers/user");
 
 const router = express.Router();
-
 /**
  * @swagger
  * /api/admin/allowners/{ownerId}:
  *   get:
  *     summary: Get Owner Details
  *     description: Retrieves details of a specific owner.
+ *     tags:
+ *       - Admin
  *     parameters:
  *       - in: path
  *         name: ownerId
@@ -61,6 +62,7 @@ const router = express.Router();
  *             example:
  *               error: 'Error retrieving owner details'
  */
+
 // recently added routes
 router.get("/allowners/:ownerId", requireSuperadminSignin, getOwnerDetails);
 /**

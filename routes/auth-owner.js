@@ -343,6 +343,8 @@ router.post(
  *   get:
  *     summary: Get Owner Documents
  *     description: Retrieve documents uploaded by the owner.
+ *     tags:
+ *       - Owner
  *     parameters:
  *       - in: path
  *         name: ownerId
@@ -390,20 +392,12 @@ router.get(
 
 /**
  * @swagger
- * components:
- *   schemas:
- *     PanCardUpload:
- *       type: object
- *       properties:
- *         pancard:
- *           type: string
- *           format: binary
- *           description: PAN card image file
- *
  * /api/auth-owner/adddocuments/{ownerId}/pancard:
  *   post:
  *     summary: Upload PAN Card
  *     description: Uploads PAN card image for the owner.
+ *     tags:
+ *       - Owner
  *     parameters:
  *       - in: path
  *         name: ownerId
@@ -440,6 +434,7 @@ router.get(
  *             example:
  *               error: 'Internal Server Error'
  */
+
 router.post(
   "/adddocuments/:ownerId/pancard",
   uploadpancard,
@@ -451,23 +446,14 @@ router.post(
 //   uploadpancard,
 //   uploadPanCardController
 // );
-
 /**
  * @swagger
- * components:
- *   schemas:
- *     CitizenshipUpload:
- *       type: object
- *       properties:
- *         citizenship:
- *           type: string
- *           format: binary
- *           description: Citizenship image file
- *
  * /api/auth-owner/adddocuments/{ownerId}/citizenship:
  *   post:
  *     summary: Upload Citizenship Document
  *     description: Uploads citizenship image for the owner.
+ *     tags:
+ *       - Owner
  *     parameters:
  *       - in: path
  *         name: ownerId
@@ -509,23 +495,14 @@ router.post(
   uploadCitizenshipimages,
   citizenshipController
 );
-
 /**
  * @swagger
- * components:
- *   schemas:
- *     NationalIdUpload:
- *       type: object
- *       properties:
- *         nationalid:
- *           type: string
- *           format: binary
- *           description: National ID image file
- *
  * /api/auth-owner/adddocuments/{ownerId}/nationalid:
  *   post:
  *     summary: Upload National ID Document
  *     description: Uploads national ID image for the owner.
+ *     tags:
+ *       - Owner
  *     parameters:
  *       - in: path
  *         name: ownerId
