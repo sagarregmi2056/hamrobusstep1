@@ -467,29 +467,52 @@ exports.uploadBusImageController = async (req, res) => {
 //   res.json(bus);
 // };
 
+// exports.update = async (req, res) => {
+//   if (req.file !== undefined) {
+//     const { filename: image } = req.file;
+
+//     //Compress image
+//     await sharp(req.file.path)
+//       .resize(800)
+//       .jpeg({ quality: 100 })
+//       .toFile(path.resolve(req.file.destination, "resized", image));
+//     fs.unlinkSync(req.file.path);
+//     req.body.image = "busimage/resized/" + image;
+//   }
+
+//   let bus = req.bus;
+//   bus = _.extend(bus, req.body);
+
+//   if (!checkDateAvailability(req.body.journeyDate)) {
+//     bus.isAvailable = false;
+//   }
+
+//   await bus.save();
+
+//   res.json(bus);
+// };
+
 exports.update = async (req, res) => {
-  if (req.file !== undefined) {
-    const { filename: image } = req.file;
+  try {
+    let bus = req.bus;
 
-    //Compress image
-    await sharp(req.file.path)
-      .resize(800)
-      .jpeg({ quality: 100 })
-      .toFile(path.resolve(req.file.destination, "resized", image));
-    fs.unlinkSync(req.file.path);
-    req.body.image = "busimage/resized/" + image;
+    // Update bus details from the request body
+    bus = _.extend(bus, req.body);
+
+    // Check and update availability based on journey date
+    if (!checkDateAvailability(req.body.journeyDate)) {
+      bus.isAvailable = false;
+    }
+
+    // Save the updated bus document
+    await bus.save();
+
+    // Send the updated bus details in the response
+    res.json(bus);
+  } catch (error) {
+    console.error("Error updating bus:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-
-  let bus = req.bus;
-  bus = _.extend(bus, req.body);
-
-  if (!checkDateAvailability(req.body.journeyDate)) {
-    bus.isAvailable = false;
-  }
-
-  await bus.save();
-
-  res.json(bus);
 };
 
 // ending of bus controller function

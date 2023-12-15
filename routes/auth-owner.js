@@ -26,13 +26,17 @@ const {
 const { uploadpancard } = require("../helpers");
 
 const router = express.Router();
-
 /**
  * @swagger
+ * tags:
+ *   - name: Owner
+ *     description: Operations related to owner
  * /api/auth-owner/addPersonalDetail/{ownerId}:
  *   post:
  *     summary: Add Personal Detail
  *     description: Adds personal details for the owner.
+ *     tags:
+ *       - Owner
  *     parameters:
  *       - in: path
  *         name: ownerId
@@ -160,10 +164,12 @@ router.post("/addPersonalDetail/:ownerId", verifyToken, stepone);
 router.put("/addBankDetail/:ownerId", verifyToken, steptwo);
 /**
  * @swagger
- * /api/auth-owner/addPanDetail/{ownerId}:
+ * /api/auth-owner/addBankDetail/{ownerId}:
  *   put:
- *     summary: Add PAN Detail
- *     description: Adds PAN details for the owner.
+ *     summary: Add Bank Detail
+ *     description: Adds bank details for the owner.
+ *     tags:
+ *       - Owner
  *     parameters:
  *       - in: path
  *         name: ownerId
@@ -179,46 +185,46 @@ router.put("/addBankDetail/:ownerId", verifyToken, steptwo);
  *           schema:
  *             type: object
  *             properties:
- *               panName:
+ *               bankName:
  *                 type: string
- *                 description: Name on the PAN card
- *               panAddress:
+ *                 description: Name of the bank
+ *               accountNumber:
  *                 type: string
- *                 description: Address on the PAN card
- *               issuedate:
+ *                 description: Owner's bank account number
+ *               beneficaryName:
  *                 type: string
- *                 format: date
- *                 description: |
- *                   Date of issue (format: YYYY-MM-DD)
- *               dateofbirth:
+ *                 description: Beneficiary name for the bank account
+ *               bankaccountType:
  *                 type: string
- *                 format: date
- *                 description: |
- *                   Date of birth (format: YYYY-MM-DD)
+ *                 description: Type of bank account (e.g., Savings, Checking)
+ *               citizenshipNumber:
+ *                 type: string
+ *                 description: Owner's citizenship number
  *     responses:
  *       200:
- *         description: PAN details added successfully
+ *         description: Bank details added successfully
  *         content:
  *           application/json:
  *             example:
  *               ownerId: '1234567890'
- *               message: 'Step three completed successfully'
+ *               message: 'Step two completed successfully'
  *       500:
  *         description: Internal Server Error
  *         content:
  *           application/json:
  *             example:
- *               error: 'Error updating owner in Step 3'
+ *               error: 'Error updating owner in Step 2'
  */
 
 router.put("/addPanDetail/:ownerId", verifyToken, stepthree);
-
 /**
  * @swagger
  * /api/auth-owner/getCurrentSection/{ownerId}:
  *   get:
  *     summary: Get Owner Details
  *     description: Retrieves details of a specific owner.
+ *     tags:
+ *       - Owner
  *     parameters:
  *       - in: path
  *         name: ownerId
@@ -280,6 +286,8 @@ router.get("/getCurrentSection/:ownerId", verifyToken, getOwnerDetails);
  *   post:
  *     summary: Upload Driver's License
  *     description: Uploads driver's license image for the owner.
+ *     tags:
+ *       - Owner
  *     parameters:
  *       - in: path
  *         name: ownerId
@@ -316,6 +324,7 @@ router.get("/getCurrentSection/:ownerId", verifyToken, getOwnerDetails);
  *             example:
  *               error: 'Internal Server Error'
  */
+
 router.post(
   "/adddocuments/:ownerId/driverlicense",
   uploaddriverlisence,

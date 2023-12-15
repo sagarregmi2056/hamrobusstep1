@@ -633,10 +633,183 @@ router.get("/search", searchBus);
 
 router.post("/filter", searchBusByFilter);
 
+/**
+ * @swagger
+ * /api/bus/{busSlug}:
+ *   get:
+ *     summary: Get bus details by slug
+ *     description: Retrieve details of a specific bus using its slug.
+ *     tags:
+ *       - Buses
+ *     parameters:
+ *       - in: path
+ *         name: busSlug
+ *         required: true
+ *         description: Slug of the bus
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Bus details retrieved successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               _id: '60e778b1b535263a64a12522'
+ *               name: 'Sample Bus'
+ *               type: 'AC-SLEEPER'
+ *               busNumber: 'ABC123'
+ *               fare: 1000
+ *               isbusverified: false
+ *               description: 'A comfortable bus for your journey'
+ *               seatsAvailable: 30
+ *               numberOfSeats: 30
+ *               departure_time: '08:00 AM'
+ *               travel: '60e7788cb535263a64a12520'
+ *               startLocation: '60e77895b535263a64a12521'
+ *               endLocation: '60e77895b535263a64a12521'
+ *               journeyDate: '2022-08-01'
+ *               boardingPoints: ['Boarding Point 1', 'Boarding Point 2']
+ *               droppingPoints: ['Dropping Point 1', 'Dropping Point 2']
+ *               images: [
+ *                 { type: 'front', url: 'https://example.com/front.jpg' },
+ *                 { type: 'interior', url: 'https://example.com/interior.jpg' }
+ *               ]
+ *               slug: 'sample-bus'
+ *               createdAt: '2022-07-08T12:30:45.678Z'
+ *               updatedAt: '2022-07-08T12:30:45.678Z'
+ *       400:
+ *         description: Bus not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Bus not found'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
+ */
+
+/**
+ * @swagger
+ * /api/buses/{busSlug}:
+ *   put:
+ *     summary: Update bus details by slug
+ *     description: Update details of a specific bus using its slug.
+ *     tags:
+ *       - Buses
+ *     parameters:
+ *       - in: path
+ *         name: busSlug
+ *         required: true
+ *         description: Slug of the bus
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: New name of the bus
+ *               type:
+ *                 type: string
+ *                 enum: [AC-SLEEPER, NONAC-SLEEPER, AC-SEATER, NONAC-SEATER]
+ *                 description: New type of the bus
+ *               busNumber:
+ *                 type: string
+ *                 description: New bus number
+ *               fare:
+ *                 type: number
+ *                 description: New fare for the bus
+ *               features:
+ *                 type: array
+ *                 description: New array of features
+ *               description:
+ *                 type: string
+ *                 description: New description of the bus
+ *               seatsAvailable:
+ *                 type: number
+ *                 description: New total seats available in the bus
+ *               numberOfSeats:
+ *                 type: number
+ *                 description: New number of seats in the bus
+ *               departure_time:
+ *                 type: string
+ *                 description: New departure time of the bus
+ *               travel:
+ *                 type: string
+ *                 description: New travel ID
+ *               startLocation:
+ *                 type: string
+ *                 description: New start location ID
+ *               endLocation:
+ *                 type: string
+ *                 description: New end location ID
+ *               journeyDate:
+ *                 type: string
+ *                 description: New journey date of the bus
+ *               boardingPoints:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: New array of boarding points
+ *               droppingPoints:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: New array of dropping points
+ *     responses:
+ *       200:
+ *         description: Bus details updated successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               _id: '60e778b1b535263a64a12522'
+ *               name: 'Updated Bus'
+ *               type: 'AC-SLEEPER'
+ *               busNumber: 'ABC123'
+ *               fare: 1200
+ *               isbusverified: false
+ *               description: 'An updated comfortable bus for your journey'
+ *               seatsAvailable: 35
+ *               numberOfSeats: 35
+ *               departure_time: '09:00 AM'
+ *               travel: '60e7788cb535263a64a12520'
+ *               startLocation: '60e77895b535263a64a12521'
+ *               endLocation: '60e77895b535263a64a12521'
+ *               journeyDate: '2022-08-02'
+ *               boardingPoints: ['Updated Boarding Point 1', 'Updated Boarding Point 2']
+ *               droppingPoints: ['Updated Dropping Point 1', 'Updated Dropping Point 2']
+ *               images: [
+ *                 { type: 'front', url: 'https://example.com/front.jpg' },
+ *                 { type: 'interior', url: 'https://example.com/interior.jpg' }
+ *               ]
+ *               slug: 'updated-bus'
+ *               createdAt: '2022-07-08T12:30:45.678Z'
+ *               updatedAt: '2022-07-08T14:45:30.987Z'
+ *       400:
+ *         description: Bus not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Bus not found'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: 'Internal Server Error'
+ */
+
 router
   .route("/:busSlug")
   .get(read)
-  .put(requireOwnerSignin, uploadBusImage, isPoster, update)
+  .put(requireOwnerSignin, isPoster, update)
   .delete(requireOwnerSignin, isPoster, remove);
 
 router.param("busSlug", busBySlug);
