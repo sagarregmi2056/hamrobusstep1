@@ -242,10 +242,10 @@ method post
 http://localhost:8525/api/bus
 
 
-json : {
-  "name": "Sample Bus",
+body: {
+  "name": "Makalu yatayat",
   "type": "AC-SLEEPER",
-  "busNumber": "ABC123",
+  "busNumber": "na 2 pa 5556",
   "fare": 1000,
   "features": ["WiFi", "Entertainment System"],
   "isbusverified": true,
@@ -259,7 +259,8 @@ json : {
   "endLocation": "657825f6bc334104fb674875",
   "journeyDate": "2023-01-01",
   "boardingPoints": ["Boarding Point A", "Boarding Point B"],
-  "droppingPoints": ["Dropping Point c", "Dropping Point d"]
+  "droppingPoints": ["Dropping Point c", "Dropping Point d"],
+  "slug":"5bajyakobus"
 }
 outputs : [
     {

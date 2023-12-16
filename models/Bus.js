@@ -5,6 +5,7 @@ const { bool } = require("sharp");
 // this is causing the error while using ..
 
 const { ObjectId } = mongoose.Schema;
+// mongoose.plugin(slug);
 
 const busSchema = new mongoose.Schema(
   {
