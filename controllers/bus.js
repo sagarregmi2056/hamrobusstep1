@@ -1,6 +1,8 @@
 const Bus = require("../models/Bus");
 const _ = require("lodash");
 const Owner = require("../models/Owner");
+const FormData = require("form-data");
+const axios = require("axios");
 
 // for image optimzation
 const sharp = require("sharp");
@@ -364,7 +366,7 @@ exports.create = async (req, res) => {
       typeof req.body.boardingPoints === "string"
     ) {
       req.body.boardingPoints = req.body.boardingPoints.split(",");
-      console.log("Processed Boarding Points:", req.body.boardingPoints);
+      // console.log("Processed Boarding Points:", req.body.boardingPoints);
     }
 
     if (
@@ -372,7 +374,7 @@ exports.create = async (req, res) => {
       typeof req.body.droppingPoints === "string"
     ) {
       req.body.droppingPoints = req.body.droppingPoints.split(",");
-      console.log("Processed Dropping Points:", req.body.droppingPoints);
+      // console.log("Processed Dropping Points:", req.body.droppingPoints);
     }
 
     const bus = new Bus(req.body);
@@ -393,11 +395,80 @@ exports.create = async (req, res) => {
   }
 };
 
+// exports.uploadBusImageController = async (req, res) => {
+//   try {
+//     const ownerId = req.ownerauth._id; // Assuming the owner ID is in req.ownerauth
+//     console.log(ownerId);
+//     const imageType = "busimage";
+//     // Check if the owner exists
+//     const owner = await Owner.findById(ownerId);
+//     if (!owner) {
+//       return res.status(404).send("Owner not found");
+//     }
+
+//     const imageUrl = req.file
+//       ? await uploadToCloudflare(req.file.buffer)
+//       : null;
+
+//     // Save the image URL to the Bus schema
+//     const bus = new Bus({
+//       owner: ownerId,
+//       images: [{ type: imageType, url: imageUrl }],
+//     });
+
+//     await bus.save();
+
+//     res.json({
+//       url: imageUrl,
+//       message: `Bus image URL saved to Bus schema successfully`,
+//     });
+//   } catch (error) {
+//     console.error("Error handling image upload:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
+// exports.uploadBusImageController = async (req, res) => {
+//   try {
+//     const ownerId = req.ownerauth._id;
+//     const imageType = "busimage";
+
+//     // Check if the owner exists
+//     const owner = await Owner.findById(ownerId);
+//     if (!owner) {
+//       return res.status(404).send("Owner not found");
+//     }
+
+//     const imageUrl = req.file
+//       ? await uploadToCloudflare(req.file.buffer)
+//       : null;
+
+//     // Find the existing Bus document by owner ID
+//     const existingBus = await Bus.findOne({ owner: ownerId });
+
+//     if (!existingBus) {
+//       return res.status(404).send("Bus not found for the owner");
+//     }
+
+//     // Update the existing Bus document with the new image
+//     existingBus.images.push({ type: imageType, url: imageUrl });
+//     await existingBus.save();
+
+//     res.json({
+//       url: imageUrl,
+//       message: `Bus image URL saved to Bus schema successfully`,
+//     });
+//   } catch (error) {
+//     console.error("Error handling image upload:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
 exports.uploadBusImageController = async (req, res) => {
   try {
-    const ownerId = req.ownerauth._id; // Assuming the owner ID is in req.ownerauth
-    console.log(ownerId);
+    const ownerId = req.ownerauth._id;
     const imageType = "busimage";
+
     // Check if the owner exists
     const owner = await Owner.findById(ownerId);
     if (!owner) {
@@ -408,15 +479,19 @@ exports.uploadBusImageController = async (req, res) => {
       ? await uploadToCloudflare(req.file.buffer)
       : null;
 
-    // Save the image URL to the Bus schema
-    const bus = new Bus({
-      owner: ownerId,
-      images: [{ type: imageType, url: imageUrl }],
-    });
+    // Find the existing Bus document by owner ID
+    const existingBus = await Bus.findOne({ owner: ownerId });
 
-    await bus.save();
+    if (!existingBus) {
+      return res.status(404).send("Bus not found for the owner");
+    }
+
+    // Update the existing Bus document with the new image
+    existingBus.images.push({ type: imageType, url: imageUrl });
+    await existingBus.save();
 
     res.json({
+      busId: existingBus._id, // Include bus ID in the response
       url: imageUrl,
       message: `Bus image URL saved to Bus schema successfully`,
     });
