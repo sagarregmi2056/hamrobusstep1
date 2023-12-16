@@ -357,17 +357,22 @@ exports.create = async (req, res) => {
         error: "Bus is already added!",
       });
     }
+    console.log("Before Processing Boarding Points");
 
-    try {
-      if (req.body.boardingPoints) {
-        req.body.boardingPoints = req.body.boardingPoints.split(",");
-      }
-    } catch (error) {
-      return res.status(400).json({ error: "Invalid boarding format" });
+    if (
+      req.body.boardingPoints &&
+      typeof req.body.boardingPoints === "string"
+    ) {
+      req.body.boardingPoints = req.body.boardingPoints.split(",");
+      console.log("Processed Boarding Points:", req.body.boardingPoints);
     }
 
-    if (req.body.droppingPoints) {
+    if (
+      req.body.droppingPoints &&
+      typeof req.body.droppingPoints === "string"
+    ) {
       req.body.droppingPoints = req.body.droppingPoints.split(",");
+      console.log("Processed Dropping Points:", req.body.droppingPoints);
     }
 
     const bus = new Bus(req.body);
