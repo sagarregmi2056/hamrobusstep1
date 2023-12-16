@@ -16,9 +16,10 @@ const {
   getAllAvailableBuses,
   getAllUnavailableBuses,
   uploadBusImageController,
+  uploadinsideBusImagecontroller,
 } = require("../controllers/bus");
 
-const { uploadBusImage } = require("../helpers");
+const { uploadBusImage, uploadinsideBusImage } = require("../helpers");
 /**
  * @swagger
  * /api/bus:
@@ -263,6 +264,13 @@ router.post(
   requireOwnerSignin,
   uploadBusImage,
   uploadBusImageController
+);
+
+router.post(
+  "/uploadinterior",
+  requireOwnerSignin,
+  uploadinsideBusImage,
+  uploadinsideBusImagecontroller
 );
 
 /**

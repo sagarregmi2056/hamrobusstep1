@@ -233,3 +233,77 @@ reponse :
 
 
 Api : 
+
+
+
+
+method post
+
+http://localhost:8525/api/bus
+
+
+json : {
+  "name": "Sample Bus",
+  "type": "AC-SLEEPER",
+  "busNumber": "ABC123",
+  "fare": 1000,
+  "features": ["WiFi", "Entertainment System"],
+  "isbusverified": true,
+  "description": "A comfortable bus with WiFi and entertainment.",
+  "seatsAvailable": 40,
+  "numberOfSeats": 40,
+  "departure_time": "10:00 AM",
+  "isAvailable": true,
+  "travel": "657d706b813d8366f34b71fb",
+  "startLocation": "65797261b0f6a2d6a84cfa1d",
+  "endLocation": "657825f6bc334104fb674875",
+  "journeyDate": "2023-01-01",
+  "boardingPoints": ["Boarding Point A", "Boarding Point B"],
+  "droppingPoints": ["Dropping Point c", "Dropping Point d"]
+}
+outputs : [
+    {
+        "_id": "657d8250ec93ac315d070ec1",
+        "name": "Sample Bus",
+        "type": "AC-SLEEPER",
+        "busNumber": "ABC123",
+        "fare": 1000,
+        "features": [
+            "WiFi",
+            "Entertainment System"
+        ],
+        "isbusverified": true,
+        "description": "A comfortable bus with WiFi and entertainment.",
+        "seatsAvailable": 40,
+        "bookedSeat": [],
+        "soldSeat": [],
+        "numberOfSeats": 40,
+        "departure_time": "10:00 AM",
+        "isAvailable": false,
+        "travel": {
+            "_id": "657d706b813d8366f34b71fb",
+            "name": "Midnepal Travels"
+        },
+        "startLocation": "65797261b0f6a2d6a84cfa1d",
+        "endLocation": "657825f6bc334104fb674875",
+        "journeyDate": "2023-01-01",
+        "boardingPoints": [
+            "Boarding Point A",
+            "Boarding Point B"
+        ],
+        "droppingPoints": [
+            "Dropping Point c",
+            "Dropping Point d"
+        ],
+        "images": [],
+        "owner": {
+            "_id": "6576aa5bd9ec4613db5b120e",
+            "name": "sagar regmi"
+        },
+        "createdAt": "2023-12-16T10:56:16.413Z",
+        "updatedAt": "2023-12-16T10:56:16.413Z",
+        "__v": 0
+    }
+]
+
+for getting bus :  public api   http://localhost:8525/api/bus method:get

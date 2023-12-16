@@ -153,6 +153,10 @@ exports.uploadBusImage = multer({ storage: storagee, fileFilter }).single(
   "busimage"
 );
 
+exports.uploadinsideBusImage = multer({ storage: storagee, fileFilter }).single(
+  "businside"
+);
+
 // exports.uploadowner = multer({ storage: storage, fileFilter }).fields([
 //   { name: "photo", maxCount: 1 },
 //   { name: "nationalID", maxCount: 1 },

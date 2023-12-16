@@ -14,4 +14,6 @@ module.exports = {
 
   sendEmail: require("./mailer").sendEmail,
   dbConnection: require("./dbConnection"),
+
+  uploadinsideBusImage: require("./multer").uploadinsideBusImage,
 };

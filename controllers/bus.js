@@ -501,6 +501,42 @@ exports.uploadBusImageController = async (req, res) => {
   }
 };
 
+exports.uploadinsideBusImagecontroller = async (req, res) => {
+  try {
+    const ownerId = req.ownerauth._id;
+    const imageType = "businside";
+
+    // Check if the owner exists
+    const owner = await Owner.findById(ownerId);
+    if (!owner) {
+      return res.status(404).send("Owner not found");
+    }
+
+    const imageUrl = req.file
+      ? await uploadToCloudflare(req.file.buffer)
+      : null;
+
+    // Find the existing Bus document by owner ID
+    const existingBus = await Bus.findOne({ owner: ownerId });
+
+    if (!existingBus) {
+      return res.status(404).send("Bus not found for the owner");
+    }
+
+    // Update the existing Bus document with the new image
+    existingBus.images.push({ type: imageType, url: imageUrl });
+    await existingBus.save();
+
+    res.json({
+      busId: existingBus._id, // Include bus ID in the response
+      url: imageUrl,
+      message: `Bus image URL saved to Bus schema successfully`,
+    });
+  } catch (error) {
+    console.error("Error handling image upload:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 // exports.update = async (req, res) => {
 //   if (req.file !== undefined) {
 //     const { filename: image } = req.file;
