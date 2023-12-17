@@ -115,6 +115,19 @@ exports.postBooking = async (req, res) => {
   }
 
   const bus = await Bus.findOne({ slug: req.bus.slug });
+  if (!bus) {
+    return res.status(404).json({
+      error: "Bus not found",
+    });
+  }
+
+  const flareThreshold = bus.fare * (req.body.seatNumber || booking.seatNumber);
+
+  if (bus.price < flareThreshold) {
+    return res.status(400).json({
+      error: "Bus price is less than the flare threshold. Cannot book.",
+    });
+  }
 
   if (
     bus.seatsAvailable < (req.body.passengers || booking.passengers) ||
@@ -162,32 +175,32 @@ exports.postBooking = async (req, res) => {
   });
 };
 
-exports.verifyBookingForPayment = async (req, res, next) => {
-  try {
-    const bookingId = req.body.bookingId; // Assuming you send the booking ID in the request body
+// exports.verifyBookingForPayment = async (req, res, next) => {
+//   try {
+//     const bookingId = req.body.bookingId; // Assuming you send the booking ID in the request body
 
-    // Find the booking by ID
-    const booking = await Booking.findById(bookingId);
+//     // Find the booking by ID
+//     const booking = await Booking.findById(bookingId);
 
-    // Check if the booking exists
-    if (!booking) {
-      return res.status(400).json({ error: "No booking found" });
-    }
+//     // Check if the booking exists
+//     if (!booking) {
+//       return res.status(400).json({ error: "No booking found" });
+//     }
 
-    // Update the booking status to "verified"
-    booking.verification = "verified";
+//     // Update the booking status to "verified"
+//     booking.verification = "verified";
 
-    // Save the updated booking
-    const updatedBooking = await booking.save();
+//     // Save the updated booking
+//     const updatedBooking = await booking.save();
 
-    // Set the updated booking in the request object for further processing
-    req.booking = updatedBooking;
+//     // Set the updated booking in the request object for further processing
+//     req.booking = updatedBooking;
 
-    next();
-  } catch (err) {
-    return res.status(400).json({ error: err?.message || "No booking found" });
-  }
-};
+//     next();
+//   } catch (err) {
+//     return res.status(400).json({ error: err?.message || "No booking found" });
+//   }
+// };
 
 exports.postSold = async (req, res) => {
   // console.log("hehe")
