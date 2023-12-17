@@ -80,6 +80,17 @@ exports.getOwnerBookings = async (req, res) => {
 
 // updated code of postbooking using ticket
 
+function generateUniqueTicketNumber() {
+  // You can customize the format of the ticket number based on your requirements
+  const timestamp = Date.now().toString(36); // Convert timestamp to base36
+  const randomChars = Math.random().toString(36).substring(2, 8); // Random characters
+
+  // Combine the timestamp and random characters to create a unique ticket number
+  const uniqueNumber = `TN-${timestamp}-${randomChars}`;
+
+  return uniqueNumber;
+}
+
 exports.postBooking = async (req, res) => {
   const booking = new Booking(req.body);
   if (req.userauth) {
@@ -123,6 +134,12 @@ exports.postBooking = async (req, res) => {
   booking.bus = bus;
   booking.owner = bus.owner;
 
+  // Generate a unique ticket number
+  const ticketNumber = generateUniqueTicketNumber();
+
+  // Save the ticket number to the booking schema
+  booking.ticketNumber = ticketNumber;
+
   await booking.save();
   await bus.save();
 
@@ -132,12 +149,14 @@ exports.postBooking = async (req, res) => {
     seatNumber: booking.seatNumber,
     passengers: booking.passengers,
     departureDate: booking.departureDate,
+    ticketNumber: booking.ticketNumber,
+
     // Add more ticket details as needed
   };
 
   // Respond with the ticket data along with a success message
   res.status(201).json({
-    message: "Booking successfully created",
+    message: "Booking successfully verified but not payed",
     ticket: ticket, // Include the ticket data in the response
   });
 };
