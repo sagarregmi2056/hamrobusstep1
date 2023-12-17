@@ -139,6 +139,7 @@ exports.postBooking = async (req, res) => {
 
   // Save the ticket number to the booking schema
   booking.ticketNumber = ticketNumber;
+  // booking.verification = "verified";
 
   await booking.save();
   await bus.save();
@@ -159,6 +160,33 @@ exports.postBooking = async (req, res) => {
     message: "Booking successfully verified but not payed",
     ticket: ticket, // Include the ticket data in the response
   });
+};
+
+exports.verifyBookingForPayment = async (req, res, next) => {
+  try {
+    const bookingId = req.body.bookingId; // Assuming you send the booking ID in the request body
+
+    // Find the booking by ID
+    const booking = await Booking.findById(bookingId);
+
+    // Check if the booking exists
+    if (!booking) {
+      return res.status(400).json({ error: "No booking found" });
+    }
+
+    // Update the booking status to "verified"
+    booking.verification = "verified";
+
+    // Save the updated booking
+    const updatedBooking = await booking.save();
+
+    // Set the updated booking in the request object for further processing
+    req.booking = updatedBooking;
+
+    next();
+  } catch (err) {
+    return res.status(400).json({ error: err?.message || "No booking found" });
+  }
 };
 
 exports.postSold = async (req, res) => {
