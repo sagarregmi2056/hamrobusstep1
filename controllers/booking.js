@@ -91,6 +91,106 @@ function generateUniqueTicketNumber() {
   return uniqueNumber;
 }
 
+// exports.postBooking = async (req, res) => {
+//   const booking = new Booking(req.body);
+//   if (req.userauth) {
+//     booking.user = req.userauth;
+//   } else {
+//     const name = req.body.name;
+//     const email = req.body.email;
+//     const phone = req.body.phone;
+//     const address = req.body.address;
+
+//     let user = await Guest.findOne({ phone });
+
+//     if (user) {
+//       user = _.extend(user, req.body);
+//       await user.save();
+//       booking.guest = user;
+//     } else {
+//       const guest = new Guest({ name, email, phone, address });
+//       await guest.save();
+//       booking.guest = guest;
+//     }
+//   }
+
+//   const bus = await Bus.findOne({ slug: req.bus.slug });
+//   if (!bus) {
+//     return res.status(404).json({
+//       error: "Bus not found",
+//     });
+//   }
+
+//   const selectedSeatNumbers = req.body.seatNumbers || booking.seatNumbers;
+// const selectedSeatsCount = selectedSeatNumbers.length;
+
+//   // const selectedSeatsCount = (req.body.seatNumbers || booking.seatNumbers).length;
+
+//   // const flareThreshold = bus.fare * (req.body.passengers || booking.passengers);
+//   const flareThreshold = bus.fare * selectedSeatsCount;
+
+//     if (bus.price < flareThreshold) {
+//       return res.status(400).json({
+//         error: "Bus price is less than the flare threshold. Cannot book.",
+//       });
+//     }
+
+//     // Check if any of the selected seats are already sold or booked
+// const isAnySeatSoldOrBooked = selectedSeatNumbers.some(seatNumber =>
+//   bus.soldSeat.includes(seatNumber) || bus.bookedSeat.includes(seatNumber)
+// );
+
+// if (bus.seatsAvailable < selectedSeatsCount || bus.isAvailable !== true || isAnySeatSoldOrBooked) {
+//   return res.status(400).json({
+//     error: "One or more selected seats are not available",
+//   });
+// }
+//   // if (
+//   //   bus.seatsAvailable < selectedSeatsCount ||
+//   //   bus.isAvailable !== true ||
+//   //   bus.soldSeat.includes(booking.seatNumber) ||
+//   //   bus.bookedSeat.includes(booking.seatNumber)
+//   // ) {
+//   //   return res.status(400).json({
+//   //     error: "Not available",
+//   //   });
+//   // }
+
+//   bus.seatsAvailable -= req.body.passengers || booking.passengers;
+
+//   bus.bookedSeat.push(booking.seatNumber);
+
+//   booking.bus = bus;
+//   booking.owner = bus.owner;
+
+//   // Generate a unique ticket number
+//   const ticketNumber = generateUniqueTicketNumber();
+
+//   // Save the ticket number to the booking schema
+//   booking.ticketNumber = ticketNumber;
+//   // booking.verification = "verified";
+
+//   await booking.save();
+//   await bus.save();
+
+//   // Create a ticket object from the booking data
+//   const ticket = {
+//     bookingId: booking._id, // Assuming your booking model has an _id field
+//     seatNumber: booking.seatNumber,
+//     passengers: booking.passengers,
+//     departureDate: booking.departureDate,
+//     ticketNumber: booking.ticketNumber,
+
+//     // Add more ticket details as needed
+//   };
+
+//   // Respond with the ticket data along with a success message
+//   res.status(201).json({
+//     message: "Booking successfully verified but not payed",
+//     ticket: ticket, // Include the ticket data in the response
+//   });
+// };
+
 exports.postBooking = async (req, res) => {
   const booking = new Booking(req.body);
   if (req.userauth) {
@@ -121,8 +221,11 @@ exports.postBooking = async (req, res) => {
     });
   }
 
-  const flareThreshold =
-    bus.fare * (req.body.numberofseats || booking.numberofseats);
+  const selectedSeatNumbers = req.body.seatNumbers || booking.seatNumbers;
+  const selectedSeatsCount = selectedSeatNumbers.length;
+
+  // Calculate flareThreshold based on the number of selected seats
+  const flareThreshold = bus.fare * selectedSeatsCount;
 
   if (bus.price < flareThreshold) {
     return res.status(400).json({
@@ -130,20 +233,27 @@ exports.postBooking = async (req, res) => {
     });
   }
 
+  // Check if any of the selected seats are already sold or booked
+  const isAnySeatSoldOrBooked = selectedSeatNumbers.some(
+    (seatNumber) =>
+      bus.soldSeat.includes(seatNumber) || bus.bookedSeat.includes(seatNumber)
+  );
+
   if (
-    bus.seatsAvailable < (req.body.numberofseats || booking.numberofseats) ||
+    bus.seatsAvailable < selectedSeatsCount ||
     bus.isAvailable !== true ||
-    bus.soldSeat.includes(booking.seatNumber) ||
-    bus.bookedSeat.includes(booking.seatNumber)
+    isAnySeatSoldOrBooked
   ) {
     return res.status(400).json({
-      error: "Not available",
+      error: "One or more selected seats are not available",
     });
   }
 
-  bus.seatsAvailable -= req.body.passengers || booking.passengers;
-
-  bus.bookedSeat.push(booking.seatNumber);
+  // Deduct seatsAvailable and update bookedSeat for each selected seat
+  selectedSeatNumbers.forEach((seatNumber) => {
+    bus.seatsAvailable -= 1;
+    bus.bookedSeat.push(seatNumber);
+  });
 
   booking.bus = bus;
   booking.owner = bus.owner;
@@ -153,26 +263,23 @@ exports.postBooking = async (req, res) => {
 
   // Save the ticket number to the booking schema
   booking.ticketNumber = ticketNumber;
-  // booking.verification = "verified";
 
   await booking.save();
   await bus.save();
 
   // Create a ticket object from the booking data
   const ticket = {
-    bookingId: booking._id, // Assuming your booking model has an _id field
-    seatNumber: booking.seatNumber,
+    bookingId: booking._id,
+    seatNumbers: selectedSeatNumbers,
     passengers: booking.passengers,
     departureDate: booking.departureDate,
     ticketNumber: booking.ticketNumber,
-
-    // Add more ticket details as needed
   };
 
   // Respond with the ticket data along with a success message
   res.status(201).json({
-    message: "Booking successfully verified but not payed",
-    ticket: ticket, // Include the ticket data in the response
+    message: "Booking successfully verified but not paid",
+    ticket: ticket,
   });
 };
 
