@@ -266,7 +266,14 @@ exports.postBooking = async (req, res) => {
 
   await booking.save();
   await bus.save();
-
+  // Fetch user names
+  let userName = "";
+  if (booking.user) {
+    const user = await User.findById(booking.user);
+    userName = user ? user.name : "";
+  } else if (booking.guest) {
+    userName = booking.guest.name;
+  }
   // Create a ticket object from the booking data
   const ticket = {
     bookingId: booking._id,
@@ -274,6 +281,7 @@ exports.postBooking = async (req, res) => {
     passengers: booking.passengers,
     departureDate: booking.departureDate,
     ticketNumber: booking.ticketNumber,
+    userName: userName,
   };
 
   // Respond with the ticket data along with a success message

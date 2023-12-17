@@ -13,14 +13,11 @@ const bookingSchema = new mongoose.Schema(
     passengerName: {
       type: String,
     },
-    seatNumber: {
-      type: String,
+    seatNumbers: {
+      type: [String], // Make it an array of strings
       required: true,
     },
-    numberofseats: {
-      type: Number,
-      default: 1,
-    },
+
     boardingPoints: {
       type: String,
       required: false,
