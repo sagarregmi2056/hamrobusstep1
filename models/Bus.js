@@ -1,11 +1,13 @@
-const slug = require("mongoose-slug-generator");
+// const slug = require("mongoose-slug-generator");
+var slug = require("mongoose-slug-updater");
+
 const mongoose = require("mongoose");
 const { bool } = require("sharp");
 
 // this is causing the error while using ..
 
 const { ObjectId } = mongoose.Schema;
-// mongoose.plugin(slug);
+mongoose.plugin(slug);
 
 const busSchema = new mongoose.Schema(
   {
@@ -109,10 +111,12 @@ const busSchema = new mongoose.Schema(
       type: String,
       slug: "name",
       unique: true,
-      slug_padding_size: 3,
+      slugPaddingSize: 3,
     },
   },
   { timestamps: true }
 );
+busSchema.plugin(slug);
+const Bus = mongoose.model("Bus", busSchema);
 
-module.exports = mongoose.model("Bus", busSchema);
+module.exports = Bus;

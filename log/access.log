@@ -103,3 +103,7 @@
 ::1 - - [16/Dec/2023:11:44:39 +0000] "POST /api/bus HTTP/1.1" 403 33 "-" "PostmanRuntime/7.36.0"
 ::1 - - [16/Dec/2023:11:47:33 +0000] "POST /api/bus HTTP/1.1" 500 33 "-" "PostmanRuntime/7.36.0"
 ::1 - - [16/Dec/2023:11:49:33 +0000] "POST /api/bus HTTP/1.1" 200 874 "-" "PostmanRuntime/7.36.0"
+::1 - - [16/Dec/2023:11:58:24 +0000] "GET /api/bus HTTP/1.1" 200 2112 "-" "PostmanRuntime/7.36.0"
+::1 - - [17/Dec/2023:05:32:46 +0000] "POST /api/bus HTTP/1.1" 500 54 "-" "PostmanRuntime/7.36.0"
+::1 - - [17/Dec/2023:05:43:23 +0000] "POST /api/bus HTTP/1.1" 200 882 "-" "PostmanRuntime/7.36.0"
+::1 - - [17/Dec/2023:05:44:36 +0000] "POST /api/bus HTTP/1.1" 200 885 "-" "PostmanRuntime/7.36.0"
