@@ -10,9 +10,16 @@ const bookingSchema = new mongoose.Schema(
       type: Number,
       default: 1,
     },
+    passengerName: {
+      type: String,
+    },
     seatNumber: {
       type: String,
       required: true,
+    },
+    numberofseats: {
+      type: Number,
+      default: 1,
     },
     boardingPoints: {
       type: String,

@@ -121,7 +121,8 @@ exports.postBooking = async (req, res) => {
     });
   }
 
-  const flareThreshold = bus.fare * (req.body.seatNumber || booking.seatNumber);
+  const flareThreshold =
+    bus.fare * (req.body.numberofseats || booking.numberofseats);
 
   if (bus.price < flareThreshold) {
     return res.status(400).json({
@@ -130,7 +131,7 @@ exports.postBooking = async (req, res) => {
   }
 
   if (
-    bus.seatsAvailable < (req.body.passengers || booking.passengers) ||
+    bus.seatsAvailable < (req.body.numberofseats || booking.numberofseats) ||
     bus.isAvailable !== true ||
     bus.soldSeat.includes(booking.seatNumber) ||
     bus.bookedSeat.includes(booking.seatNumber)
