@@ -82,6 +82,66 @@ const router = express.Router();
  */
 router.post("/signup", userSignupValidator, signup);
 
+/**
+ * @swagger
+ * tags:
+ *   name: User Auth
+ *   description: Operations related to user authentication
+ *
+ * /api/user-auth/signin:
+ *   post:
+ *     summary: Sign in to an existing user account
+ *     tags: [User Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *             example:
+ *               email: john@example.com
+ *               password: password123
+ *     responses:
+ *       '200':
+ *         description: User signed in successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *               example:
+ *                 token: eyJhbGciOiJIUzI1NiIsIn...
+ *       '401':
+ *         description: Unauthorized, incorrect email or password
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *               example:
+ *                 error: Incorrect email or password
+ *       '500':
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *               example:
+ *                 error: Internal Server Error
+ */
+
 router.post("/signin", signin);
 
 router.post("/social-login", socialLogin);
