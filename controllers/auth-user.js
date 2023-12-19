@@ -5,17 +5,15 @@ const _ = require("lodash");
 const { sendEmail } = require("../helpers");
 
 exports.signup = async (req, res) => {
-
   // req.body.email
 
-  // userexists =  bibek 
- 
-  const userExists = await User.findOne({ email: req.body.email });
+  // userexists =  bibek
 
+  const userExists = await User.findOne({ email: req.body.email });
 
   if (userExists)
     return res.status(403).json({
-      error: "Email is taken!"
+      error: "Email is taken!",
     });
 
   const newuser = new User(req.body);
@@ -33,20 +31,20 @@ exports.signin = async (req, res) => {
 
   if (!user) {
     return res.status(401).json({
-      error: "User with that email does not exist."
+      error: "User with that email does not exist.",
     });
   }
 
   if (!user.authenticate(password)) {
     return res.status(401).json({
-      error: "Email and password do not match"
+      error: "Email and password do not match",
     });
   }
 
   const payload = {
     _id: user.id,
     name: user.name,
-    email: user.email
+    email: user.email,
   };
 
   const token = jwt.sign(
@@ -105,7 +103,7 @@ exports.isUser = (req, res, next) => {
     req.userprofile._id.toString() === req.userauth._id.toString();
   if (!user) {
     return res.status(403).json({
-      error: "Access denied"
+      error: "Access denied",
     });
   }
   next();
@@ -120,7 +118,7 @@ exports.refreshToken = async (req, res) => {
     const payload = {
       _id: user.id,
       name: user.name,
-      email: user.email
+      email: user.email,
     };
 
     const token = jwt.sign(
@@ -273,83 +271,154 @@ exports.socialLogin = async (req, res) => {
 //   return res.json({ accessToken, refreshToken: refreshToken.refreshToken });
 // };
 
+// exports.forgotPassword = async (req, res) => {
+//   if (!req.body) return res.status(400).json({ message: "No request body" });
+//   if (!req.body.email)
+//     return res.status(400).json({ message: "No Email in request body" });
 
+//   const { email } = req.body;
+//   // find the user based on email
+//   const user = await User.findOne({ email });
+//   // if err or no user
+//   if (!user)
+//     return res.status("401").json({
+//       error: "User with that email does not exist!",
+//     });
 
+//   // generate a token with user id and secret
+//   const token = jwt.sign(
+//     { _id: user._id, iss: "NODEAPI" },
+//     process.env.JWT_SECRET
+//   );
 
+//   // email data
+//   const emailData = {
+//     from: "sagarregmi2056@gmail.com",
+//     to: email,
+//     subject: "Password Reset Instructions",
 
+//     // client url baki xa hai
+//     text: `Please use the following link to reset your password: ${process.env.CLIENT_URL}/reset-password/${token}`,
+//     html: `<p>Please use the following link to reset your password:</p> <p>${process.env.CLIENT_URL}/reset-password/${token}</p>`,
+//   };
 
+//   return user.updateOne({ resetPasswordLink: token }, (err, success) => {
+//     if (err) {
+//       return res.json({ message: err });
+//     } else {
+//       sendEmail(emailData);
+//       return res.status(200).json({
+//         message: `Email has been sent to ${email}. Follow the instructions to reset your password.`,
+//       });
+//     }
+//   });
+// };
 
+// exports.resetPassword = async (req, res) => {
+//   const { resetPasswordLink, newPassword } = req.body;
 
+//   let user = await User.findOne({ resetPasswordLink });
+//   // if err or no user
+//   if (!user)
+//     return res.status(401).json({
+//       error: "Invalid Link!",
+//     });
 
+//   const updatedFields = {
+//     password: newPassword,
+//     resetPasswordLink: "",
+//   };
+
+//   user = _.extend(user, updatedFields);
+//   user.update = Date.now();
+
+//   user.save((err, result) => {
+//     if (err) {
+//       return res.status(400).json({
+//         error: err,
+//       });
+//     }
+//     res.json({
+//       message: `Great! Now you can login with your new password.`,
+//     });
+//   });
+// };
+
+// updated code for the above
 exports.forgotPassword = async (req, res) => {
   if (!req.body) return res.status(400).json({ message: "No request body" });
   if (!req.body.email)
     return res.status(400).json({ message: "No Email in request body" });
 
   const { email } = req.body;
-  // find the user based on email
-  const user = await User.findOne({ email });
-  // if err or no user
-  if (!user)
-    return res.status("401").json({
-      error: "User with that email does not exist!"
-    });
 
-  // generate a token with user id and secret
-  const token = jwt.sign(
-    { _id: user._id, iss: "NODEAPI" },
-    process.env.JWT_SECRET
-  );
+  try {
+    // find the user based on email
+    const user = await User.findOne({ email });
 
-  // email data
-  const emailData = {
-    from: "sagarregmi2056@gmail.com",
-    to: email,
-    subject: "Password Reset Instructions",
-
-    // client url baki xa hai 
-    text: `Please use the following link to reset your password: ${process.env.CLIENT_URL}/reset-password/${token}`,
-    html: `<p>Please use the following link to reset your password:</p> <p>${process.env.CLIENT_URL}/reset-password/${token}</p>`
-  };
-
-  return user.updateOne({ resetPasswordLink: token }, (err, success) => {
-    if (err) {
-      return res.json({ message: err });
-    } else {
-      sendEmail(emailData);
-      return res.status(200).json({
-        message: `Email has been sent to ${email}. Follow the instructions to reset your password.`
+    // if err or no user
+    if (!user)
+      return res.status(401).json({
+        error: "User with that email does not exist!",
       });
-    }
-  });
+
+    // generate a token with user id and secret
+    const token = jwt.sign(
+      { _id: user._id, iss: "NODEAPI" },
+      process.env.JWT_SECRET
+    );
+
+    // email data
+    const emailData = {
+      from: "sagarregmi2056@gmail.com",
+      to: email,
+      subject: "Password Reset Instructions",
+      text: `Please use the following link to reset your password: ${process.env.CLIENT_URL}/reset-password/${token}`,
+      html: `<p>Please use the following link to reset your password:</p> <p>${process.env.CLIENT_URL}/reset-password/${token}</p>`,
+    };
+
+    // Update user with resetPasswordLink and send email
+    await user.updateOne({ resetPasswordLink: token });
+
+    // Send email
+    sendEmail(emailData);
+
+    return res.status(200).json({
+      message: `Email has been sent to ${email}. Follow the instructions to reset your password.`,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
 };
 
 exports.resetPassword = async (req, res) => {
   const { resetPasswordLink, newPassword } = req.body;
 
-  let user = await User.findOne({ resetPasswordLink });
-  // if err or no user
-  if (!user)
-    return res.status(401).json({
-      error: "Invalid Link!"
-    });
+  try {
+    let user = await User.findOne({ resetPasswordLink });
 
-  const updatedFields = {
-    password: newPassword,
-    resetPasswordLink: ""
-  };
-
-  user = _.extend(user, updatedFields);
-  user.update = Date.now();
-
-  user.save((err, result) => {
-    if (err) {
-      return res.status(400).json({
-        error: err
+    // if err or no user
+    if (!user)
+      return res.status(401).json({
+        error: "Invalid Link!",
       });
-    }
+
+    const updatedFields = {
+      password: newPassword,
+      resetPasswordLink: "",
+    };
+
+    user = _.extend(user, updatedFields);
+    user.update = Date.now();
+
+    await user.save();
+
     res.json({
-      message: `Great! Now you can login with your new password.`
+      message: `Great! Now you can login with your new password.`,
     });
-  });
+  } catch (error) {
+    return res.status(400).json({
+      error: error.message,
+    });
+  }
 };
