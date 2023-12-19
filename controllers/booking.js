@@ -320,6 +320,36 @@ exports.getmyBookings = async (req, res) => {
   }
 };
 
+exports.updateBooking = async (req, res) => {
+  try {
+    const bookingId = req.params.bookingId;
+    const userId = req.userauth._id; // Assuming user information is available in req.userauth after authentication
+
+    // Check if the booking belongs to the authenticated user
+    const booking = await Booking.findOne({ _id: bookingId, user: userId });
+
+    if (!booking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    // Update the booking details
+    booking.passengers = req.body.passengers; // Update with the fields you want to allow users to modify
+    // Add more fields as needed
+
+    // Save changes to the database
+    await booking.save();
+
+    res.json({
+      message: "Booking updated successfully",
+      updatedBooking: booking,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "Internal Server Error",
+    });
+  }
+};
 // exports.verifyBookingForPayment = async (req, res, next) => {
 //   try {
 //     const bookingId = req.body.bookingId; // Assuming you send the booking ID in the request body
