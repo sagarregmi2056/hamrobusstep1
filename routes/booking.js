@@ -8,9 +8,13 @@ const {
   postSold,
   deleteBooking,
   getAllBookings,
+  getmyBookings,
 } = require("../controllers/booking");
 
-const { checkUserSignin } = require("../controllers/auth-user");
+const {
+  checkUserSignin,
+  requireUserSignin,
+} = require("../controllers/auth-user");
 const {
   requireOwnerSignin,
   isBookingOwner,
@@ -28,6 +32,8 @@ router.post("/sold/:busSlug", requireOwnerSignin, postSold);
 
 // user ley book garna lai
 router.post("/book/:busSlug", checkUserSignin, postBooking);
+
+router.get("/getmyallbooking", checkUserSignin, getmyBookings);
 
 router.patch("/:bookingId", requireOwnerSignin, changeVerificationStatus);
 

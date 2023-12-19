@@ -3,6 +3,7 @@ const _ = require("lodash");
 const Owner = require("../models/Owner");
 const FormData = require("form-data");
 const axios = require("axios");
+const User = require("../models/User"); // Adjust the path based on your project structure
 
 // for image optimzation
 const sharp = require("sharp");

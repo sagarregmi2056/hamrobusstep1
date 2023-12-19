@@ -2,6 +2,7 @@ const Booking = require("../models/Booking");
 const Bus = require("../models/Bus");
 const Guest = require("../models/Guest");
 const _ = require("lodash");
+const User = require("../models/User");
 
 exports.bookingById = async (req, res, next, id) => {
   const booking = await Booking.findById(id).populate("bus owner guest user");
@@ -224,20 +225,32 @@ exports.postBooking = async (req, res) => {
   const selectedSeatNumbers = req.body.seatNumbers || booking.seatNumbers;
   const selectedSeatsCount = selectedSeatNumbers.length;
 
+  console.log(selectedSeatsCount);
+
   // Calculate flareThreshold based on the number of selected seats
   const flareThreshold = bus.fare * selectedSeatsCount;
+  console.log(bus.fare);
 
-  if (bus.price < flareThreshold) {
+  console.log(flareThreshold);
+
+  console.log(booking.price);
+  if (booking.price < flareThreshold) {
     return res.status(400).json({
       error: "Bus price is less than the flare threshold. Cannot book.",
     });
   }
-
+  console.log("Sold Seats:", bus.soldSeat);
+  console.log("Booked Seats:", bus.bookedSeat);
   // Check if any of the selected seats are already sold or booked
   const isAnySeatSoldOrBooked = selectedSeatNumbers.some(
     (seatNumber) =>
       bus.soldSeat.includes(seatNumber) || bus.bookedSeat.includes(seatNumber)
   );
+
+  // console.log("isAnySeatSoldOrBooked:", isAnySeatSoldOrBooked);
+  console.log("Bus Availability:", bus.isAvailable);
+  console.log("Available Seats:", bus.seatsAvailable);
+  console.log("Selected Seats Count:", selectedSeatsCount);
 
   if (
     bus.seatsAvailable < selectedSeatsCount ||
@@ -289,6 +302,22 @@ exports.postBooking = async (req, res) => {
     message: "Booking successfully verified but not paid",
     ticket: ticket,
   });
+};
+
+exports.getmyBookings = async (req, res) => {
+  try {
+    // Assuming user information is available in req.userauth after authentication
+    const userId = req.userauth._id;
+
+    // Retrieve bookings for the authenticated user
+    const userBookings = await Booking.find({ user: userId });
+
+    // Send the user's bookings in the response
+    res.json({ userBookings });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 };
 
 // exports.verifyBookingForPayment = async (req, res, next) => {

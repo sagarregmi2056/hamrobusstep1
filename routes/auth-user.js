@@ -5,7 +5,7 @@ const {
   signin,
   socialLogin,
   forgotPassword,
-  resetPassword
+  resetPassword,
 } = require("../controllers/auth-user");
 
 const { userSignupValidator, passwordResetValidator } = require("../validator");
@@ -18,6 +18,6 @@ router.post("/signin", signin);
 router.post("/social-login", socialLogin);
 
 router.put("/forgot-password", forgotPassword);
-router.put("/reset-password", passwordResetValidator, resetPassword);
+router.put("/reset-password", resetPassword);
 
 module.exports = router;

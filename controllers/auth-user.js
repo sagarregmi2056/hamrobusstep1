@@ -27,7 +27,6 @@ exports.signup = async (req, res) => {
 exports.signin = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  // console.log(password);
 
   if (!user) {
     return res.status(401).json({
@@ -47,13 +46,10 @@ exports.signin = async (req, res) => {
     email: user.email,
   };
 
-  const token = jwt.sign(
-    payload,
-    process.env.JWT_SECRET
-    // {expiresIn:"1h"}
-  );
+  const token = jwt.sign(payload, process.env.JWT_SECRET);
 
-  return res.json({ token });
+  // Send both ID and token in the response
+  return res.json({ _id: user.id, token });
 };
 
 exports.requireUserSignin = async (req, res, next) => {
