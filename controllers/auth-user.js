@@ -380,6 +380,8 @@ exports.forgotPassword = async (req, res) => {
     // Update user with resetPasswordLink and send email
     await user.updateOne({ resetPasswordLink: token });
 
+    console.log(emailData);
+
     // Send email
     sendEmail(emailData);
 
