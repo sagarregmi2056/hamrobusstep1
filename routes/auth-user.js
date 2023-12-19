@@ -146,6 +146,63 @@ router.post("/signin", signin);
 
 router.post("/social-login", socialLogin);
 
+/**
+ * @swagger
+ * tags:
+ *   name: User Auth
+ *   description: Operations related to user authentication
+ *
+ * /api/user-auth/forgot-password:
+ *   put:
+ *     summary: Initiate the process for resetting a user's password
+ *     tags: [User Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *             example:
+ *               email: john@example.com
+ *     responses:
+ *       '200':
+ *         description: Password reset link sent successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *               example:
+ *                 message: Password reset link sent to your email
+ *       '404':
+ *         description: User not found with the provided email
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *               example:
+ *                 error: User not found with the provided email
+ *       '500':
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *               example:
+ *                 error: Internal Server Error
+ */
+
 router.put("/forgot-password", forgotPassword);
 router.put("/reset-password", passwordResetValidator, resetPassword);
 
