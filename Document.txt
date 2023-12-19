@@ -355,6 +355,16 @@ body:
     
 
 
+posting bookings by the user 
+{
+  "price": "3000", 
+  "passengers": 1,
+  "passengerName": "John Doe", 
+  "seatNumbers": ["14D", "14E","15F"],
+  "boardingPoints": "Boarding Point A", 
+   "droppingPoints":"Dropping Point D"
+}
+
 
 
 
