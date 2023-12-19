@@ -204,6 +204,78 @@ router.post("/social-login", socialLogin);
  */
 
 router.put("/forgot-password", forgotPassword);
+
+/**
+ * @swagger
+ * tags:
+ *   name: User Auth
+ *   description: Operations related to user authentication
+ *
+ * /reset-password:
+ *   put:
+ *     summary: Reset a user's password using the provided reset token
+ *     tags: [User Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               resetToken:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *             example:
+ *               resetToken: your_reset_token
+ *               newPassword: new_password123
+ *     responses:
+ *       '200':
+ *         description: Password reset successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *               example:
+ *                 message: Password reset successfully
+ *       '400':
+ *         description: Invalid or expired reset token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *               example:
+ *                 error: Invalid or expired reset token
+ *       '404':
+ *         description: User not found with the provided reset token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *               example:
+ *                 error: User not found with the provided reset token
+ *       '500':
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *               example:
+ *                 error: Internal Server Error
+ */
+
 router.put("/reset-password", passwordResetValidator, resetPassword);
 
 module.exports = router;
