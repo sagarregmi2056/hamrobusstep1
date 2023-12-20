@@ -310,36 +310,6 @@ exports.socialLogin = async (req, res) => {
 //   });
 // };
 
-// exports.resetPassword = async (req, res) => {
-//   const { resetPasswordLink, newPassword } = req.body;
-
-//   let user = await User.findOne({ resetPasswordLink });
-//   // if err or no user
-//   if (!user)
-//     return res.status(401).json({
-//       error: "Invalid Link!",
-//     });
-
-//   const updatedFields = {
-//     password: newPassword,
-//     resetPasswordLink: "",
-//   };
-
-//   user = _.extend(user, updatedFields);
-//   user.update = Date.now();
-
-//   user.save((err, result) => {
-//     if (err) {
-//       return res.status(400).json({
-//         error: err,
-//       });
-//     }
-//     res.json({
-//       message: `Great! Now you can login with your new password.`,
-//     });
-//   });
-// };
-
 // updated code for the above
 exports.forgotPassword = async (req, res) => {
   if (!req.body) return res.status(400).json({ message: "No request body" });
