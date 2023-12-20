@@ -543,7 +543,7 @@ router.post(
  *             example:
  *               error: 'Internal Server Error'
  */
-router.post("/signin", signin);
+
 router.post("/refreshtoken", refreshToken);
 
 module.exports = router;
