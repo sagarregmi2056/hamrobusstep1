@@ -8,7 +8,7 @@ const express = require("express");
 require("express-async-errors");
 const cors = require("cors");
 require("dotenv").config();
-// const { graphqlHTTP } = require('express-graphql');
+
 const app = express();
 
 const { readFileSync } = require("fs");
@@ -35,15 +35,7 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-// importing swaggerui
 
-// const swaggerUi = require("swagger-ui-express");
-// const swaggerJsDoc = require("swagger-jsdoc");
-
-// gql
-
-// Import methods
-// db connection is useless here due seeding process causes a error
 const { runEveryMidnight, dbConnection, errorHandler } = require("./helpers");
 const logger = require("./helpers/logger");
 const runSeed = require("./seeds");
@@ -56,18 +48,17 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("DB CONNECTED VAYO HAI SOLTI");
+    console.log("Database is connected successfully");
   })
   .catch((err) => {
-    console.log(`data base ma error hanyo hai ,${err}  `);
+    console.log(`Error on database  ,${err}  `);
   });
 runSeed();
 
-// const { ApolloServer } = require('apollo-server');
 const { ApolloServer } = require("apollo-server-express");
 const graphqlPlayground =
   require("graphql-playground-middleware-express").default;
-// const mongoose = require('mongoose');
+
 async function startServer() {
   const typeDefs = gql(readFileSync("./grqphqlschema/typeDefs.gql", "utf-8"));
   const resolvers = require("./grqphqlschema/resolvers");
@@ -115,13 +106,6 @@ app.get("/", (req, res) => {
   res.send("welcome to HAMRO BUS Home ");
 });
 
-/**
- * @swagger
- * tags:
- *   name: Owner Authentication
- *   description: Endpoints for owner  document uploads and verification
- */
-
 app.use("/api/auth-owner", require("./routes/auth-owner"));
 app.use("/api/auth-user", require("./routes/auth-user"));
 app.use("/api/bookings", require("./routes/booking"));
@@ -134,13 +118,6 @@ app.use("/api/users", require("./routes/user"));
 
 app.use("/api/admin", require("./routes/admin"));
 
-/**
- * @swagger
- * tags:
- *   name: OTP Auth
- *   description: Operations related to OTP authentication
- */
-
 app.use("/api/otpauth", require("./routes/otpauth"));
 
 // Error handling middleware
@@ -152,12 +129,3 @@ app.use(function (err, req, res, next) {
 
 // Run every-midnight to check if bus deporting date is passed
 runEveryMidnight();
-
-// const port = process.env.PORT || 8525;
-
-// app.listen(port, () => {
-//   console.log(`Server is running on port ${port}`);
-
-// });
-
-// startServer();
