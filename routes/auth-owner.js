@@ -34,19 +34,12 @@ const router = express.Router();
  * tags:
  *   - name: Owner
  *     description: Operations related to owner
- * /api/auth-owner/addPersonalDetail/{ownerId}:
+ * /api/auth-owner/addPersonalDetail:
  *   post:
  *     summary: Add Personal Detail
  *     description: Adds personal details for the owner.
  *     tags:
  *       - Owner
- *     parameters:
- *       - in: path
- *         name: ownerId
- *         required: true
- *         description: ID of the owner
- *         schema:
- *           type: string
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -114,17 +107,15 @@ router.post("/addPersonalDetail", verifyToken, ownersigninverify, stepone);
 
 /**
  * @swagger
- * /api/auth-owner/addBankDetail/{ownerId}:
+ * tags:
+ *   - name: Owner
+ *     description: Operations related to owner
+ * /api/auth-owner/addBankDetail:
  *   put:
  *     summary: Add Bank Detail
  *     description: Adds bank details for the owner.
- *     parameters:
- *       - in: path
- *         name: ownerId
- *         required: true
- *         description: ID of the owner
- *         schema:
- *           type: string
+ *     tags:
+ *       - Owner
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -154,7 +145,7 @@ router.post("/addPersonalDetail", verifyToken, ownersigninverify, stepone);
  *         content:
  *           application/json:
  *             example:
- *               ownerId: '1234567890'
+ *               ownerId: '<actual_owner_id>'
  *               message: 'Step two completed successfully'
  *       500:
  *         description: Internal Server Error
@@ -167,19 +158,12 @@ router.post("/addPersonalDetail", verifyToken, ownersigninverify, stepone);
 router.put("/addBankDetail", verifyToken, ownersigninverify, steptwo);
 /**
  * @swagger
- * /api/auth-owner/addBankDetail/{ownerId}:
+ * /api/auth-owner/addPanDetail:
  *   put:
- *     summary: Add Bank Detail
- *     description: Adds bank details for the owner.
+ *     summary: Add PAN Detail
+ *     description: Adds PAN details for the owner.
  *     tags:
  *       - Owner
- *     parameters:
- *       - in: path
- *         name: ownerId
- *         required: true
- *         description: ID of the owner
- *         schema:
- *           type: string
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -188,75 +172,67 @@ router.put("/addBankDetail", verifyToken, ownersigninverify, steptwo);
  *           schema:
  *             type: object
  *             properties:
- *               bankName:
+ *               panName:
  *                 type: string
- *                 description: Name of the bank
- *               accountNumber:
+ *                 description: Owner's PAN number
+ *               panAddress:
  *                 type: string
- *                 description: Owner's bank account number
- *               beneficaryName:
+ *                 description: Owner's PAN address
+ *               issuedate:
  *                 type: string
- *                 description: Beneficiary name for the bank account
- *               bankaccountType:
+ *                 description: Issue date of PAN card
+ *               dateofbirth:
  *                 type: string
- *                 description: Type of bank account (e.g., Savings, Checking)
- *               citizenshipNumber:
- *                 type: string
- *                 description: Owner's citizenship number
+ *                 description: Date of birth on PAN card
  *     responses:
  *       200:
- *         description: Bank details added successfully
+ *         description: PAN details added successfully
  *         content:
  *           application/json:
  *             example:
- *               ownerId: '1234567890'
- *               message: 'Step two completed successfully'
+ *               message: 'Step three completed successfully'
  *       500:
  *         description: Internal Server Error
  *         content:
  *           application/json:
  *             example:
- *               error: 'Error updating owner in Step 2'
+ *               error: 'Error updating owner in Step 3'
  */
 
 router.put("/addPanDetail", verifyToken, ownersigninverify, stepthree);
 /**
  * @swagger
- * /api/auth-owner/getCurrentSection/{ownerId}:
+ * tags:
+ *   - name: Owner
+ *     description: Operations related to owner
+ * /api/auth-owner/getCurrentSection:
  *   get:
- *     summary: Get Owner Details
- *     description: Retrieves details of a specific owner.
+ *     summary: Get Current Section
+ *     description: Retrieves the current section details for the owner.
  *     tags:
  *       - Owner
- *     parameters:
- *       - in: path
- *         name: ownerId
- *         required: true
- *         description: ID of the owner
- *         schema:
- *           type: string
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Owner details retrieved successfully
+ *         description: Current section details retrieved successfully
  *         content:
  *           application/json:
  *             example:
  *               ownerId: '1234567890'
- *               travelName: 'SampleTravel'
- *               pincode: '12345'
- *               state: 'SampleState'
- *               city: 'SampleCity'
- *               phone: '1234567890'
- *               email: 'owner@example.com'
- *               name: 'Owner Name'
- *               country: 'SampleCountry'
- *               district: 'SampleDistrict'
- *               vendorDetail: 'bankDetail'
- *               status: 'active'
- *               panNumber: 'ABCPN1234C'
- *               panName: 'PAN Owner Name'
+ *               travelName: "Owner's Travel Name"
+ *               pincode: "Owner's Pincode"
+ *               state: "Owner's State"
+ *               city: "Owner's City"
+ *               phone: "Owner's Phone"
+ *               email: "Owner's Email"
+ *               name: "Owner's Name"
+ *               country: "Owner's Country"
+ *               district: "Owner's District"
+ *               vendorDetail: "Owner's Vendor Detail"
+ *               status: "Owner's Status"
+ *               panNumber: "Owner's PAN Number"
+ *               panName: "Owner's PAN Name"
  *       404:
  *         description: Owner not found
  *         content:
@@ -279,6 +255,7 @@ router.get(
   getOwnerDetails
 );
 // router.post("/adddocuments/:ownerId/pancard", stepfour);
+
 /**
  * @swagger
  * components:
@@ -291,19 +268,12 @@ router.get(
  *           format: binary
  *           description: Driver's license image file
  *
- * /api/auth-owner/adddocuments/{ownerId}/driverlicense:
+ * /api/auth-owner/adddocuments/driverlicense:
  *   post:
  *     summary: Upload Driver's License
  *     description: Uploads driver's license image for the owner.
  *     tags:
  *       - Owner
- *     parameters:
- *       - in: path
- *         name: ownerId
- *         required: true
- *         description: ID of the owner
- *         schema:
- *           type: string
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -347,22 +317,14 @@ router.post(
 //   uploaddriverlisence,
 //   uploaddriverlisencecontroller
 // );
-
 /**
  * @swagger
- * /api/auth-owner/getownerdocuments/{ownerId}:
+ * /api/auth-owner/getownerdocuments:
  *   get:
  *     summary: Get Owner Documents
  *     description: Retrieve documents uploaded by the owner.
  *     tags:
  *       - Owner
- *     parameters:
- *       - in: path
- *         name: ownerId
- *         required: true
- *         description: ID of the owner
- *         schema:
- *           type: string
  *     security:
  *       - bearerAuth: []  # Assuming Bearer token authentication is required
  *     responses:
@@ -394,29 +356,20 @@ router.post(
  *             example:
  *               error: 'Internal Server Error'
  */
-
 router.get(
   "/getownerdocuments",
   verifyToken,
   ownersigninverify,
   getOwnerDocumentsController
 );
-
 /**
  * @swagger
- * /api/auth-owner/adddocuments/{ownerId}/pancard:
+ * /api/auth-owner/adddocuments/pancard:
  *   post:
  *     summary: Upload PAN Card
  *     description: Uploads PAN card image for the owner.
  *     tags:
  *       - Owner
- *     parameters:
- *       - in: path
- *         name: ownerId
- *         required: true
- *         description: ID of the owner
- *         schema:
- *           type: string
  *     security:
  *       - bearerAuth: []  # Assuming Bearer token authentication is required
  *     requestBody:
@@ -455,26 +408,14 @@ router.post(
   uploadPanCardController
 );
 
-// router.post(
-//   "/adddocuments/:ownerId/pancard",
-//   uploadpancard,
-//   uploadPanCardController
-// );
 /**
  * @swagger
- * /api/auth-owner/adddocuments/{ownerId}/citizenship:
+ * /api/auth-owner/adddocuments/citizenship:
  *   post:
  *     summary: Upload Citizenship Document
  *     description: Uploads citizenship image for the owner.
  *     tags:
  *       - Owner
- *     parameters:
- *       - in: path
- *         name: ownerId
- *         required: true
- *         description: ID of the owner
- *         schema:
- *           type: string
  *     security:
  *       - bearerAuth: []  # Assuming Bearer token authentication is required
  *     requestBody:
@@ -504,6 +445,7 @@ router.post(
  *             example:
  *               error: 'Internal Server Error'
  */
+
 router.post(
   "/adddocuments/citizenship",
   verifyToken,
@@ -513,19 +455,12 @@ router.post(
 );
 /**
  * @swagger
- * /api/auth-owner/adddocuments/{ownerId}/nationalid:
+ * /api/auth-owner/adddocuments/nationalid:
  *   post:
  *     summary: Upload National ID Document
  *     description: Uploads national ID image for the owner.
  *     tags:
  *       - Owner
- *     parameters:
- *       - in: path
- *         name: ownerId
- *         required: true
- *         description: ID of the owner
- *         schema:
- *           type: string
  *     security:
  *       - bearerAuth: []  # Assuming Bearer token authentication is required
  *     requestBody:
@@ -563,8 +498,6 @@ router.post(
   uploadnationalID,
   nationalidController
 );
-
-router.post("/signin", signin);
 
 /**
  * @swagger
@@ -610,7 +543,7 @@ router.post("/signin", signin);
  *             example:
  *               error: 'Internal Server Error'
  */
-
+router.post("/signin", signin);
 router.post("/refreshtoken", refreshToken);
 
 module.exports = router;
