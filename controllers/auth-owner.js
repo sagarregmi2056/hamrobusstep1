@@ -432,7 +432,7 @@ exports.ownersigninverify = async (req, res, next) => {
   }
 };
 
-exports.requireOwnerSignin = async (req, res, next) => {
+exports.requireownerkycverify = async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (token) {
@@ -440,7 +440,7 @@ exports.requireOwnerSignin = async (req, res, next) => {
 
     if (owner) {
       const foundOwner = await Owner.findById(owner._id).select(
-        "role phone status vendorDetail"
+        "_id role phone status vendorDetail"
       );
 
       if (

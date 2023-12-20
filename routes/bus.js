@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { requireOwnerSignin, isPoster } = require("../controllers/auth-owner");
+const {
+  requireOwnerSignin,
+  isPoster,
+  requireownerkycverify,
+} = require("../controllers/auth-owner");
 
 const {
   read,
@@ -210,7 +214,7 @@ const { uploadBusImage, uploadinsideBusImage } = require("../helpers");
  *               error: 'Internal Server Error'
  */
 
-router.route("/").get(getBuses).post(requireOwnerSignin, create);
+router.route("/").get(getBuses).post(requireownerkycverify, create);
 
 /**
  * @swagger
@@ -261,14 +265,13 @@ router.route("/").get(getBuses).post(requireOwnerSignin, create);
 
 router.post(
   "/uploadbusimage",
-  requireOwnerSignin,
+  requireownerkycverify,
   uploadBusImage,
   uploadBusImageController
 );
 
 router.post(
-  "/uploadinterior",
-  requireOwnerSignin,
+  requireownerkycverify,
   uploadinsideBusImage,
   uploadinsideBusImagecontroller
 );
@@ -337,7 +340,7 @@ router.post(
 
 router.get(
   "/owner-bus-available",
-  requireOwnerSignin,
+  requireownerkycverify,
   getAvailableBusesOfOwner
 );
 
@@ -389,7 +392,7 @@ router.get(
  */
 router.get(
   "/owner-bus-unavailable",
-  requireOwnerSignin,
+  requireownerkycverify,
   getUnavailableBusesOfOwner
 );
 /**
@@ -817,8 +820,8 @@ router.post("/filter", searchBusByFilter);
 router
   .route("/:busSlug")
   .get(read)
-  .put(requireOwnerSignin, isPoster, update)
-  .delete(requireOwnerSignin, isPoster, remove);
+  .put(requireownerkycverify, isPoster, update)
+  .delete(requireownerkycverify, isPoster, remove);
 
 router.param("busSlug", busBySlug);
 
