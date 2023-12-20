@@ -3,7 +3,6 @@ const multer = require("multer");
 const Owner = require("../models/Owner");
 const app = express();
 const {
-  stepfour,
   signin,
   refreshToken,
   stepone,
@@ -15,6 +14,7 @@ const {
   getOwnerDocumentsController,
   citizenshipController,
   nationalidController,
+  requireOwnerSignin,
 } = require("../controllers/auth-owner");
 
 const { verifyToken } = require("../controllers/otpauth");
@@ -24,6 +24,8 @@ const {
   uploadnationalID,
 } = require("../helpers");
 const { uploadpancard } = require("../helpers");
+
+// const { ownerById } = require("../controllers/owner");
 
 const router = express.Router();
 /**
@@ -268,7 +270,12 @@ router.put("/addPanDetail/:ownerId", verifyToken, stepthree);
  *               error: 'Error retrieving owner details'
  */
 
-router.get("/getCurrentSection/:ownerId", verifyToken, getOwnerDetails);
+router.get(
+  "/getCurrentSection",
+  verifyToken,
+  requireOwnerSignin,
+  getOwnerDetails
+);
 // router.post("/adddocuments/:ownerId/pancard", stepfour);
 /**
  * @swagger
