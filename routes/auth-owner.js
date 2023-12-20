@@ -164,7 +164,7 @@ router.post("/addPersonalDetail", verifyToken, ownersigninverify, stepone);
  *               error: 'Error updating owner in Step 2'
  */
 
-router.put("/addBankDetail/:ownerId", verifyToken, steptwo);
+router.put("/addBankDetail", verifyToken, ownersigninverify, steptwo);
 /**
  * @swagger
  * /api/auth-owner/addBankDetail/{ownerId}:
@@ -219,7 +219,7 @@ router.put("/addBankDetail/:ownerId", verifyToken, steptwo);
  *               error: 'Error updating owner in Step 2'
  */
 
-router.put("/addPanDetail/:ownerId", verifyToken, stepthree);
+router.put("/addPanDetail", verifyToken, ownersigninverify, stepthree);
 /**
  * @swagger
  * /api/auth-owner/getCurrentSection/{ownerId}:
@@ -274,7 +274,8 @@ router.put("/addPanDetail/:ownerId", verifyToken, stepthree);
 router.get(
   "/getCurrentSection",
   verifyToken,
-  requireOwnerSignin,
+
+  ownersigninverify,
   getOwnerDetails
 );
 // router.post("/adddocuments/:ownerId/pancard", stepfour);
@@ -334,7 +335,9 @@ router.get(
  */
 
 router.post(
-  "/adddocuments/:ownerId/driverlicense",
+  "/adddocuments/driverlicense",
+  verifyToken,
+  ownersigninverify,
   uploaddriverlisence,
   uploaddriverlisencecontroller
 );
@@ -393,8 +396,9 @@ router.post(
  */
 
 router.get(
-  "/getownerdocuments/:ownerId",
+  "/getownerdocuments",
   verifyToken,
+  ownersigninverify,
   getOwnerDocumentsController
 );
 
@@ -444,7 +448,9 @@ router.get(
  */
 
 router.post(
-  "/adddocuments/:ownerId/pancard",
+  "/adddocuments/pancard",
+  verifyToken,
+  ownersigninverify,
   uploadpancard,
   uploadPanCardController
 );
@@ -499,7 +505,9 @@ router.post(
  *               error: 'Internal Server Error'
  */
 router.post(
-  "/adddocuments/:ownerId/citizenship",
+  "/adddocuments/citizenship",
+  verifyToken,
+  ownersigninverify,
   uploadCitizenshipimages,
   citizenshipController
 );
@@ -549,7 +557,9 @@ router.post(
  */
 
 router.post(
-  "/adddocuments/:ownerId/nationalid",
+  "/adddocuments/nationalid",
+  verifyToken,
+  ownersigninverify,
   uploadnationalID,
   nationalidController
 );

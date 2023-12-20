@@ -87,7 +87,8 @@ exports.stepone = async (req, res) => {
 //  this is for the step  of owner verification
 exports.steptwo = async (req, res) => {
   try {
-    const ownerId = req.params.ownerId;
+    // const ownerId = req.params.ownerId;
+    const ownerId = req.ownerauth;
     const {
       bankName,
       accountNumber,
@@ -122,7 +123,8 @@ exports.steptwo = async (req, res) => {
 
 exports.stepthree = async (req, res) => {
   try {
-    const ownerId = req.params.ownerId;
+    // const ownerId = req.params.ownerId;
+    const ownerId = req.ownerauth;
     const { panName, panAddress, issuedate, dateofbirth } = req.body;
 
     const finalOwner = await Owner.findByIdAndUpdate(
@@ -195,7 +197,8 @@ async function uploadToCloudflare(image) {
 
 exports.uploaddriverlisencecontroller = async (req, res) => {
   try {
-    const ownerId = req.params.ownerId;
+    // const ownerId = req.params.ownerId;
+    const ownerId = req.ownerauth;
     console.log(ownerId);
     const imageType = "driverlicense"; // Assuming this is the type for driver's license
 
@@ -226,7 +229,8 @@ exports.uploaddriverlisencecontroller = async (req, res) => {
 
 exports.uploadPanCardController = async (req, res) => {
   try {
-    const ownerId = req.params.ownerId;
+    // const ownerId = req.params.ownerId;
+    const ownerId = req.ownerauth;
     // console.log(ownerId);
     const imageType = "pancard"; // Assuming this is the type for PAN card
 
@@ -258,7 +262,8 @@ exports.uploadPanCardController = async (req, res) => {
 
 exports.citizenshipController = async (req, res) => {
   try {
-    const ownerId = req.params.ownerId;
+    // const ownerId = req.params.ownerId;
+    const ownerId = req.ownerauth;
     console.log(ownerId);
     const imageType = "citizenship"; // Assuming this is the type for PAN card
 
@@ -292,7 +297,8 @@ exports.citizenshipController = async (req, res) => {
 
 exports.nationalidController = async (req, res) => {
   try {
-    const ownerId = req.params.ownerId;
+    // const ownerId = req.params.ownerId;
+    const ownerId = req.ownerauth;
     console.log(ownerId);
     const imageType = "nationalid"; // Assuming this is the type for PAN card
 
@@ -324,7 +330,8 @@ exports.nationalidController = async (req, res) => {
 
 exports.getOwnerDocumentsController = async (req, res) => {
   try {
-    const ownerId = req.params.ownerId;
+    // const ownerId = req.params.ownerId;
+    const ownerId = req.ownerauth;
 
     // Check if the owner exists
     const owner = await Owner.findOne({ _id: ownerId });
@@ -346,7 +353,8 @@ exports.getOwnerDocumentsController = async (req, res) => {
 };
 exports.getOwnerDetails = async (req, res) => {
   try {
-    const ownerId = req.params.ownerId;
+    // const ownerId = req.params.ownerId;
+    const ownerId = req.ownerauth;
 
     // Retrieve owner details
     const ownerDetails = await Owner.findById(ownerId);
