@@ -1495,3 +1495,20 @@ output:
 }
 
 
+{
+  "_id": {
+    "$oid": "65812c5b28b2664cf45fc6c5"
+  },
+  "name": "sagar regmi",
+  "email": "sagarregmi2055@gmail.com",
+  "hashed_password": "bbfe864519e397abd03fb2a7dab447ccfb779225",
+  "resetPasswordLink": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTgxMmM1YjI4YjI2NjRjZjQ1ZmM2YzUiLCJpc3MiOiJOT0RFQVBJIiwiaWF0IjoxNzAyOTY3MjIwfQ.7KDh9x1eDry2QcI33rxMXQK0r5CZ-0bUVBmgohLVGwk",
+  "salt": "da595350-9e30-11ee-81dd-815137397364",
+  "createdAt": {
+    "$date": "2023-12-19T05:38:35.406Z"
+  },
+  "updatedAt": {
+    "$date": "2023-12-19T06:27:00.621Z"
+  },
+  "__v": 0
+}

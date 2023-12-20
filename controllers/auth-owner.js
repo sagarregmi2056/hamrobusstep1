@@ -28,7 +28,8 @@ const {
 
 exports.stepone = async (req, res) => {
   try {
-    const ownerId = req.params.ownerId;
+    // const ownerId = req.params.ownerId;
+    const ownerId = req.ownerauth;
     const {
       travelName,
       pincode,
@@ -400,26 +401,24 @@ exports.getOwnerDetails = async (req, res) => {
 //   }
 // };
 
-// exports.requireOwnerSignin = async (req, res, next) => {
-//   const token = req.headers.authorization;
+exports.requireOwnerSignin = async (req, res, next) => {
+  const token = req.headers.authorization;
 
-//   if (token) {
-//     const owner = parseToken(token);
-//     // console.log("hehe")
+  if (token) {
+    const owner = parseToken(token);
 
-//     const foundowner = await Owner.findById(owner._id).select("name role salt hashed_password");
+    const foundowner = await Owner.findById(owner._id).select(
+      "name role salt hashed_password"
+    );
 
-//     // console.log("hehe")
-
-//     if (foundowner && foundowner.role === "owner") {
-//       // console.log("hehe")
-//       req.ownerauth = foundowner;
-//       next();
-//     } else res.status(401).json({ error: "Not authorized!" });
-//   } else {
-//     res.status(401).json({ error: "Not authorized" });
-//   }
-// };
+    if (foundowner && foundowner.role === "owner") {
+      req.ownerauth = foundowner;
+      next();
+    } else res.status(401).json({ error: "Not authorized!" });
+  } else {
+    res.status(401).json({ error: "Not authorized" });
+  }
+};
 
 // function parseToken(token) {
 //   try {
@@ -551,26 +550,28 @@ exports.refreshToken = async (req, res) => {
   return res.json({ error: "Invalid content" });
 };
 
-// exports.requireOwnerSignin = async (req, res, next) => {
-//   const token = req.headers.authorization;
+exports.ownersigninverify = async (req, res, next) => {
+  const token = req.headers.authorization;
 
-//   if (token) {
-//     const owner = parseToken(token);
-//     // console.log("hehe")
+  if (token) {
+    const owner = parseToken(token);
+    // console.log("hehe")
 
-//     const foundowner = await Owner.findById(owner._id).select("role phone ");
+    const foundowner = await Owner.findById(owner._id).select(
+      " _id role phone "
+    );
 
-//     // console.log("hehe")
+    // console.log("hehe")
 
-//     if (foundowner && foundowner.role === "owner") {
-//       // console.log("hehe")
-//       req.ownerauth = foundowner;
-//       next();
-//     } else res.status(401).json({ error: "Not authorized!" });
-//   } else {
-//     res.status(401).json({ error: "Not authorized" });
-//   }
-// };
+    if (foundowner && foundowner.role === "owner") {
+      // console.log("hehe")
+      req.ownerauth = foundowner;
+      next();
+    } else res.status(401).json({ error: "Not authorized!" });
+  } else {
+    res.status(401).json({ error: "Not authorized" });
+  }
+};
 
 exports.requireOwnerSignin = async (req, res, next) => {
   const token = req.headers.authorization;

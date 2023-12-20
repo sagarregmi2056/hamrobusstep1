@@ -15,6 +15,7 @@ const {
   citizenshipController,
   nationalidController,
   requireOwnerSignin,
+  ownersigninverify,
 } = require("../controllers/auth-owner");
 
 const { verifyToken } = require("../controllers/otpauth");
@@ -109,7 +110,7 @@ const router = express.Router();
  *               error: 'Error updating owner in Step 1'
  */
 
-router.post("/addPersonalDetail/:ownerId", verifyToken, stepone);
+router.post("/addPersonalDetail", verifyToken, ownersigninverify, stepone);
 
 /**
  * @swagger

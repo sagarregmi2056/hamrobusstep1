@@ -94,3 +94,30 @@ module.exports = router;
     "ownerId": "656443e6d29e68f7f509c33d",
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6Iis5Nzc5ODQ1MjM2OTY2IiwiaWF0IjoxNzAxMDY5ODI5LCJleHAiOjE3MDEwOTE0Mjl9.FLepTRd-jDTvCH8lOdzULmZNCYrC9CJTd2z_Qah7FlU"
 }
+
+
+
+{
+  "price": "1000", // Replace with the actual price
+  "passengers": 2,
+  "passengerName": "John Doe", // Replace with the actual passenger name
+  "seatNumbers": ["1A", "1B"],
+  "boardingPoints": "Boarding Point A", // Replace with the actual boarding point
+  "ticketNumber": "123456", // Replace with a unique ticket number
+  "verification": "notverified", // You can set the default verification status or update it as needed
+  // Other fields specific to your schema or requirements
+
+  // Assuming you have an authentication token for the logged-in user
+  // Include the token in the headers for user authentication
+  "headers": {
+    "Authorization": "Bearer your_user_token_here"
+  }
+}
+{
+  "price": "1000", 
+  "passengers": 1,
+  "passengerName": "John Doe", 
+  "seatNumbers": ["1A", "1B"],
+  "boardingPoints": "Boarding Point A", 
+   "droppingPoints":"Dropping Point D"
+}

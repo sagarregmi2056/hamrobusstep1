@@ -160,7 +160,7 @@ exports.socialLogin = async (req, res) => {
   }
 };
 
-// social login ma hamro both facebook ra google use huna sakxa  frontend integrate garyapaxi balla use garni yo
+// // social login ma hamro both facebook ra google use huna sakxa  frontend integrate garyapaxi balla use garni yo
 // exports.socialLogin = async (req, res) => {
 //   const {
 //     name,
