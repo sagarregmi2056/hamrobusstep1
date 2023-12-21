@@ -51,3 +51,6 @@
 ::1 - - [20/Dec/2023:12:03:56 +0000] "POST /graphql HTTP/1.1" 200 36389 "http://localhost:8525/graphql" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 ::1 - - [20/Dec/2023:12:03:58 +0000] "POST /graphql HTTP/1.1" 200 36389 "http://localhost:8525/graphql" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 ::1 - - [20/Dec/2023:12:05:59 +0000] "POST /graphql HTTP/1.1" 200 36389 "http://localhost:8525/graphql" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+::1 - - [21/Dec/2023:09:21:21 +0000] "POST /api/bookings/book/makalu-yatayat-2-003 HTTP/1.1" 400 56 "-" "PostmanRuntime/7.36.0"
+::1 - - [21/Dec/2023:09:22:20 +0000] "POST /api/bookings/book/makalu-yatayat-2-003 HTTP/1.1" 201 270 "-" "PostmanRuntime/7.36.0"
+::1 - - [21/Dec/2023:09:22:46 +0000] "POST /api/bookings/book/makalu-yatayat-2-003 HTTP/1.1" 400 56 "-" "PostmanRuntime/7.36.0"
