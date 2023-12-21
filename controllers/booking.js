@@ -488,6 +488,57 @@ exports.updateBooking = async (req, res) => {
 //   res.json(booking);
 // };
 
+// exports.postSold = async (req, res) => {
+//   try {
+//     const booking = new Booking(req.body);
+//     booking.self = req.ownerauth;
+
+//     const bus = await Bus.findOne({ slug: req.bus.slug });
+
+//     // Assuming seatNumbers is an array, check if any of the selected seats are not available for selling
+//     if (
+//       bus.seatsAvailable < booking.passengers ||
+//       bus.isAvailable !== true ||
+//       booking.seatNumbers.some(
+//         (seatNumber) =>
+//           bus.soldSeat.includes(seatNumber) ||
+//           bus.bookedSeat.includes(seatNumber)
+//       )
+//     ) {
+//       return res.status(400).json({
+//         error: "One or more selected seats are not available for selling",
+//       });
+//     }
+
+//     // Update bus information after selling seats
+//     bus.seatsAvailable -= booking.passengers;
+
+//     // Assuming seatNumbers is an array, update soldSeat for each selected seat
+//     booking.seatNumbers.forEach((seatNumber) => {
+//       bus.soldSeat.push(seatNumber);
+//     });
+
+//     // Update booking information to mark it as "payed"
+//     booking.bus = bus;
+//     booking.owner = bus.owner;
+//     booking.verification = "payed";
+
+//     // Save changes to the database
+//     await booking.save();
+//     await bus.save();
+
+//     res.json({
+//       message: "Seats successfully marked as sold after payment",
+//       booking: booking,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({
+//       error: "Internal Server Error",
+//     });
+//   }
+// };
+
 exports.postSold = async (req, res) => {
   try {
     const booking = new Booking(req.body);
@@ -495,9 +546,12 @@ exports.postSold = async (req, res) => {
 
     const bus = await Bus.findOne({ slug: req.bus.slug });
 
+    // Count the number of selected seats
+    const selectedSeatsCount = booking.seatNumbers.length;
+
     // Assuming seatNumbers is an array, check if any of the selected seats are not available for selling
     if (
-      bus.seatsAvailable < booking.passengers ||
+      bus.seatsAvailable < selectedSeatsCount ||
       bus.isAvailable !== true ||
       booking.seatNumbers.some(
         (seatNumber) =>
@@ -511,7 +565,7 @@ exports.postSold = async (req, res) => {
     }
 
     // Update bus information after selling seats
-    bus.seatsAvailable -= booking.passengers;
+    bus.seatsAvailable -= selectedSeatsCount;
 
     // Assuming seatNumbers is an array, update soldSeat for each selected seat
     booking.seatNumbers.forEach((seatNumber) => {
@@ -521,7 +575,7 @@ exports.postSold = async (req, res) => {
     // Update booking information to mark it as "payed"
     booking.bus = bus;
     booking.owner = bus.owner;
-    booking.verification = "payed";
+    booking.verification = "verified";
 
     // Save changes to the database
     await booking.save();
