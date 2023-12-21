@@ -48,8 +48,8 @@ const busSchema = new mongoose.Schema(
     seatsAvailable: {
       type: Number,
       trim: true,
-      default: 30,
-      maxlength: 32,
+      default: 186,
+      maxlength: 187,
     },
     bookedSeat: {
       type: [],
@@ -60,8 +60,8 @@ const busSchema = new mongoose.Schema(
     numberOfSeats: {
       type: Number,
       trim: true,
-      default: 30,
-      maxlength: 32,
+      default: 186,
+      maxlength: 189,
     },
 
     departure_time: {

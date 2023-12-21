@@ -119,6 +119,7 @@ app.use("/api/users", require("./routes/user"));
 app.use("/api/admin", require("./routes/admin"));
 
 app.use("/api/otpauth", require("./routes/otpauth"));
+app.use("/api/payment", require("./routes/esewa"));
 
 // Error handling middleware
 app.use(function (err, req, res, next) {
