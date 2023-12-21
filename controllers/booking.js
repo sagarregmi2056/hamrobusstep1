@@ -192,6 +192,60 @@ function generateUniqueTicketNumber() {
 //   });
 // };
 
+exports.verifyBooking = async (req, res) => {
+  try {
+    const bus = await Bus.findOne({ slug: req.bus.slug });
+    if (!bus) {
+      return res.status(404).json({
+        error: "Bus not found",
+      });
+    }
+
+    const selectedSeatNumbers = req.body.seatNumbers || []; // Initialize as an empty array if not provided
+    const selectedSeatsCount = selectedSeatNumbers.length;
+
+    // Calculate flareThreshold based on the number of selected seats
+    const flareThreshold = bus.fare * selectedSeatsCount;
+
+    // Check if any of the selected seats are already sold or booked
+    const isAnySeatSoldOrBooked = selectedSeatNumbers.some(
+      (seatNumber) =>
+        bus.soldSeat.includes(seatNumber) || bus.bookedSeat.includes(seatNumber)
+    );
+
+    // Check other conditions (seatsAvailable, isAvailable, etc.)
+
+    if (
+      bus.seatsAvailable < selectedSeatsCount ||
+      bus.isAvailable !== true ||
+      isAnySeatSoldOrBooked
+    ) {
+      return res.status(400).json({
+        error: "One or more selected seats are already booked",
+      });
+    }
+
+    // Create a response object with the required information
+    const response = {
+      flareThreshold: flareThreshold,
+      busDetails: {
+        busNumber: bus.busNumber,
+        selectedSeatsCount: selectedSeatsCount,
+        // Add other bus details as needed
+      },
+    };
+
+    // Respond with the JSON object for initial verification
+    res.status(200).json(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
+
+// without discounts and cupon code
 exports.postBooking = async (req, res) => {
   const booking = new Booking(req.body);
   if (req.userauth) {
@@ -234,11 +288,7 @@ exports.postBooking = async (req, res) => {
   console.log(flareThreshold);
 
   console.log(booking.price);
-  if (booking.price < flareThreshold) {
-    return res.status(400).json({
-      error: "Bus price is less than the flare threshold. Cannot book.",
-    });
-  }
+
   console.log("Sold Seats:", bus.soldSeat);
   console.log("Booked Seats:", bus.bookedSeat);
   // Check if any of the selected seats are already sold or booked
@@ -295,11 +345,12 @@ exports.postBooking = async (req, res) => {
     departureDate: booking.departureDate,
     ticketNumber: booking.ticketNumber,
     userName: userName,
+    flareThreshold: flareThreshold,
   };
 
   // Respond with the ticket data along with a success message
   res.status(201).json({
-    message: "Booking successfully verified but not paid",
+    message: `Booking successfully verified but not paid,Total amount is ${flareThreshold}`,
     ticket: ticket,
   });
 };
