@@ -320,6 +320,7 @@ exports.postBooking = async (req, res) => {
 
   booking.bus = bus;
   booking.owner = bus.owner;
+  booking.verification = "notverified";
 
   // Generate a unique ticket number
   const ticketNumber = generateUniqueTicketNumber();
@@ -338,7 +339,7 @@ exports.postBooking = async (req, res) => {
     userName = booking.guest.name;
   }
   // Create a ticket object from the booking data
-  const ticket = {
+  const preTicketDetails = {
     bookingId: booking._id,
     seatNumbers: selectedSeatNumbers,
     passengers: booking.passengers,
@@ -351,8 +352,35 @@ exports.postBooking = async (req, res) => {
   // Respond with the ticket data along with a success message
   res.status(201).json({
     message: `Booking successfully verified but not paid,Total amount is ${flareThreshold}`,
-    ticket: ticket,
+    preticketDetails: preTicketDetails,
   });
+};
+
+exports.getbookingforpayment = async (req, res, next) => {
+  try {
+    const ticketNumber = req.body.ticketNumber; // Assuming ticketNumber is sent in the request body
+
+    const booking = await Booking.findOne({ ticketNumber });
+
+    if (!booking) {
+      return res
+        .status(400)
+        .json({ error: "No booking found with the provided ticketNumber" });
+    }
+
+    // Assuming verification is initially set to "notverified"
+    booking.verification = "verified";
+
+    // Set other fields or perform additional actions as needed
+
+    const updatedBooking = await booking.save();
+    req.booking = updatedBooking;
+    next();
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ error: err?.message || "Error verifying booking" });
+  }
 };
 
 exports.getmyBookings = async (req, res) => {
