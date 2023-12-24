@@ -15,6 +15,12 @@ const couponSchema = new mongoose.Schema({
     min: 0,
     max: 100,
   },
+  taxPercentage: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 100,
+  },
   expirationDate: {
     type: Date,
     required: true,
