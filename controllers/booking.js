@@ -3,6 +3,7 @@ const Bus = require("../models/Bus");
 const Guest = require("../models/Guest");
 const _ = require("lodash");
 const User = require("../models/User");
+const Coupon = require("../models/Discountcoupon");
 
 exports.bookingById = async (req, res, next, id) => {
   const booking = await Booking.findById(id).populate("bus owner guest user");
@@ -248,6 +249,7 @@ exports.verifyBooking = async (req, res) => {
 // without discounts and cupon code
 exports.postBooking = async (req, res) => {
   const booking = new Booking(req.body);
+
   if (req.userauth) {
     booking.user = req.userauth;
   } else {
@@ -352,6 +354,162 @@ exports.postBooking = async (req, res) => {
   // Respond with the ticket data along with a success message
   res.status(201).json({
     message: `Booking successfully verified but not paid,Total amount is ${flareThreshold}`,
+    preticketDetails: preTicketDetails,
+  });
+};
+
+// booking function afer discount cupon
+
+exports.postBookingwithdiscount = async (req, res) => {
+  const booking = new Booking(req.body);
+
+  const couponCode = req.body.couponCode;
+  let taxAmount = 0;
+
+  if (req.userauth) {
+    booking.user = req.userauth;
+  } else {
+    const name = req.body.name;
+    const email = req.body.email;
+    const phone = req.body.phone;
+    const address = req.body.address;
+
+    let user = await Guest.findOne({ phone });
+
+    if (user) {
+      user = _.extend(user, req.body);
+      await user.save();
+      booking.guest = user;
+    } else {
+      const guest = new Guest({ name, email, phone, address });
+      await guest.save();
+      booking.guest = guest;
+    }
+  }
+
+  const bus = await Bus.findOne({ slug: req.bus.slug });
+  if (!bus) {
+    return res.status(404).json({
+      error: "Bus not found",
+    });
+  }
+
+  const selectedSeatNumbers = req.body.seatNumbers || booking.seatNumbers;
+  const selectedSeatsCount = selectedSeatNumbers.length;
+
+  console.log(selectedSeatsCount);
+
+  // Calculate flareThreshold based on the number of selected seats
+  let flareThreshold = bus.fare * selectedSeatsCount;
+  console.log(bus.fare);
+
+  console.log(flareThreshold);
+
+  console.log(booking.price);
+
+  console.log("Sold Seats:", bus.soldSeat);
+  console.log("Booked Seats:", bus.bookedSeat);
+  // Check if any of the selected seats are already sold or booked
+  const isAnySeatSoldOrBooked = selectedSeatNumbers.some(
+    (seatNumber) =>
+      bus.soldSeat.includes(seatNumber) || bus.bookedSeat.includes(seatNumber)
+  );
+
+  // console.log("isAnySeatSoldOrBooked:", isAnySeatSoldOrBooked);
+  console.log("Bus Availability:", bus.isAvailable);
+  console.log("Available Seats:", bus.seatsAvailable);
+  console.log("Selected Seats Count:", selectedSeatsCount);
+
+  if (
+    bus.seatsAvailable < selectedSeatsCount ||
+    bus.isAvailable !== true ||
+    isAnySeatSoldOrBooked
+  ) {
+    return res.status(400).json({
+      error: "One or more selected seats are not available",
+    });
+  }
+
+  // Check if a valid coupon code is provided
+  if (couponCode) {
+    try {
+      const coupon = await Coupon.findOne({ code: couponCode });
+
+      if (coupon) {
+        // Calculate the discount based on the coupon percentage
+        const discountAmount =
+          (coupon.discountPercentage / 100) * flareThreshold;
+
+        // Deduct the discount from the flareThreshold
+        flareThreshold -= discountAmount;
+
+        // Calculate the tax based on the tax percentage from the Coupon model
+        // taxAmount = (coupon.taxPercentage / 100) * flareThreshold;
+
+        console.log("Discount Applied:", discountAmount);
+        console.log("Tax Applied:", taxAmount);
+      } else {
+        // Respond with an error if the coupon code is not valid
+        return res.status(400).json({
+          error: "Invalid coupon code",
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching coupon:", error.message);
+      return res.status(500).json({
+        error: "Internal Server Error",
+      });
+    }
+  } else {
+    // If no coupon code provided, calculate tax based on your logic
+    // For now, let's assume a fixed tax percentage of 5%
+    const fixedTaxPercentage = 13;
+    taxAmount = (fixedTaxPercentage / 100) * flareThreshold;
+    console.log("Tax Applied:", taxAmount);
+  }
+
+  // Deduct seatsAvailable and update bookedSeat for each selected seat
+  selectedSeatNumbers.forEach((seatNumber) => {
+    bus.seatsAvailable -= 1;
+    bus.bookedSeat.push(seatNumber);
+  });
+
+  booking.bus = bus;
+  booking.owner = bus.owner;
+  booking.verification = "notverified";
+
+  // Generate a unique ticket number
+  const ticketNumber = generateUniqueTicketNumber();
+
+  // Save the ticket number to the booking schema
+  booking.ticketNumber = ticketNumber;
+
+  await booking.save();
+  await bus.save();
+  // Fetch user names
+  let userName = "";
+  if (booking.user) {
+    const user = await User.findById(booking.user);
+    userName = user ? user.name : "";
+  } else if (booking.guest) {
+    userName = booking.guest.name;
+  }
+  // Create a ticket object from the booking data
+  const preTicketDetails = {
+    bookingId: booking._id,
+    seatNumbers: selectedSeatNumbers,
+    passengers: booking.passengers,
+    departureDate: booking.departureDate,
+    ticketNumber: booking.ticketNumber,
+    userName: userName,
+    flareThreshold: flareThreshold,
+  };
+
+  // Respond with the adjusted threshold amount along with a success message
+  res.status(201).json({
+    message: `Booking successfully verified but not paid, Total amount is ${
+      flareThreshold + taxAmount
+    }`,
     preticketDetails: preTicketDetails,
   });
 };
