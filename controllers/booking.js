@@ -444,7 +444,7 @@ exports.postBookingwithdiscount = async (req, res) => {
         flareThreshold -= discountAmount;
 
         // Calculate the tax based on the tax percentage from the Coupon model
-        // taxAmount = (coupon.taxPercentage / 100) * flareThreshold;
+        taxAmount = (coupon.taxPercentage / 100) * flareThreshold;
 
         console.log("Discount Applied:", discountAmount);
         console.log("Tax Applied:", taxAmount);
