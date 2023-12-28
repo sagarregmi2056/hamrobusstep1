@@ -2,6 +2,8 @@
 
 const Owner = require("../models/Owner");
 
+const Department = require("../models/Departments");
+
 exports.getOwnerDetails = async (req, res) => {
   try {
     const ownerId = req.params.ownerId;
@@ -166,5 +168,30 @@ exports.getPendingSuccessDocuments = async (req, res) => {
     res
       .status(500)
       .json({ error: "Error retrieving pending success documents" });
+  }
+};
+
+// add department function
+
+exports.addDepartment = async (req, res) => {
+  try {
+    const { name, description, departmentId, password } = req.body;
+
+    // Create a new instance of the Department model
+    const newDepartment = new Department({
+      name: name,
+      description: description,
+      departmentId: departmentId,
+      password: password,
+    });
+
+    // Save the department to the database
+    const savedDepartment = await newDepartment.save();
+
+    console.log("Department added successfully:", savedDepartment);
+    res.status(201).json(savedDepartment);
+  } catch (error) {
+    console.error("Error adding department:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
