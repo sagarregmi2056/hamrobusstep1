@@ -26,7 +26,7 @@ const departmentSchema = new mongoose.Schema(
       type: String,
       enum: [
         "maintenancedepartment",
-        "Trainingdepartment",
+        "trainingdepartment",
         "supportdepartment",
         "accountdepartment",
       ], // You can customize the roles as needed

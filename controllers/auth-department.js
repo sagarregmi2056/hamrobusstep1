@@ -121,7 +121,7 @@ exports.ensuresupportdepartment = async (req, res, next) => {
   if (token) {
     try {
       const department = parseToken(token);
-      console.log(department); // Assuming you have a function like parseToken to decode the JWT
+      // Assuming you have a function like parseToken to decode the JWT
 
       const foundDepartment = await Department.findById(department._id).select(
         "role"

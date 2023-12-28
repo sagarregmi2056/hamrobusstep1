@@ -248,6 +248,12 @@ router.put("/owners/:ownerId/approve", requireSuperadminSignin, approveOwner);
 // Route to rejecting  owner with a reason yaha chai reject chai hamro reason ho
 router.put("/owners/:ownerId/reject", requireSuperadminSignin, rejectOwner);
 
+// router.post(
+//   "/adddepartmentaccount",
+//   requireSuperadminSignin,
+//   addDepartmentaccount
+// );
+
 // old routes
 
 // router.get("/:ownerId", requireSuperadminSignin, read);
