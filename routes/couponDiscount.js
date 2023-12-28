@@ -1,3 +1,5 @@
+const express = require("express");
+
 const { requireSuperadminSignin } = require("../controllers/auth-owner");
 
 const { postcuponDiscount } = require("../controllers/discountCupon");

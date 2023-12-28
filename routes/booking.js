@@ -35,6 +35,8 @@ router.post("/sold/:busSlug", requireOwnerSignin, postSold);
 router.post("/book/:busSlug", checkUserSignin, postBooking);
 
 router.get("/getmyallbooking", checkUserSignin, getmyBookings);
+
+
 router.put("/bookings/:bookingId", checkUserSignin, updateBooking);
 
 router.patch("/:bookingId", requireOwnerSignin, changeVerificationStatus);

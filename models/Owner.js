@@ -200,7 +200,14 @@ const ownerSchema = new mongoose.Schema(
     salt: String,
     role: {
       type: String,
-      enum: ["owner", "superadmin"],
+      enum: [
+        "owner",
+        "superadmin",
+        "maintenancedep",
+        "Trainingdep",
+        "supportdep",
+        "accountdep",
+      ],
       default: "owner",
     },
   },

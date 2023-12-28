@@ -2,7 +2,7 @@
 
 Api : 
 
-http://localhost:8525/api/auth-owner//addPersonalDetail/{ownerid}  
+http://localhost:8525/api/auth-owner/addPersonalDetail/{ownerid}  
 
 method:
 
