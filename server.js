@@ -122,6 +122,7 @@ app.use("/api/otpauth", require("./routes/otpauth"));
 app.use("/api/payment", require("./routes/esewa"));
 app.use("/api/coupon", require("./routes/couponDiscount"));
 app.use("/api/department", require("./routes/department"));
+app.use("/api/auth-department", require("./routes/auth-department"));
 
 // Error handling middleware
 app.use(function (err, req, res, next) {

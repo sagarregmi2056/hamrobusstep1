@@ -78,3 +78,5 @@
 ::1 - - [28/Dec/2023:08:13:57 +0000] "POST /api/department/adddepartmentaccount HTTP/1.1" 404 175 "-" "PostmanRuntime/7.36.0"
 ::1 - - [28/Dec/2023:08:14:22 +0000] "POST /api/department/adddepartmentaccount HTTP/1.1" 404 175 "-" "PostmanRuntime/7.36.0"
 ::1 - - [28/Dec/2023:08:14:48 +0000] "POST /api/department/adddepartmentaccount HTTP/1.1" 201 366 "-" "PostmanRuntime/7.36.0"
+::1 - - [28/Dec/2023:09:11:04 +0000] "POST /api/department/deparmentsignin HTTP/1.1" 404 170 "-" "PostmanRuntime/7.36.0"
+::1 - - [28/Dec/2023:09:11:26 +0000] "POST /api/auth-department/deparmentsignin HTTP/1.1" 200 313 "-" "PostmanRuntime/7.36.0"
