@@ -1,14 +1,14 @@
-const Department = require("./path-to-your-department-model");
+const Department = require("../models/Departments");
 
-exports.addDepartment = async (req, res) => {
+exports.addDepartmentaccount = async (req, res) => {
   try {
     const { name, description, departmentId, password, role } = req.body;
 
     const allowedRoles = [
-      "maintenancedep",
-      "Trainingdep",
-      "supportdep",
-      "accountdep",
+      "maintenancedepartment",
+      "Trainingdepartment",
+      "supportdepartment",
+      "accountdepartment",
     ];
     if (role && !allowedRoles.includes(role)) {
       return res.status(400).json({ error: "Invalid department role" });
@@ -19,7 +19,7 @@ exports.addDepartment = async (req, res) => {
       description,
       departmentId,
       password,
-      role: role || "Trainingdep",
+      role: role || "Trainingdepartment",
     });
 
     // Save the department to the database

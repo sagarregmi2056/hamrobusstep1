@@ -1,27 +1,32 @@
-const Owner = require("../models/Owner");
+const Department = require("../models/Departments");
 
-exports.requiremaintenceaccount = async (req, res, next) => {
-  const { id, password } = req.body; // Destructure id and password from req.body
+const jwt = require("jsonwebtoken");
 
-  if (id && password) {
-    try {
-      // Check if there is an owner with the provided ID and password
-      const foundOwner = await Owner.findOne({
-        _id: id,
-        password: password,
-      }).select("name role");
+exports.departmentSignin = async (req, res) => {
+  const { departmentId, password } = req.body;
+  const department = await Department.findOne({ departmentId });
 
-      if (foundOwner && foundOwner.role === "maintencedep") {
-        req.ownerauth = foundOwner;
-        next();
-      } else {
-        res.status(401).json({ error: "Not authorized!" });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  } else {
-    res.status(401).json({ error: "ID and password are required" });
+  if (!department) {
+    return res.status(401).json({
+      error: "Department with that ID does not exist.",
+    });
   }
+
+  if (!department.authenticate(password)) {
+    return res.status(401).json({
+      error: "ID and password do not match",
+    });
+  }
+
+  const payload = {
+    _id: department.id,
+    name: department.name,
+    departmentId: department.departmentId,
+    role: department.role,
+  };
+
+  const token = jwt.sign(payload, process.env.JWT_SECRET);
+
+  // Send both ID and token in the response
+  return res.json({ _id: department.id, token });
 };

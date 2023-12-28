@@ -120,7 +120,8 @@ app.use("/api/admin", require("./routes/admin"));
 
 app.use("/api/otpauth", require("./routes/otpauth"));
 app.use("/api/payment", require("./routes/esewa"));
-app.use("/api/coupon",require('./routes/couponDiscount'));
+app.use("/api/coupon", require("./routes/couponDiscount"));
+app.use("/api/department", require("./routes/department"));
 
 // Error handling middleware
 app.use(function (err, req, res, next) {

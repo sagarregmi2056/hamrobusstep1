@@ -24,8 +24,13 @@ const departmentSchema = new mongoose.Schema(
     salt: String,
     role: {
       type: String,
-      enum: ["maintenancedep", "Trainingdep", "supportdep", "accountdep"], // You can customize the roles as needed
-      default: "Trainingdep", // Set a default role if not provided
+      enum: [
+        "maintenancedepartment",
+        "Trainingdepartment",
+        "supportdepartment",
+        "accountdepartment",
+      ], // You can customize the roles as needed
+      default: "Trainingdepartment", // Set a default role if not provided
     },
   },
   { timestamps: true }
