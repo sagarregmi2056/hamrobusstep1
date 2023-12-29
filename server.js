@@ -26,7 +26,13 @@ const swaggerOptions = {
     info: {
       title: "Hamro bus ticketing app API",
       version: "2.0.0",
-      description: "This api is used for bus booking ticket system ",
+      description:
+        "This api is used for bus booking ticket system version 2.0   ",
+    },
+    contact: {
+      name: "Sagar Regmi",
+      url: "https://github.com/sagarregmi2056", // Replace with your GitHub profile URL
+      email: "sagarregmi2056@gmail.com", // Replace with your email
     },
   },
   apis: ["./routes/*.js"], // Replace with the actual path to your API route files

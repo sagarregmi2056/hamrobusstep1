@@ -137,7 +137,8 @@ exports.addDepartmentaccountPersonaldetails = async (req, res) => {
 exports.addDepartmentaccountCitizenshipImages = async (req, res) => {
   try {
     // Extract data from the request body
-    const departmentId = req.body;
+    const departmentId = req.params.departmentId;
+    console.log(departmentId);
 
     const imageType = "employecitizenship";
 
