@@ -4,6 +4,7 @@ const crypto = require("crypto");
 
 const departmentSchema = new mongoose.Schema(
   {
+    // personal details
     name: {
       type: String,
       trim: true,
@@ -14,10 +15,64 @@ const departmentSchema = new mongoose.Schema(
       trim: true,
       maxlength: 255,
     },
+    mobileNumber: {
+      type: String,
+      trim: true,
+      maxlength: 32,
+    },
+    zipcode: {
+      type: String,
+      trim: true,
+    },
+    district: {
+      type: String,
+      trim: true,
+      maxlength: 32,
+    },
+    city: {
+      type: String,
+      trim: true,
+      maxlength: 32,
+    },
+    address: {
+      type: String,
+      trim: true,
+      maxlength: 32,
+    },
+    // documents
+    documents: [
+      {
+        type: {
+          type: String,
+          required: true,
+        },
+        url: String,
+      },
+    ],
+    // bank details
+
+    bankName: {
+      type: String,
+      trim: true,
+    },
+    beneficiaryName: {
+      type: String,
+      trim: true,
+    },
+    accountNumber: {
+      type: String,
+      trim: true,
+    },
+    accountType: {
+      type: String,
+      trim: true,
+    },
+
     departmentId: {
       type: String,
       unique: true,
     },
+
     hashed_password: {
       type: String,
     },
@@ -29,8 +84,8 @@ const departmentSchema = new mongoose.Schema(
         "trainingdepartment",
         "supportdepartment",
         "accountdepartment",
-      ], // You can customize the roles as needed
-      default: "Trainingdepartment", // Set a default role if not provided
+      ],
+      default: "Trainingdepartment",
     },
   },
   { timestamps: true }

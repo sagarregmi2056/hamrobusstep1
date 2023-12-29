@@ -1,5 +1,8 @@
 const express = require("express");
-const { addDepartmentaccount } = require("../controllers/department");
+const {
+  addDepartmentaccountPersonaldetails,
+  addDepartmentaccountCitizenshipImages,
+} = require("../controllers/department");
 const {
   approveOwner,
   rejectOwner,
@@ -10,6 +13,7 @@ const {
 
 const { ensureMaintenceDepartment } = require("../controllers/auth-department");
 const { requireSuperadminSignin } = require("../controllers/auth-owner");
+const { uploademployecitizenship } = require("../helpers");
 
 const router = express.Router();
 
@@ -28,8 +32,14 @@ router.put("/owners/:ownerId/reject", ensureMaintenceDepartment, rejectOwner);
 
 router.post(
   "/adddepartmentaccount",
-  requireSuperadminSignin,
-  addDepartmentaccount
+
+  addDepartmentaccountPersonaldetails
+);
+
+router.post(
+  "/adddepartmentaccount/:departmentId",
+  uploademployecitizenship,
+  addDepartmentaccountCitizenshipImages
 );
 
 module.exports = router;

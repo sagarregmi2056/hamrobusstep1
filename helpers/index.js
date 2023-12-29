@@ -9,8 +9,9 @@ module.exports = {
   uploadCitizenshipimages: require("./multer").uploadCitizenshipimages,
   uploaddriverlisence: require("./multer").uploaddriverlisence,
   uploadpancard: require("./multer").uploadpancard,
+  uploademployecitizenship: require("./multer").uploademployecitizenship,
 
-  uploadowner: require("./multer").uploadowner,
+  // uploadowner: require("./multer").uploadowner,
 
   sendEmail: require("./mailer").sendEmail,
   dbConnection: require("./dbConnection"),
