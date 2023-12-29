@@ -86,6 +86,7 @@ async function uploadToCloudflare(image) {
 exports.addDepartmentaccountPersonaldetails = async (req, res) => {
   try {
     // Extract data from the request body
+
     const {
       name,
       description,
@@ -94,6 +95,7 @@ exports.addDepartmentaccountPersonaldetails = async (req, res) => {
       district,
       city,
       address,
+      departmentId,
       // Array of images
       bankName,
       beneficiaryName,
@@ -102,6 +104,16 @@ exports.addDepartmentaccountPersonaldetails = async (req, res) => {
       role,
       password,
     } = req.body;
+
+    const allowedRoles = [
+      "maintenancedepartment",
+      "trainingdepartment",
+      "supportdepartment",
+      "accountdepartment",
+    ];
+    if (role && !allowedRoles.includes(role)) {
+      return res.status(400).json({ error: "Invalid department role" });
+    }
 
     // Upload images to Cloudflare and replace them in the documents array
 
@@ -114,6 +126,7 @@ exports.addDepartmentaccountPersonaldetails = async (req, res) => {
       district,
       city,
       address,
+      departmentId,
 
       bankName,
       beneficiaryName,
@@ -138,7 +151,7 @@ exports.addDepartmentaccountCitizenshipImages = async (req, res) => {
   try {
     // Extract data from the request body
     const departmentId = req.params.departmentId;
-    console.log(departmentId);
+    // console.log(departmentId);
 
     const imageType = "employecitizenship";
 

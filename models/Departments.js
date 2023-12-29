@@ -71,6 +71,7 @@ const departmentSchema = new mongoose.Schema(
     departmentId: {
       type: String,
       unique: true,
+      default: () => uuidv1(),
     },
 
     hashed_password: {
