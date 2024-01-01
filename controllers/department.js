@@ -248,6 +248,53 @@ exports.updateDepartment = async (req, res) => {
   }
 };
 
+exports.updateDepartmentCitizenshipImages = async (req, res) => {
+  try {
+    // Extract data from the request body
+    const departmentId = req.params.departmentId;
+    const imageType = "employecitizenship";
+
+    // Find the department by ID
+    const department = await Department.findById(departmentId);
+
+    // Check if the department exists
+    if (!department) {
+      return res.status(404).json({ error: "Department not found" });
+    }
+
+    // Extract updated image buffer from the request body
+    const updatedImageBuffer = req.file ? req.file.buffer : null;
+
+    // Upload the updated image to Cloudflare
+    const updatedImageUrl = updatedImageBuffer
+      ? await uploadToCloudflare(updatedImageBuffer)
+      : null;
+
+    // Update the image URL in the documents array
+    const updatedDocuments = department.documents.map((document) => {
+      if (document.type === imageType) {
+        return { type: imageType, url: updatedImageUrl };
+      }
+      return document;
+    });
+
+    // Update the documents array in the department
+    department.documents = updatedDocuments;
+
+    // Save the updated department document
+    const updatedDepartment = await department.save();
+
+    res.json({
+      url: updatedImageUrl,
+      message:
+        "Employee citizenship URL updated in department schema successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 // related to owner which can be verify by only by management department
 
 exports.getOwnerDetails = async (req, res) => {

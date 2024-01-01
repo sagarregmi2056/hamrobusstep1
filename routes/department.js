@@ -3,6 +3,7 @@ const {
   addDepartmentaccountPersonaldetails,
   addDepartmentaccountCitizenshipImages,
   updateDepartment,
+  updateDepartmentCitizenshipImages,
 } = require("../controllers/department");
 const {
   approveOwner,
@@ -44,7 +45,7 @@ router.post(
 );
 
 router.post(
-  "/adddepartmentaccount/:departmentId",
+  "/adddepartmentcitizen/:departmentId",
   uploademployecitizenship,
   addDepartmentaccountCitizenshipImages
 );
@@ -54,6 +55,11 @@ router.post(
   "/updatedepartmentaccount/:departmentId",
   requireSuperadminSignin,
   updateDepartment
+);
+router.put(
+  "/updatedepartmentzitizen/:departmentId",
+  requireSuperadminSignin,
+  updateDepartmentCitizenshipImages
 );
 
 module.exports = router;
