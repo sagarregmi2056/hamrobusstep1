@@ -2,6 +2,7 @@ const express = require("express");
 const {
   addDepartmentaccountPersonaldetails,
   addDepartmentaccountCitizenshipImages,
+  updateDepartment,
 } = require("../controllers/department");
 const {
   approveOwner,
@@ -17,11 +18,16 @@ const { uploademployecitizenship } = require("../helpers");
 
 const router = express.Router();
 
-router.get("/allowners/:ownerId", ensureMaintenceDepartment, getOwnerDetails);
+router.get(
+  "/ownerdetails/:ownerId",
+  ensureMaintenceDepartment,
+  getOwnerDetails
+);
+
 router.get("/alldocuments", ensureMaintenceDepartment, getAllDocuments);
 router.get(
   "/pendingsuccessdocuments",
-  requireSuperadminSignin,
+  ensureMaintenceDepartment,
   getPendingSuccessDocuments
 );
 
@@ -32,6 +38,7 @@ router.put("/owners/:ownerId/reject", ensureMaintenceDepartment, rejectOwner);
 
 router.post(
   "/adddepartmentaccount",
+  requireSuperadminSignin,
 
   addDepartmentaccountPersonaldetails
 );
@@ -40,6 +47,13 @@ router.post(
   "/adddepartmentaccount/:departmentId",
   uploademployecitizenship,
   addDepartmentaccountCitizenshipImages
+);
+
+// the id that has been given by us ,custom departmentid
+router.post(
+  "/updatedepartmentaccount/:departmentId",
+  requireSuperadminSignin,
+  updateDepartment
 );
 
 module.exports = router;

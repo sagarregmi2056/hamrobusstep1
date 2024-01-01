@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 const { v1 } = require("uuid");
 const crypto = require("crypto");
@@ -20,13 +19,12 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
 
-
-    googleID:{
-      type:String,
-  },
-  facebookID:{
-      type:String
-  },
+    googleID: {
+      type: String,
+    },
+    facebookID: {
+      type: String,
+    },
     email: {
       type: String,
       trim: true,
@@ -34,7 +32,6 @@ const userSchema = new mongoose.Schema(
     info: {
       type: String,
       trim: true,
-      
     },
     phone: {
       type: Number,
@@ -46,12 +43,12 @@ const userSchema = new mongoose.Schema(
     photo: {
       type: String,
     },
+
     resetPasswordLink: {
       type: String,
       default: "",
     },
     salt: String,
-    
   },
   { timestamps: true }
 );

@@ -163,7 +163,7 @@ const ownerSchema = new mongoose.Schema(
 
     rejectionReason: {
       type: String,
-      default: "",
+      default: "Not any reject reason till this date",
     },
     images: [
       {

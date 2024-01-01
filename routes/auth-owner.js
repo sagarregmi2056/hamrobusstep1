@@ -453,6 +453,7 @@ router.post(
   uploadCitizenshipimages,
   citizenshipController
 );
+
 /**
  * @swagger
  * /api/auth-owner/adddocuments/nationalid:

@@ -181,6 +181,73 @@ exports.addDepartmentaccountCitizenshipImages = async (req, res) => {
   }
 };
 
+exports.updateDepartment = async (req, res) => {
+  try {
+    // Extract data from the request body
+    const {
+      name,
+      description,
+      mobileNumber,
+      zipcode,
+      district,
+      city,
+      address,
+      bankName,
+      beneficiaryName,
+      accountNumber,
+      accountType,
+      role,
+      password,
+    } = req.body;
+
+    const departmentId = req.params.departmentId;
+
+    const allowedRoles = [
+      "maintenancedepartment",
+      "trainingdepartment",
+      "supportdepartment",
+      "accountdepartment",
+    ];
+
+    // Check if the provided role is valid
+    if (role && !allowedRoles.includes(role)) {
+      return res.status(400).json({ error: "Invalid department role" });
+    }
+
+    // Find the department by ID
+    const department = await Department.findById(req.params.departmentId);
+
+    if (!department) {
+      return res.status(404).json({ error: "Department not found" });
+    }
+
+    // Update the department properties with the provided values
+    department.name = name || department.name;
+    department.description = description || department.description;
+    department.mobileNumber = mobileNumber || department.mobileNumber;
+    department.zipcode = zipcode || department.zipcode;
+    department.district = district || department.district;
+    department.city = city || department.city;
+    department.address = address || department.address;
+    department.departmentId = departmentId || department.departmentId;
+    department.bankName = bankName || department.bankName;
+    department.beneficiaryName = beneficiaryName || department.beneficiaryName;
+    department.accountNumber = accountNumber || department.accountNumber;
+    department.accountType = accountType || department.accountType;
+    department.role = role || department.role;
+    department.password = password || department.password;
+
+    // Save the updated department document
+    const updatedDepartment = await department.save();
+
+    // Respond with the updated department data
+    res.json(updatedDepartment);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 // related to owner which can be verify by only by management department
 
 exports.getOwnerDetails = async (req, res) => {
@@ -214,6 +281,7 @@ exports.getOwnerDetails = async (req, res) => {
       status: ownerDetails.status,
       panNumber: ownerDetails.panNumber,
       panName: ownerDetails.panName,
+      images: ownerDetails.images,
 
       // Assuming 'status' is a property of the Owner model
     });

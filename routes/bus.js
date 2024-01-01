@@ -395,6 +395,7 @@ router.get(
   requireownerkycverify,
   getUnavailableBusesOfOwner
 );
+
 /**
  * @swagger
  * /api/bus/all-bus-available:
