@@ -27,7 +27,7 @@ async function uploadToCloudflare(image) {
     );
 
     // Log the complete response for inspection
-    // console.log("Cloudflare API Response:", response.data);
+    console.log("Cloudflare API Response:", response.data);
 
     // Check if the response contains the expected data structure
     if (
