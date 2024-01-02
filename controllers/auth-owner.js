@@ -5,22 +5,32 @@ const _ = require("lodash");
 const FormData = require("form-data");
 
 const axios = require("axios");
+const Joi = require("joi");
 
 exports.stepone = async (req, res) => {
   try {
     // const ownerId = req.params.ownerId;
+    // Validation schema using Joi
+    const schema = Joi.object({
+      travelName: Joi.string().required(),
+      pincode: Joi.string().required(),
+      state: Joi.string().required(),
+      city: Joi.string().required(),
+      email: Joi.string().email().required(),
+      name: Joi.string().required(),
+      country: Joi.string().required(),
+      district: Joi.string().required(),
+    });
+
+    const { error } = schema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+    }
+
     const ownerId = req.ownerauth;
-    const {
-      travelName,
-      pincode,
-      state,
-      city,
-      phone,
-      email,
-      name,
-      country,
-      district,
-    } = req.body;
+
+    const { travelName, pincode, state, city, email, name, country, district } =
+      req.body;
 
     const ownerExists = await Owner.findOne({ email });
 
@@ -37,7 +47,7 @@ exports.stepone = async (req, res) => {
         pincode,
         state,
         city,
-        phone,
+
         email,
         name,
         country,
