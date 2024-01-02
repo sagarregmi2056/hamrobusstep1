@@ -129,6 +129,7 @@ app.use("/api/payment", require("./routes/esewa"));
 app.use("/api/coupon", require("./routes/couponDiscount"));
 app.use("/api/department", require("./routes/department"));
 app.use("/api/auth-department", require("./routes/auth-department"));
+app.use("/api/query", require("./routes/Query"));
 
 // Error handling middleware
 app.use(function (err, req, res, next) {

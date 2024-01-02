@@ -19,6 +19,8 @@ const { uploademployecitizenship } = require("../helpers");
 
 const router = express.Router();
 
+// maintence department
+
 router.get(
   "/ownerdetails/:ownerId",
   ensureMaintenceDepartment,
@@ -36,7 +38,7 @@ router.put("/owners/:ownerId/approve", ensureMaintenceDepartment, approveOwner);
 router.put("/owners/:ownerId/reject", ensureMaintenceDepartment, rejectOwner);
 
 // guard left
-
+// superadmin department
 router.post(
   "/adddepartmentaccount",
   requireSuperadminSignin,
@@ -46,6 +48,7 @@ router.post(
 
 router.post(
   "/adddepartmentcitizen/:departmentId",
+  requireSuperadminSignin,
   uploademployecitizenship,
   addDepartmentaccountCitizenshipImages
 );
@@ -57,9 +60,12 @@ router.post(
   updateDepartment
 );
 router.put(
-  "/updatedepartmentzitizen/:departmentId",
+  "/updatedepartmentcitizen/:departmentId",
   requireSuperadminSignin,
+  uploademployecitizenship,
   updateDepartmentCitizenshipImages
 );
+
+//
 
 module.exports = router;
