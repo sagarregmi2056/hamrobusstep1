@@ -62,10 +62,10 @@ exports.getQueriesForBus = async (req, res) => {
     //   const busId = req.bus._id;
 
     // Retrieve queries for the specified bus
-    const queries = await Query.find({ bus: bus }).populate(
-      "content",
-      "userId"
-    );
+    const queries = await Query.find({ bus: bus })
+      .select("userId bus content")
+      .populate({ path: "bus", select: "slug" })
+      .populate("content", "userId");
 
     res.status(200).json({ queries });
   } catch (error) {
@@ -73,19 +73,3 @@ exports.getQueriesForBus = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-//   exports.getOwnerBookings = async (req, res) => {
-//     const bookings = await Booking.find({ owner: req.ownerauth }).populate(
-//       "bus owner guest user self"
-//     );
-
-//     res.json(bookings);
-//   };
-
-//   exports.getOwnerquery = async (req, res) => {
-//     const bookings = await Query.find({ owner: req.ownerauth }).populate(
-//       "bus query"
-//     );
-
-//     res.json(bookings);
-//   };

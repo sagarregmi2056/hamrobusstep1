@@ -122,3 +122,6 @@
 ::1 - - [02/Jan/2024:06:55:01 +0000] "POST /api/query/querytobus/5bajyakobus HTTP/1.1" 201 1077 "-" "PostmanRuntime/7.36.0"
 ::1 - - [02/Jan/2024:07:08:29 +0000] "GET /api/query/querybyuser/5bajyakobus HTTP/1.1" 500 33 "-" "PostmanRuntime/7.36.0"
 ::1 - - [02/Jan/2024:07:09:35 +0000] "GET /api/query/querybyuser/5bajyakobus HTTP/1.1" 200 844 "-" "PostmanRuntime/7.36.0"
+::1 - - [02/Jan/2024:07:12:44 +0000] "GET /api/query/querybyuser/5bajyakobus HTTP/1.1" 401 27 "-" "PostmanRuntime/7.36.0"
+::1 - - [02/Jan/2024:07:14:34 +0000] "GET /api/query/querybyuser/5bajyakobus HTTP/1.1" 200 529 "-" "PostmanRuntime/7.36.0"
+::1 - - [02/Jan/2024:07:15:58 +0000] "GET /api/query/querybyuser/5bajyakobus HTTP/1.1" 200 616 "-" "PostmanRuntime/7.36.0"

@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post("/querytobus/:busSlug", requireUserSignin, postQueryUserToBus);
 
-router.get("/querybyuser/:busSlug", requireOwnerSignin, getQueriesForBus);
+router.get("/querybyuser/:busSlug", getQueriesForBus);
 
 router.param("busSlug", busBySlug);
 
