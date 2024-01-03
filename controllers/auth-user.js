@@ -48,7 +48,8 @@ exports.signup = async (req, res) => {
     user.salt = undefined;
     user.hashed_password = undefined;
 
-    res.json(user);
+    // res.json(user);
+    res.json({ message: "User registration successful", userName: user.name });
   } catch (error) {
     // Handle unexpected errors
     console.error(error);
