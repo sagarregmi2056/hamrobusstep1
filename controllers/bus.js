@@ -11,6 +11,7 @@ const path = require("path");
 const fs = require("fs");
 
 const { checkDateAvailability } = require("../helpers");
+const { busSubmitValidation } = require("../validator");
 // console.log("Importing checkDateAvailabilty...");
 
 exports.busBySlug = async (req, res, next, slug) => {
@@ -354,6 +355,13 @@ async function uploadToCloudflare(image) {
 // final create function after breakdown
 exports.create = async (req, res) => {
   try {
+    // Validate the request body
+    const { error } = busSubmitValidation.validate(req.body);
+
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+    }
+
     const busExists = await Bus.findOne({ busNumber: req.body.busNumber });
     if (busExists) {
       return res.status(403).json({
