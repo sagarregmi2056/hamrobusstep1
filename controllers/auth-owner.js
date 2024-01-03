@@ -7,23 +7,48 @@ const FormData = require("form-data");
 const axios = require("axios");
 const Joi = require("joi");
 
+const {
+  steponeValidation,
+  steptwovalidation,
+  stepthreeValidation,
+} = require("../validator");
+
 exports.stepone = async (req, res) => {
   try {
-    // const ownerId = req.params.ownerId;
-    // Validation schema using Joi
-    const schema = Joi.object({
-      travelName: Joi.string().required(),
-      pincode: Joi.string().required(),
-      state: Joi.string().required(),
-      city: Joi.string().required(),
-      email: Joi.string().email().required(),
-      name: Joi.string().required(),
-      country: Joi.string().required(),
-      district: Joi.string().required(),
-    });
-
-    const { error } = schema.validate(req.body);
+    const { error } = steponeValidation.validate(req.body);
     if (error) {
+      let responseMessage = "";
+
+      if (error.details[0].path.includes("travelName")) {
+        responseMessage = "Please submit a travelName ";
+      }
+
+      if (error.details[0].path.includes("pincode")) {
+        responseMessage += "Please submit a postal/pincode ";
+      }
+      if (error.details[0].path.includes("state")) {
+        responseMessage += "Please submit a valid state. ";
+      }
+
+      if (error.details[0].path.includes("city")) {
+        responseMessage += "Please submit a valid city. ";
+      }
+      if (error.details[0].path.includes("email")) {
+        responseMessage += "Please submit a valid email. ";
+      }
+
+      if (error.details[0].path.includes("name")) {
+        responseMessage += "Please submit a valid name. ";
+      }
+
+      if (error.details[0].path.includes("country")) {
+        responseMessage += "Please submit a  country. ";
+      }
+
+      if (error.details[0].path.includes("district")) {
+        responseMessage += "Please submit a  district. ";
+      }
+
       return res.status(400).json({ error: error.details[0].message });
     }
 
@@ -47,7 +72,6 @@ exports.stepone = async (req, res) => {
         pincode,
         state,
         city,
-
         email,
         name,
         country,
@@ -77,6 +101,36 @@ exports.stepone = async (req, res) => {
 //  this is for the step  of owner verification
 exports.steptwo = async (req, res) => {
   try {
+    // Validate the request body against the schema
+    const { error } = steptwovalidation.validate(req.body);
+
+    if (error) {
+      // Customize the response message
+      let responseMessage = "";
+
+      if (error.details[0].path.includes("bankName")) {
+        responseMessage = "Please submit a bank name ";
+      }
+
+      if (error.details[0].path.includes("accountNumber")) {
+        responseMessage += "please submit a  account number";
+      }
+
+      if (error.details[0].path.includes("beneficaryName")) {
+        responseMessage += "please submit a beneficiary name ";
+      }
+
+      if (error.details[0].path.includes("bankaccountType")) {
+        responseMessage += "please submit a  account type  ";
+      }
+
+      if (error.details[0].path.includes("citizenshipNumber")) {
+        responseMessage += "please submit a  citizenship number";
+      }
+
+      return res.status(400).json({ error: error.details[0].message });
+    }
+
     // const ownerId = req.params.ownerId;
     const ownerId = req.ownerauth;
     const {
@@ -113,7 +167,29 @@ exports.steptwo = async (req, res) => {
 
 exports.stepthree = async (req, res) => {
   try {
-    // const ownerId = req.params.ownerId;
+    const { error } = stepthreeValidation.validate(req.body);
+    if (error) {
+      // Customize the response message
+      let responseMessage = "";
+
+      if (error.details[0].path.includes("panName")) {
+        responseMessage = "Please submit a pan name ";
+      }
+
+      if (error.details[0].path.includes("panAddress")) {
+        responseMessage += "please submit a  pan address";
+      }
+
+      if (error.details[0].path.includes("issuedate")) {
+        responseMessage += "please submit a issuedate name ";
+      }
+      if (error.details[0].path.includes("dateofbirth")) {
+        responseMessage += "please submit a date of birth  ";
+      }
+
+      return res.status(400).json({ error: error.details[0].message });
+    }
+
     const ownerId = req.ownerauth;
     const { panName, panAddress, issuedate, dateofbirth } = req.body;
 
@@ -160,10 +236,6 @@ async function uploadToCloudflare(image) {
       }
     );
 
-    // Log the complete response for inspection
-    // console.log("Cloudflare API Response:", response.data);
-
-    // Check if the response contains the expected data structure
     if (
       response.data.result &&
       response.data.result.variants &&
@@ -213,6 +285,12 @@ exports.uploaddriverlisencecontroller = async (req, res) => {
     });
   } catch (error) {
     console.error("Error handling image upload:", error);
+    if (error instanceof multer.MulterError) {
+      // Handle MulterError (file upload-related errors)
+      return res.status(400).json({
+        error: "Please upload a valid image file.",
+      });
+    }
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

@@ -25,6 +25,7 @@ const {
   uploadnationalID,
 } = require("../helpers");
 const { uploadpancard } = require("../helpers");
+const { imageValidator } = require("../validator");
 
 // const { ownerById } = require("../controllers/owner");
 
@@ -250,7 +251,6 @@ router.put("/addPanDetail", verifyToken, ownersigninverify, stepthree);
 router.get(
   "/getCurrentSection",
   verifyToken,
-
   ownersigninverify,
   getOwnerDetails
 );
@@ -308,7 +308,10 @@ router.post(
   "/adddocuments/driverlicense",
   verifyToken,
   ownersigninverify,
+
   uploaddriverlisence,
+  imageValidator,
+
   uploaddriverlisencecontroller
 );
 
