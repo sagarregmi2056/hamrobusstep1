@@ -5,10 +5,6 @@ const _ = require("lodash");
 const { sendEmail } = require("../helpers");
 
 exports.signup = async (req, res) => {
-  // req.body.email
-
-  // userexists =  bibek
-
   const userExists = await User.findOne({ email: req.body.email });
 
   if (userExists)
@@ -50,6 +46,52 @@ exports.signin = async (req, res) => {
 
   // Send both ID and token in the response
   return res.json({ _id: user.id, token });
+};
+
+exports.userrefreshToken = async (req, res) => {
+  try {
+    const { _id } = req.body;
+
+    // Validate that _id is provided
+    if (!_id) {
+      return res
+        .status(400)
+        .json({ error: "Invalid content. _id is required." });
+    }
+
+    // Check if the user exists
+    const user = await User.findById(_id);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const payload = {
+      _id: user.id,
+      name: user.name,
+      email: user.email,
+    };
+
+    // Sign a new token
+    const token = jwt.sign(
+      payload,
+      process.env.JWT_SECRET /*, { expiresIn: '5m' } */
+    );
+
+    return res.json({ _id: user.id, token });
+  } catch (error) {
+    console.error(error);
+
+    // Handle specific error scenarios
+    if (error.name === "ValidationError") {
+      return res
+        .status(400)
+        .json({ error: "Validation Error. Please check your input." });
+    }
+
+    // Handle other types of errors
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 };
 
 exports.requireUserSignin = async (req, res, next) => {

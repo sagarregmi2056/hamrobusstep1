@@ -63,6 +63,11 @@ const ownerSchema = new mongoose.Schema(
       trim: true,
     },
 
+    location: {
+      type: String,
+      trim: true,
+    },
+
     // bank details
     bankName: {
       type: String,

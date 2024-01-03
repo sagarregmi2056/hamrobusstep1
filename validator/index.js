@@ -28,7 +28,6 @@ exports.stepthreeValidation = Joi.object({
 
 exports.imageValidator = (req, res, next) => {
   try {
-    console.log(req.file);
     if (!req.file) {
       console.log("No file uploaded");
       return res.status(400).json({

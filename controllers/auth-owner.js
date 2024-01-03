@@ -54,8 +54,17 @@ exports.stepone = async (req, res) => {
 
     const ownerId = req.ownerauth;
 
-    const { travelName, pincode, state, city, email, name, country, district } =
-      req.body;
+    const {
+      travelName,
+      pincode,
+      state,
+      city,
+      email,
+      name,
+      country,
+      district,
+      location,
+    } = req.body;
 
     const ownerExists = await Owner.findOne({ email });
 
@@ -76,6 +85,7 @@ exports.stepone = async (req, res) => {
         name,
         country,
         district,
+        location,
         vendorDetail: "bankDetail",
       },
       { new: true }
@@ -419,6 +429,7 @@ exports.getOwnerDocumentsController = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 exports.getOwnerDetails = async (req, res) => {
   try {
     // const ownerId = req.params.ownerId;
@@ -449,6 +460,10 @@ exports.getOwnerDetails = async (req, res) => {
       status: ownerDetails.status,
       panNumber: ownerDetails.panNumber,
       panName: ownerDetails.panName,
+      // for imahes and their ids
+      // images: ownerDetails.images,
+      // for images url only
+      images: ownerDetails.images.map((image) => image.url),
 
       // Assuming 'status' is a property of the Owner model
     });

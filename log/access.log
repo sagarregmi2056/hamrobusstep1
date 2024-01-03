@@ -1,2 +1,8 @@
 ::1 - - [03/Jan/2024:05:26:20 +0000] "POST /api/auth-owner/adddocuments/driverlicense HTTP/1.1" 500 54 "-" "PostmanRuntime/7.36.0"
 ::1 - - [03/Jan/2024:05:28:03 +0000] "POST /api/auth-owner/adddocuments/driverlicense HTTP/1.1" 200 176 "-" "PostmanRuntime/7.36.0"
+::1 - - [03/Jan/2024:05:40:28 +0000] "POST /api/auth-owner/refreshtoken HTTP/1.1" 200 211 "-" "PostmanRuntime/7.36.0"
+::1 - - [03/Jan/2024:05:40:48 +0000] "POST /api/auth-owner/refreshtoken HTTP/1.1" 200 211 "-" "PostmanRuntime/7.36.0"
+::1 - - [03/Jan/2024:06:34:58 +0000] "POST /api/auth-owner/getCurrentSection HTTP/1.1" 404 172 "-" "PostmanRuntime/7.36.0"
+::1 - - [03/Jan/2024:06:35:02 +0000] "GET /api/auth-owner/getCurrentSection HTTP/1.1" 200 310 "-" "PostmanRuntime/7.36.0"
+::1 - - [03/Jan/2024:06:35:53 +0000] "GET /api/auth-owner/getCurrentSection HTTP/1.1" 200 639 "-" "PostmanRuntime/7.36.0"
+::1 - - [03/Jan/2024:06:37:29 +0000] "GET /api/auth-owner/getCurrentSection HTTP/1.1" 200 511 "-" "PostmanRuntime/7.36.0"
