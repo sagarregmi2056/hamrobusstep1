@@ -7,10 +7,7 @@ const { signupValidation } = require("../validator");
 
 exports.signup = async (req, res) => {
   try {
-    // Validate the request body against the signup validation schema
     const { error } = signupValidation.validate(req.body);
-
-    // If there's an error in validation, return a validation error response
     if (error) {
       let responseMessage = "";
 
@@ -37,7 +34,6 @@ exports.signup = async (req, res) => {
       return res.status(400).json({ error: error.details[0].message });
     }
 
-    // Check if the email is already taken
     const userExists = await User.findOne({ email: req.body.email });
 
     if (userExists) {
@@ -48,11 +44,10 @@ exports.signup = async (req, res) => {
     const newUser = new User(req.body);
     const user = await newUser.save();
 
-    // Remove sensitive information before responding
+    // Removing sensitive information
     user.salt = undefined;
     user.hashed_password = undefined;
 
-    // Respond with the sanitized user object
     res.json(user);
   } catch (error) {
     // Handle unexpected errors
@@ -92,15 +87,11 @@ exports.signin = async (req, res) => {
 exports.userrefreshToken = async (req, res) => {
   try {
     const { _id } = req.body;
-
-    // Validate that _id is provided
     if (!_id) {
       return res
         .status(400)
         .json({ error: "Invalid content. _id is required." });
     }
-
-    // Check if the user exists
     const user = await User.findById(_id);
 
     if (!user) {
@@ -112,8 +103,6 @@ exports.userrefreshToken = async (req, res) => {
       name: user.name,
       email: user.email,
     };
-
-    // Sign a new token
     const token = jwt.sign(
       payload,
       process.env.JWT_SECRET /*, { expiresIn: '5m' } */
