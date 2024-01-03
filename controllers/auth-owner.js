@@ -478,9 +478,17 @@ exports.requireOwnerSignin = async (req, res, next) => {
 };
 
 exports.refreshToken = async (req, res) => {
-  if (req.body && req.body._id) {
-    const owner = await Owner.findOne({ _id: req.body._id });
-
+  try {
+    const { _id } = req.body;
+    if (!_id) {
+      return res
+        .status(400)
+        .json({ error: "Invalid content. _id is required." });
+    }
+    const owner = await Owner.findById(_id);
+    if (!owner) {
+      return res.status(404).json({ error: "Owner not found" });
+    }
     const payload = {
       _id: owner.id,
       role: owner.role,
@@ -489,13 +497,40 @@ exports.refreshToken = async (req, res) => {
 
     const token = jwt.sign(
       payload,
-      process.env.JWT_SECRET /*{ expiresIn: 5 }*/
+      process.env.JWT_SECRET /*, { expiresIn: '5m' } */
     );
-
     return res.json({ token });
+  } catch (error) {
+    console.error(error);
+    if (error.name === "ValidationError") {
+      return res
+        .status(400)
+        .json({ error: "Validation Error. Please check your input." });
+    }
+    return res.status(500).json({ error: "Internal Server Error" });
   }
-  return res.json({ error: "Invalid content" });
 };
+
+// exports.refreshToken = async (req, res) => {
+//   if (req.body && req.body._id) {
+
+//     const owner = await Owner.findOne({ _id: req.body._id });
+
+//     const payload = {
+//       _id: owner.id,
+//       role: owner.role,
+//       phone: owner.phone,
+//     };
+
+//     const token = jwt.sign(
+//       payload,
+//       process.env.JWT_SECRET /*{ expiresIn: 5 }*/
+//     );
+
+//     return res.json({ token });
+//   }
+//   return res.json({ error: "Invalid content" });
+// };
 
 exports.ownersigninverify = async (req, res, next) => {
   const token = req.headers.authorization;

@@ -308,10 +308,8 @@ router.post(
   "/adddocuments/driverlicense",
   verifyToken,
   ownersigninverify,
-
   uploaddriverlisence,
   imageValidator,
-
   uploaddriverlisencecontroller
 );
 
@@ -408,6 +406,7 @@ router.post(
   verifyToken,
   ownersigninverify,
   uploadpancard,
+  imageValidator,
   uploadPanCardController
 );
 
@@ -454,6 +453,7 @@ router.post(
   verifyToken,
   ownersigninverify,
   uploadCitizenshipimages,
+  imageValidator,
   citizenshipController
 );
 
@@ -500,6 +500,7 @@ router.post(
   verifyToken,
   ownersigninverify,
   uploadnationalID,
+  imageValidator,
   nationalidController
 );
 
