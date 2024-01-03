@@ -24,6 +24,7 @@ const {
 } = require("../controllers/bus");
 
 const { uploadBusImage, uploadinsideBusImage } = require("../helpers");
+const { imageValidator } = require("../validator");
 /**
  * @swagger
  * /api/bus:
@@ -267,12 +268,14 @@ router.post(
   "/uploadbusimage",
   requireownerkycverify,
   uploadBusImage,
+  imageValidator,
   uploadBusImageController
 );
 
 router.post(
   requireownerkycverify,
   uploadinsideBusImage,
+  imageValidator,
   uploadinsideBusImagecontroller
 );
 
@@ -503,7 +506,7 @@ router.get("/all-bus-unavailable", getAllUnavailableBuses);
 /**
  * @swagger
  * /api/bus/search:
- *   get:
+ *   post:
  *     summary: Search for available buses
  *     description: Retrieve a list of available buses based on the search criteria.
  *     tags:
