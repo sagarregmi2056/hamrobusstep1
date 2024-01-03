@@ -75,6 +75,14 @@ exports.imageValidator = (req, res, next) => {
   }
 };
 
+exports.signupValidation = Joi.object({
+  name: Joi.string().max(32).required(),
+  address: Joi.string().max(32),
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
+  phone: Joi.number().integer().min(1000000000).max(9999999999),
+});
+
 exports.userSignupValidator = (req, res, next) => {
   // name is not null and between 4-10 characters
   req.check("name", "Name is required").notEmpty();

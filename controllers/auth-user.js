@@ -3,21 +3,62 @@ const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 
 const { sendEmail } = require("../helpers");
+const { signupValidation } = require("../validator");
 
 exports.signup = async (req, res) => {
-  const userExists = await User.findOne({ email: req.body.email });
+  try {
+    // Validate the request body against the signup validation schema
+    const { error } = signupValidation.validate(req.body);
 
-  if (userExists)
-    return res.status(403).json({
-      error: "Email is taken!",
-    });
+    // If there's an error in validation, return a validation error response
+    if (error) {
+      let responseMessage = "";
 
-  const newuser = new User(req.body);
-  const user = await newuser.save();
+      if (error.details[0].path.includes("name")) {
+        responseMessage = "Please submit a valid name. ";
+      }
 
-  user.salt = undefined;
-  user.hashed_password = undefined;
-  res.json(user);
+      if (error.details[0].path.includes("address")) {
+        responseMessage += "Please submit a address. ";
+      }
+
+      if (error.details[0].path.includes("email")) {
+        responseMessage += "Please submit a valid email. ";
+      }
+
+      if (error.details[0].path.includes("phone")) {
+        responseMessage += "Please submit a valid 10 digits phone number. ";
+      }
+
+      if (error.details[0].path.includes("password")) {
+        responseMessage += "Please submit a  6 digits password. ";
+      }
+
+      return res.status(400).json({ error: error.details[0].message });
+    }
+
+    // Check if the email is already taken
+    const userExists = await User.findOne({ email: req.body.email });
+
+    if (userExists) {
+      return res.status(403).json({ error: "Email is taken!" });
+    }
+
+    // Create a new user
+    const newUser = new User(req.body);
+    const user = await newUser.save();
+
+    // Remove sensitive information before responding
+    user.salt = undefined;
+    user.hashed_password = undefined;
+
+    // Respond with the sanitized user object
+    res.json(user);
+  } catch (error) {
+    // Handle unexpected errors
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 exports.signin = async (req, res) => {
