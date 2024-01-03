@@ -83,6 +83,11 @@ exports.signupValidation = Joi.object({
   phone: Joi.number().integer().min(1000000000).max(9999999999),
 });
 
+exports.signinValidation = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+});
+
 exports.userSignupValidator = (req, res, next) => {
   // name is not null and between 4-10 characters
   req.check("name", "Name is required").notEmpty();

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 
 const { sendEmail } = require("../helpers");
-const { signupValidation } = require("../validator");
+const { signupValidation, signinValidation } = require("../validator");
 
 exports.signup = async (req, res) => {
   try {
@@ -54,6 +54,46 @@ exports.signup = async (req, res) => {
     // Handle unexpected errors
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+exports.signin = async (req, res) => {
+  try {
+    // Validate the request body against the signin validation schema
+    const { error } = signinValidation.validate(req.body);
+
+    // If there's an error in validation, return a validation error response
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+    }
+
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({
+        error: "User with that email does not exist.",
+      });
+    }
+
+    if (!user.authenticate(password)) {
+      return res.status(401).json({
+        error: "Email and password do not match",
+      });
+    }
+
+    const payload = {
+      _id: user.id,
+      name: user.name,
+      email: user.email,
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET);
+
+    return res.json({ _id: user.id, token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
