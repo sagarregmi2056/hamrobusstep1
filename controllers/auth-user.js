@@ -453,22 +453,26 @@ exports.forgotPassword = async (req, res) => {
       });
 
     // generate a token with user id and secret
-    const token = jwt.sign(
-      { _id: user._id, iss: "NODEAPI" },
-      process.env.JWT_SECRET
-    );
+    // const token = jwt.sign(
+    //   { _id: user._id, iss: "NODEAPI" },
+    //   process.env.JWT_SECRET
+    // );
+    const resetOTP = Math.floor(100000 + Math.random() * 900000).toString();
 
     // email data
     const emailData = {
       from: "sagarregmi2056@gmail.com",
       to: email,
       subject: "Password Reset Instructions",
-      text: `Please use the following link to reset your password: ${process.env.CLIENT_URL}/reset-password/${token}`,
-      html: `<p>Please use the following link to reset your password:</p> <p>${process.env.CLIENT_URL}/reset-password/${token}</p>`,
+      // text: `Please use the following link to reset your password: ${process.env.CLIENT_URL}/reset-password/${token}`,
+      text: `Your one-time password for password reset is: ${resetOTP}`,
+      // html: `<p>Please use the following link to reset your password:</p> <p>${process.env.CLIENT_URL}/reset-password/${token}</p>`,
+      html: `<p>Your one-time password for password reset is: <strong>${resetOTP}</strong></p>`,
     };
 
     // Update user with resetPasswordLink and send email
-    await user.updateOne({ resetPasswordLink: token });
+    // await user.updateOne({ resetPasswordLink: token });
+    await user.updateOne({ resetPasswordLink: resetOTP });
 
     console.log(emailData);
 
@@ -476,7 +480,8 @@ exports.forgotPassword = async (req, res) => {
     sendEmail(emailData);
 
     return res.status(200).json({
-      message: `Email has been sent to ${email}. Follow the instructions to reset your password.`,
+      // message: `Email has been sent to ${email}. Follow the instructions to reset your password.`,
+      message: `One-time password has been sent to ${email}. Use it to reset your password.`,
     });
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -485,6 +490,7 @@ exports.forgotPassword = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
   const { resetPasswordLink, newPassword } = req.body;
+  // console.log(req.body);
 
   try {
     let user = await User.findOne({ resetPasswordLink });
@@ -492,7 +498,7 @@ exports.resetPassword = async (req, res) => {
     // if err or no user
     if (!user)
       return res.status(401).json({
-        error: "Invalid Link!",
+        error: "Invalid otp!",
       });
 
     const updatedFields = {
