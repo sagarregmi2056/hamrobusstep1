@@ -80,7 +80,7 @@ exports.signupValidation = Joi.object({
   address: Joi.string().max(32),
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
-  phone: Joi.number().integer().min(1000000000).max(9999999999),
+  phone: Joi.number().integer().min(1000000000).max(9999999999).required(),
 });
 
 exports.signinValidation = Joi.object({

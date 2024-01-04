@@ -64,6 +64,15 @@ exports.signin = async (req, res) => {
 
     // If there's an error in validation, return a validation error response
     if (error) {
+      let responseMessage = "";
+
+      if (error.details[0].path.includes("email")) {
+        responseMessage = "Please submit a valid email. ";
+      }
+
+      if (error.details[0].path.includes("password")) {
+        responseMessage = "Please submit a valid password. ";
+      }
       return res.status(400).json({ error: error.details[0].message });
     }
 
@@ -97,33 +106,33 @@ exports.signin = async (req, res) => {
   }
 };
 
-exports.signin = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email });
+// exports.signin = async (req, res) => {
+//   const { email, password } = req.body;
+//   const user = await User.findOne({ email });
 
-  if (!user) {
-    return res.status(401).json({
-      error: "User with that email does not exist.",
-    });
-  }
+//   if (!user) {
+//     return res.status(401).json({
+//       error: "User with that email does not exist.",
+//     });
+//   }
 
-  if (!user.authenticate(password)) {
-    return res.status(401).json({
-      error: "Email and password do not match",
-    });
-  }
+//   if (!user.authenticate(password)) {
+//     return res.status(401).json({
+//       error: "Email and password do not match",
+//     });
+//   }
 
-  const payload = {
-    _id: user.id,
-    name: user.name,
-    email: user.email,
-  };
+//   const payload = {
+//     _id: user.id,
+//     name: user.name,
+//     email: user.email,
+//   };
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET);
+//   const token = jwt.sign(payload, process.env.JWT_SECRET);
 
-  // Send both ID and token in the response
-  return res.json({ _id: user.id, token });
-};
+//   // Send both ID and token in the response
+//   return res.json({ _id: user.id, token });
+// };
 
 exports.userrefreshToken = async (req, res) => {
   try {
@@ -427,7 +436,9 @@ exports.socialLogin = async (req, res) => {
 exports.forgotPassword = async (req, res) => {
   if (!req.body) return res.status(400).json({ message: "No request body" });
   if (!req.body.email)
-    return res.status(400).json({ message: "No Email in request body" });
+    return res.status(400).json({
+      message: "Please add email of your account which want to be recover",
+    });
 
   const { email } = req.body;
 
