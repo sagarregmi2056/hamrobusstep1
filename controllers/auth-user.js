@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
+const crypto = require("crypto");
 
 const { sendEmail } = require("../helpers");
 const { signupValidation, signinValidation } = require("../validator");
@@ -457,7 +458,7 @@ exports.forgotPassword = async (req, res) => {
     //   { _id: user._id, iss: "NODEAPI" },
     //   process.env.JWT_SECRET
     // );
-    const resetOTP = Math.floor(100000 + Math.random() * 900000).toString();
+    const resetOTP = crypto.randomInt(10000000, 99999999).toString();
 
     // email data
     const emailData = {
@@ -481,7 +482,7 @@ exports.forgotPassword = async (req, res) => {
 
     return res.status(200).json({
       // message: `Email has been sent to ${email}. Follow the instructions to reset your password.`,
-      message: `One-time password has been sent to ${email}. Use it to reset your password.`,
+      message: `Hey ${email} its me sagar regmi Am just testing my apis please let me know is it on inbox or spam? `,
     });
   } catch (error) {
     return res.status(500).json({ error: error.message });
