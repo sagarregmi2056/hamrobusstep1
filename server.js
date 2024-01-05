@@ -31,11 +31,11 @@ const swaggerOptions = {
     },
     contact: {
       name: "Sagar Regmi",
-      url: "https://github.com/sagarregmi2056", // Replace with your GitHub profile URL
-      email: "sagarregmi2056@gmail.com", // Replace with your email
+      url: "https://github.com/sagarregmi2056",
+      email: "sagarregmi2056@gmail.com",
     },
   },
-  apis: ["./routes/*.js"], // Replace with the actual path to your API route files
+  apis: ["./routes/*.js"],
 };
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
