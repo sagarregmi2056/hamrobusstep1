@@ -34,12 +34,10 @@ exports.busSubmitValidation = Joi.object({
   busNumber: Joi.string().required(),
   fare: Joi.number().required(),
   features: Joi.array().items(Joi.string()),
-  isbusverified: Joi.boolean().default(true),
   description: Joi.string(),
   seatsAvailable: Joi.number().required(),
   numberOfSeats: Joi.number().required(),
   departure_time: Joi.string(),
-  isAvailable: Joi.boolean().default(true),
   travel: Joi.string().required(), // Assuming 'travel' is the ID of the travel entity
   startLocation: Joi.string().required(), // Assuming 'startLocation' is the ID of the location entity
   endLocation: Joi.string().required(), // Assuming 'endLocation' is the ID of the location entity

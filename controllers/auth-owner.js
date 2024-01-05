@@ -330,7 +330,7 @@ exports.uploadPanCardController = async (req, res) => {
     res.json({
       // Include the bus ID in the response
       url: imageUrl,
-      message: `Bus image URL saved to Bus schema successfully`,
+      message: `Pancard uploaded successfully`,
     });
   } catch (error) {
     console.error("Error handling image upload:", error);

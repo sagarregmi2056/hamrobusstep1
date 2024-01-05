@@ -468,7 +468,9 @@ exports.forgotPassword = async (req, res) => {
       // text: `Please use the following link to reset your password: ${process.env.CLIENT_URL}/reset-password/${token}`,
       text: `Your one-time password for password reset is: ${resetOTP}`,
       // html: `<p>Please use the following link to reset your password:</p> <p>${process.env.CLIENT_URL}/reset-password/${token}</p>`,
-      html: `<p>Your one-time password for password reset is: <strong>${resetOTP}</strong></p>`,
+      html: `<p>Your one-time password for password reset is: <strong>${resetOTP}</strong></p><p>
+      <strong>Company Name:</strong> Hamrobusticket.com
+    </p>`,
     };
 
     // Update user with resetPasswordLink and send email
@@ -482,7 +484,7 @@ exports.forgotPassword = async (req, res) => {
 
     return res.status(200).json({
       // message: `Email has been sent to ${email}. Follow the instructions to reset your password.`,
-      message: `Hey ${email} its me sagar regmi Am just testing my apis please let me know is it on inbox or spam? `,
+      message: `Email has been sent to ${email}. Follow the instructions to reset your password.`,
     });
   } catch (error) {
     return res.status(500).json({ error: error.message });
