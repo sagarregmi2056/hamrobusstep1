@@ -398,6 +398,30 @@ exports.create = async (req, res) => {
   }
 };
 
+exports.getbusdroppingAndboarding = async (req, res) => {
+  try {
+    const busId = req.params.id;
+
+    // Find the bus by its ID and select only the boardingPoints and droppingPoints fields
+    const bus = await Bus.findById(busId).select(
+      "boardingPoints droppingPoints"
+    );
+
+    if (!bus) {
+      return res.status(404).json({ error: "Bus not found" });
+    }
+
+    // Respond with the boarding points and dropping points
+    const boardingPoints = bus.boardingPoints;
+    const droppingPoints = bus.droppingPoints;
+
+    res.status(200).json({ boardingPoints, droppingPoints });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 // exports.uploadBusImageController = async (req, res) => {
 //   try {
 //     const ownerId = req.ownerauth._id; // Assuming the owner ID is in req.ownerauth

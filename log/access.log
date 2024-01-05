@@ -74,3 +74,4 @@
 ::1 - - [04/Jan/2024:07:27:21 +0000] "PUT /api/auth-user/reset-password HTTP/1.1" 200 62 "-" "PostmanRuntime/7.36.0"
 ::1 - - [05/Jan/2024:06:21:19 +0000] "POST /api/auth-owner/adddocuments/656443e6d29e68f7f509c33d/pancard HTTP/1.1" 404 200 "-" "PostmanRuntime/7.36.0"
 ::1 - - [05/Jan/2024:06:21:26 +0000] "PUT /api/auth-owner/adddocuments/656443e6d29e68f7f509c33d/pancard HTTP/1.1" 404 199 "-" "PostmanRuntime/7.36.0"
+::1 - - [05/Jan/2024:08:33:09 +0000] "GET /api/bus/getbusdroppingboarding/657e92f958699c5e35166923 HTTP/1.1" 200 115 "-" "PostmanRuntime/7.36.0"

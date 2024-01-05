@@ -21,6 +21,7 @@ const {
   getAllUnavailableBuses,
   uploadBusImageController,
   uploadinsideBusImagecontroller,
+  getbusdroppingAndboarding,
 } = require("../controllers/bus");
 
 const { uploadBusImage, uploadinsideBusImage } = require("../helpers");
@@ -826,6 +827,7 @@ router
   .get(read)
   .put(requireownerkycverify, isPoster, update)
   .delete(requireownerkycverify, isPoster, remove);
+router.get("/getbusdroppingboarding/:id", getbusdroppingAndboarding);
 
 router.param("busSlug", busBySlug);
 

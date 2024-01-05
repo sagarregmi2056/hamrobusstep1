@@ -247,6 +247,7 @@ exports.verifyBooking = async (req, res) => {
 };
 
 // without discounts and cupon code
+
 exports.postBooking = async (req, res) => {
   const booking = new Booking(req.body);
 
