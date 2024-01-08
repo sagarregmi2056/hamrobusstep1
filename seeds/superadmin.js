@@ -10,8 +10,10 @@ exports.seedSuperAdmin = async () => {
   const role = "superadmin";
 
   const ownerExists = await Owner.findOne({ email });
-  if (ownerExists) return;
-
+  if (ownerExists) {
+    console.warn("Superadmin already exists in the database.");
+    return;
+  }
   // yadi tyo xaina vanya new super admin khoja
   const newowner = new Owner({
     email,
