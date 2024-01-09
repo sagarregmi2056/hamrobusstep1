@@ -3,8 +3,7 @@ const { ApolloServer } = require("apollo-server-express");
 const { readFileSync } = require("fs");
 const { makeExecutableSchema } = require("@graphql-tools/schema");
 const { gql } = require("graphql-tag");
-// const { runEveryMidnight, dbConnection, errorHandler } = require("./helpers");
-// const logger = require("./helpers/logger");
+
 const context = require("./context");
 
 async function setupGraphQLServer(app) {

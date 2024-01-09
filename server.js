@@ -1,9 +1,7 @@
 // Packages
 const expressValidator = require("express-validator");
-const context = require("./context");
 require("./stagingmode/stages");
 const path = require("path");
-
 const express = require("express");
 require("express-async-errors");
 const cors = require("cors");
@@ -17,8 +15,6 @@ const logger = require("./helpers/logger");
 const runSeed = require("./seeds");
 const { connectToDatabase } = require("./helpers/dbConnection");
 const { setupGraphQLServer } = require("./GraphqlServer");
-
-// swagger ui implementation
 
 // Swagger UI implementation
 const swaggerUi = require("swagger-ui-express");
@@ -49,7 +45,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 connectToDatabase();
 
 console.log("Seeding process started...");
-
+// superadmin seeding
 runSeed();
 
 console.log("Seeding process completed.");
