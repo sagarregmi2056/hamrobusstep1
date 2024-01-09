@@ -96,7 +96,10 @@ exports.searchBus = async (req, res) => {
     isAvailable: true,
   })
 
-    .populate("travel", "name")
+    .populate({
+      path: "owner",
+      select: "travelName", // Select the field you want to populate
+    })
     .populate("startLocation", "name")
     .populate("endLocation", "name");
 
@@ -110,17 +113,15 @@ exports.searchBus = async (req, res) => {
 // type: An array of bus types (e.g., regular, luxury, etc.).
 
 exports.searchBusByFilter = async (req, res) => {
-  const { startLocation, endLocation, journeyDate, travel, type } = req.body;
+  const { startLocation, endLocation, journeyDate, type } = req.body;
   const bus = await Bus.find({
     startLocation,
     endLocation,
     journeyDate,
     isAvailable: true,
+    type: { $in: type },
   })
-    .populate({
-      path: "owner",
-      select: "travelName",
-    })
+
     .populate("startLocation", "name")
     .populate("endLocation", "name");
   res.json(bus);
