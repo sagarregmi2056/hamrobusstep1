@@ -88,6 +88,30 @@ const resolvers = {
         throw new Error(`Error fetching bus details: ${err.message}`);
       }
     },
+    bookingByTicketNumber: async (_, { ticketNumber }, { models }) => {
+      try {
+        const booking = await models.Booking.findOne({ ticketNumber })
+          .populate("user") // Make sure to populate other fields as needed
+          .populate({
+            path: "bus",
+            populate: {
+              path: "owner", // Populate owner details if needed
+              model: "Owner",
+            },
+          });
+
+        if (!booking) {
+          throw new Error("Booking not found");
+        }
+
+        return booking; // Make sure this includes the 'seatNumber' field
+      } catch (error) {
+        console.error(
+          `Error fetching booking by ticket number: ${error.message}`
+        );
+        throw new Error("Internal server error");
+      }
+    },
 
     bookingsByVerification: async (_, { verification }, { models }) => {
       try {

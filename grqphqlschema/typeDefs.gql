@@ -14,6 +14,7 @@ type Query {
   bookingsByVerification(verification: String!): [Booking]
   allOwnerDetails: [OwnerDetails]
   getBusDetails(busId: ID!): BusDetails
+  bookingByTicketNumber(ticketNumber: String!): Booking
 }
 
 type User {
@@ -77,7 +78,7 @@ type Location {
 
 type Bus {
   _id: ID!
-  name: String!
+  name: String
   type: String!
   busNumber: String!
   fare: Float!
@@ -106,13 +107,12 @@ type Booking {
   _id: ID!
   price: String
   passengers: Int
-  seatNumber: String!
+  seatNumber: String
   boardingPoints: String
-  guest: Guest
+
   user: User
   owner: Owner
   bus: Bus
-  self: Owner
   verification: String
   createdAt: String
   updatedAt: String
