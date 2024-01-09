@@ -13,6 +13,7 @@ type Query {
 
   bookingsByVerification(verification: String!): [Booking]
   allOwnerDetails: [OwnerDetails]
+  getBusDetails(busId: ID!): BusDetails
 }
 
 type User {
@@ -130,4 +131,16 @@ type OwnerDetails {
   id: ID!
   name: String
   email: String
+}
+type BusDetails {
+  id: ID!
+  name: String!
+  fare: Float!
+  busNumber: String!
+  images: [BusImage]
+}
+
+type BusImage {
+  type: String!
+  url: String!
 }

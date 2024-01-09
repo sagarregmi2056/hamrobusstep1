@@ -67,6 +67,28 @@ const resolvers = {
       }
     },
 
+    getBusDetails: async (_, { busId }, { models }) => {
+      try {
+        const bus = await models.Bus.findById(busId)
+          .select("name fare busNumber images")
+          .populate("images", "type url");
+
+        if (!bus) {
+          throw new Error("Bus not found");
+        }
+
+        return {
+          id: bus._id.toString(),
+          name: bus.name,
+          fare: bus.fare,
+          busNumber: bus.busNumber,
+          images: bus.images,
+        };
+      } catch (err) {
+        throw new Error(`Error fetching bus details: ${err.message}`);
+      }
+    },
+
     bookingsByVerification: async (_, { verification }, { models }) => {
       try {
         const bookings = await models.Booking.find({ verification })
