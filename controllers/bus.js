@@ -116,10 +116,11 @@ exports.searchBusByFilter = async (req, res) => {
     endLocation,
     journeyDate,
     isAvailable: true,
-    travel: { $in: travel },
-    type: { $in: type },
   })
-    .populate("travel", "name")
+    .populate({
+      path: "owner",
+      select: "travelName",
+    })
     .populate("startLocation", "name")
     .populate("endLocation", "name");
   res.json(bus);
