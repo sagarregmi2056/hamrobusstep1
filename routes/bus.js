@@ -22,6 +22,7 @@ const {
   uploadBusImageController,
   uploadinsideBusImagecontroller,
   getbusdroppingAndboarding,
+  searchbusbyfare,
 } = require("../controllers/bus");
 
 const { uploadBusImage, uploadinsideBusImage } = require("../helpers");
@@ -648,6 +649,7 @@ router.get("/search", searchBus);
  */
 
 router.post("/filter", searchBusByFilter);
+router.post("/searchbusbyfare", searchbusbyfare);
 
 /**
  * @swagger

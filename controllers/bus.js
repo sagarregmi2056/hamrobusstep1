@@ -689,3 +689,30 @@ exports.remove = async (req, res) => {
     res.status(500).json({ error: "An error occurred while removing the bus" });
   }
 };
+
+exports.searchbusbyfare = async (req, res) => {
+  try {
+    const { minFare, maxFare } = req.query;
+
+    // Validate input parameters
+    if (!minFare || !maxFare) {
+      return res
+        .status(400)
+        .json({ error: "Minimum and maximum fare are required" });
+    }
+
+    // Parse fare values to numbers
+    const minFareValue = parseFloat(minFare);
+    const maxFareValue = parseFloat(maxFare);
+
+    // Query buses within the specified fare range
+    const buses = await Bus.find({
+      fare: { $gte: minFareValue, $lte: maxFareValue },
+    }).exec();
+
+    res.json({ buses });
+  } catch (error) {
+    console.error("Error searching buses by fare:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
