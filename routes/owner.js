@@ -5,7 +5,9 @@ const { requireOwnerSignin, isAuth } = require("../controllers/auth-owner");
 // const { uploadOwnerAvatar } = require("../helpers");
 
 router.get("/:ownerId", read);
+
 router.get("/myprofile", requireOwnerSignin, myprofile);
+
 router.put("/:ownerId", requireOwnerSignin, isAuth, update);
 
 router.param("ownerId", ownerById);

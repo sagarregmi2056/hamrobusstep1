@@ -84,17 +84,29 @@ exports.myprofile = async (req, res) => {
       });
     }
 
+    const profilepicImageUrls = ownerDetails.images
+      .filter((image) => image.type === "profilepic")
+      .map((image) => image.url);
+
     // Return owner details, including vendorDetail and status
-    res.json({
+    const responseData = {
       travelName: ownerDetails.travelName,
       phone: ownerDetails.phone,
       email: ownerDetails.email,
       name: ownerDetails.name,
       status: ownerDetails.status,
-      images: ownerDetails.images.map((image) => image.url),
+    };
 
-      // Assuming 'status' is a property of the Owner model
-    });
+    // Check if profilepicImageUrls is not empty before including it in the response
+    if (profilepicImageUrls.length > 0) {
+      responseData.images = profilepicImageUrls;
+    } else {
+      // If no profile pictures, include a default image URL
+      responseData.defaultImage =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvh61dMSiACmZo833XOZOUtTMZbXPGdvP35IGcBVw2aQ&s";
+    }
+
+    res.json(responseData);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error retrieving owner details" });
