@@ -283,155 +283,155 @@ exports.socialLogin = async (req, res) => {
   }
 };
 
-// // social login ma hamro both facebook ra google use huna sakxa  frontend integrate garyapaxi balla use garni yo
-// exports.socialLogin = async (req, res) => {
-//   const {
-//     name,
-//     email,
-//     socialPhoto,
-//     userID,
-//     loginDomain,
-//     access_token,
-//   } = req.body;
+// social login ma hamro both facebook ra google use huna sakxa  frontend integrate garyapaxi balla use garni yo
+exports.socialLogin = async (req, res) => {
+  const {
+    name,
+    email,
+    socialPhoto,
+    userID,
+    loginDomain,
+    access_token,
+  } = req.body;
 
-//   if (loginDomain === "facebook") {
-//     // for app access_token of facebook
-//     // const clientId = ''
-//     // const clientSecret = ''
-//     // const response = await axios.get(`https://graph.facebook.com/oauth/access_token?client_id=${process.env.FB_CLIENT_ID}&client_secret=${process.env.FB_CLIENT_SECRET}&grant_type=client_credentials`)
+  if (loginDomain === "facebook") {
+    // for app access_token of facebook
+    const clientId = ''
+    const clientSecret = ''
+    const response = await axios.get(`https://graph.facebook.com/oauth/access_token?client_id=${process.env.FB_CLIENT_ID}&client_secret=${process.env.FB_CLIENT_SECRET}&grant_type=client_credentials`)
 
-//     // const appAccessToken = response.data.access_token
-//     const resp = await axios
-//       .get(
-//         `https://graph.facebook.com/debug_token?input_token=${access_token}
-//         &access_token=${process.env.FB_APP_ACCESS_TOKEN}`
-//       )
-//       .catch((err) => {
-//         // console.log(err.response.data, 'dcscsc')
-//         return null;
-//       });
-//     console.log(resp.data);
-//     if (!resp || resp.data.data.error || !resp.data.data.is_valid) {
-//       return res
-//         .status(401)
-//         .json({
-//           error: resp.data.data.error.message || "Invalid OAuth access token.",
-//         });
-//     }
-//     if (resp.data.data.user_id !== userID) {
-//       return res.status(401).json({ error: "Invalid userID." });
-//     }
-//   }
+    // const appAccessToken = response.data.access_token
+    const resp = await axios
+      .get(
+        `https://graph.facebook.com/debug_token?input_token=${access_token}
+        &access_token=${process.env.FB_APP_ACCESS_TOKEN}`
+      )
+      .catch((err) => {
+        // console.log(err.response.data, 'dcscsc')
+        return null;
+      });
+    console.log(resp.data);
+    if (!resp || resp.data.data.error || !resp.data.data.is_valid) {
+      return res
+        .status(401)
+        .json({
+          error: resp.data.data.error.message || "Invalid OAuth access token.",
+        });
+    }
+    if (resp.data.data.user_id !== userID) {
+      return res.status(401).json({ error: "Invalid userID." });
+    }
+  }
 
-//   if (loginDomain === "google") {
-//     // const clientId = '1071225542864-6lcs1i4re8ht257ee47lrg2jr891518o.apps.googleusercontent.com'
-//     const resp = await axios
-//       .get(`https://oauth2.googleapis.com/tokeninfo?id_token=${access_token}`)
-//       .catch((err) => {
-//         // console.log(err.response.data, 'dcscsc')
-//         return null;
-//       });
+  if (loginDomain === "google") {
+    // const clientId = '1071225542864-6lcs1i4re8ht257ee47lrg2jr891518o.apps.googleusercontent.com'
+    const resp = await axios
+      .get(`https://oauth2.googleapis.com/tokeninfo?id_token=${access_token}`)
+      .catch((err) => {
+        // console.log(err.response.data, 'dcscsc')
+        return null;
+      });
 
-//     if (
-//       !resp ||
-//       resp.data.iss !== "accounts.google.com" ||
-//       resp.data.aud !== process.env.GOOGLE_CLIENT_ID
-//     ) {
-//       return res.status(401).json({ error: "Invalid OAuth access token." });
-//     }
-//     if (resp.data.sub !== userID) {
-//       return res.status(401).json({ error: "Invalid userID" });
-//     }
-//   }
-//   let user = await User.findOne({ userID, loginDomain });
-//   if (!user) {
-//     // create a new user and login
-//     user = new User({ name, email, socialPhoto, userID, loginDomain });
-//     user = await user.save();
-//     const payload = {
-//       _id: user._id,
-//       name: user.name,
-//       email: user.email,
-//     };
-//     const accessToken = jwt.sign(payload, process.env.JWT_SIGNIN_KEY, {
-//       expiresIn: process.env.SIGNIN_EXPIRE_TIME,
-//     });
-//     let refreshToken = {
-//       refreshToken: jwt.sign(payload, process.env.REFRESH_TOKEN_KEY),
-//     };
-//     refreshToken = new RefreshToken(refreshToken);
-//     await refreshToken.save();
-//     // res.setHeader('Set-Cookie', `refreshToken=${refreshToken.refreshToken}; HttpOnly`);
-//     return res.json({ accessToken, refreshToken: refreshToken.refreshToken });
-//   }
+    if (
+      !resp ||
+      resp.data.iss !== "accounts.google.com" ||
+      resp.data.aud !== process.env.GOOGLE_CLIENT_ID
+    ) {
+      return res.status(401).json({ error: "Invalid OAuth access token." });
+    }
+    if (resp.data.sub !== userID) {
+      return res.status(401).json({ error: "Invalid userID" });
+    }
+  }
+  let user = await User.findOne({ userID, loginDomain });
+  if (!user) {
+    // create a new user and login
+    user = new User({ name, email, socialPhoto, userID, loginDomain });
+    user = await user.save();
+    const payload = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    };
+    const accessToken = jwt.sign(payload, process.env.JWT_SIGNIN_KEY, {
+      expiresIn: process.env.SIGNIN_EXPIRE_TIME,
+    });
+    let refreshToken = {
+      refreshToken: jwt.sign(payload, process.env.REFRESH_TOKEN_KEY),
+    };
+    refreshToken = new RefreshToken(refreshToken);
+    await refreshToken.save();
+    // res.setHeader('Set-Cookie', `refreshToken=${refreshToken.refreshToken}; HttpOnly`);
+    return res.json({ accessToken, refreshToken: refreshToken.refreshToken });
+  }
 
-//   if (user.isBlocked) {
-//     return res.status(401).json({
-//       error: "Your account has been blocked.",
-//     });
-//   }
-//   // update existing user with new social info and login
-//   user = _.extend(user, { name, socialPhoto, email });
-//   user = await user.save();
-//   const payload = {
-//     _id: user._id,
-//     name: user.name,
-//     email: user.email,
-//   };
-//   const accessToken = jwt.sign(payload, process.env.JWT_SIGNIN_KEY, {
-//     expiresIn: process.env.SIGNIN_EXPIRE_TIME,
-//   });
-//   let refreshToken = {
-//     refreshToken: jwt.sign(payload, process.env.REFRESH_TOKEN_KEY),
-//   };
-//   refreshToken = new RefreshToken(refreshToken);
-//   await refreshToken.save();
-//   // res.setHeader('Set-Cookie', `refreshToken=${refreshToken.refreshToken}; HttpOnly`);
-//   return res.json({ accessToken, refreshToken: refreshToken.refreshToken });
-// };
+  if (user.isBlocked) {
+    return res.status(401).json({
+      error: "Your account has been blocked.",
+    });
+  }
+  // update existing user with new social info and login
+  user = _.extend(user, { name, socialPhoto, email });
+  user = await user.save();
+  const payload = {
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+  };
+  const accessToken = jwt.sign(payload, process.env.JWT_SIGNIN_KEY, {
+    expiresIn: process.env.SIGNIN_EXPIRE_TIME,
+  });
+  let refreshToken = {
+    refreshToken: jwt.sign(payload, process.env.REFRESH_TOKEN_KEY),
+  };
+  refreshToken = new RefreshToken(refreshToken);
+  await refreshToken.save();
+  // res.setHeader('Set-Cookie', `refreshToken=${refreshToken.refreshToken}; HttpOnly`);
+  return res.json({ accessToken, refreshToken: refreshToken.refreshToken });
+};
 
-// exports.forgotPassword = async (req, res) => {
-//   if (!req.body) return res.status(400).json({ message: "No request body" });
-//   if (!req.body.email)
-//     return res.status(400).json({ message: "No Email in request body" });
+exports.forgotPassword = async (req, res) => {
+  if (!req.body) return res.status(400).json({ message: "No request body" });
+  if (!req.body.email)
+    return res.status(400).json({ message: "No Email in request body" });
 
-//   const { email } = req.body;
-//   // find the user based on email
-//   const user = await User.findOne({ email });
-//   // if err or no user
-//   if (!user)
-//     return res.status("401").json({
-//       error: "User with that email does not exist!",
-//     });
+  const { email } = req.body;
+  // find the user based on email
+  const user = await User.findOne({ email });
+  // if err or no user
+  if (!user)
+    return res.status("401").json({
+      error: "User with that email does not exist!",
+    });
 
-//   // generate a token with user id and secret
-//   const token = jwt.sign(
-//     { _id: user._id, iss: "NODEAPI" },
-//     process.env.JWT_SECRET
-//   );
+  // generate a token with user id and secret
+  const token = jwt.sign(
+    { _id: user._id, iss: "NODEAPI" },
+    process.env.JWT_SECRET
+  );
 
-//   // email data
-//   const emailData = {
-//     from: "sagarregmi2056@gmail.com",
-//     to: email,
-//     subject: "Password Reset Instructions",
+  // email data
+  const emailData = {
+    from: "sagarregmi2056@gmail.com",
+    to: email,
+    subject: "Password Reset Instructions",
 
-//     // client url baki xa hai
-//     text: `Please use the following link to reset your password: ${process.env.CLIENT_URL}/reset-password/${token}`,
-//     html: `<p>Please use the following link to reset your password:</p> <p>${process.env.CLIENT_URL}/reset-password/${token}</p>`,
-//   };
+    // client url baki xa hai
+    text: `Please use the following link to reset your password: ${process.env.CLIENT_URL}/reset-password/${token}`,
+    html: `<p>Please use the following link to reset your password:</p> <p>${process.env.CLIENT_URL}/reset-password/${token}</p>`,
+  };
 
-//   return user.updateOne({ resetPasswordLink: token }, (err, success) => {
-//     if (err) {
-//       return res.json({ message: err });
-//     } else {
-//       sendEmail(emailData);
-//       return res.status(200).json({
-//         message: `Email has been sent to ${email}. Follow the instructions to reset your password.`,
-//       });
-//     }
-//   });
-// };
+  return user.updateOne({ resetPasswordLink: token }, (err, success) => {
+    if (err) {
+      return res.json({ message: err });
+    } else {
+      sendEmail(emailData);
+      return res.status(200).json({
+        message: `Email has been sent to ${email}. Follow the instructions to reset your password.`,
+      });
+    }
+  });
+};
 
 // updated code for the above
 exports.forgotPassword = async (req, res) => {

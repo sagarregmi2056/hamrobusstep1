@@ -9,7 +9,7 @@ const {
   userrefreshToken,
 } = require("../controllers/auth-user");
 
-const { userSignupValidator, passwordResetValidator } = require("../validator");
+const { passwordResetValidator } = require("../validator");
 
 const router = express.Router();
 

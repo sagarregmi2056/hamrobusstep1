@@ -406,6 +406,39 @@ exports.nationalidController = async (req, res) => {
   }
 };
 
+exports.profilepictureController = async (req, res) => {
+  try {
+    // const ownerId = req.params.ownerId;
+    const ownerId = req.ownerauth;
+    console.log(ownerId);
+    const imageType = "profilepic"; // Assuming this is the type for PAN card
+
+    // Check if the owner exists
+    const owner = await Owner.findOne({ _id: ownerId });
+    if (!owner) {
+      return res.status(404).send("Owner not found");
+    }
+
+    const imageUrl = req.file
+      ? await uploadToCloudflare(req.file.buffer)
+      : null;
+
+    // Save the image URL to the Owner schema based on image type
+    await Owner.findByIdAndUpdate(ownerId, {
+      $push: { images: { type: imageType, url: imageUrl } },
+    });
+
+    res.json({
+      url: imageUrl,
+
+      message: `profile picture URL saved to Owner schema successfully`,
+    });
+  } catch (error) {
+    console.error("Error handling image upload:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 exports.getOwnerDocumentsController = async (req, res) => {
   try {
     // const ownerId = req.params.ownerId;
@@ -460,9 +493,6 @@ exports.getOwnerDetails = async (req, res) => {
       status: ownerDetails.status,
       panNumber: ownerDetails.panNumber,
       panName: ownerDetails.panName,
-      // for imahes and their ids
-      // images: ownerDetails.images,
-      // for images url only
       images: ownerDetails.images.map((image) => image.url),
 
       // Assuming 'status' is a property of the Owner model
@@ -525,27 +555,6 @@ exports.refreshToken = async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-// exports.refreshToken = async (req, res) => {
-//   if (req.body && req.body._id) {
-
-//     const owner = await Owner.findOne({ _id: req.body._id });
-
-//     const payload = {
-//       _id: owner.id,
-//       role: owner.role,
-//       phone: owner.phone,
-//     };
-
-//     const token = jwt.sign(
-//       payload,
-//       process.env.JWT_SECRET /*{ expiresIn: 5 }*/
-//     );
-
-//     return res.json({ token });
-//   }
-//   return res.json({ error: "Invalid content" });
-// };
 
 exports.ownersigninverify = async (req, res, next) => {
   const token = req.headers.authorization;
