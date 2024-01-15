@@ -15,6 +15,7 @@ const {
   nationalidController,
   ownersigninverify,
   profilepictureController,
+  updateProfilePictureController,
 } = require("../controllers/auth-owner");
 
 const { verifyToken } = require("../controllers/otpauth");
@@ -320,6 +321,15 @@ router.post(
   uploadprofilepic,
   imageValidator,
   profilepictureController
+);
+
+router.put(
+  "/updateprofilepic",
+  verifyToken,
+  ownersigninverify,
+  uploadprofilepic,
+  imageValidator,
+  updateProfilePictureController
 );
 
 // router.post(
