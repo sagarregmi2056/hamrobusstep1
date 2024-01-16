@@ -18,9 +18,9 @@ const { uploadprofilepic } = require("../helpers");
 const { imageValidator } = require("../validator");
 // const { uploadOwnerAvatar } = require("../helpers");
 
-router.get("/:ownerId", read);
-
 router.get("/myprofile", requireOwnerSignin, myprofile);
+
+router.get("/:ownerId", read);
 
 router.post(
   "/addprofilepic",

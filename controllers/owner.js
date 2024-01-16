@@ -4,6 +4,8 @@ const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
 const FormData = require("form-data");
+const axios = require("axios");
+
 async function uploadToCloudflare(image) {
   try {
     const apiToken = process.env.CLOUDFLARE_API_TOKEN;
@@ -116,6 +118,8 @@ exports.myprofile = async (req, res) => {
     // const ownerId = req.params.ownerId;
     const ownerId = req.ownerauth;
 
+    // console.log(ownerId);
+
     // Retrieve owner details
     const ownerDetails = await Owner.findById(ownerId);
 
@@ -143,7 +147,7 @@ exports.myprofile = async (req, res) => {
       responseData.images = profilepicImageUrls;
     } else {
       // If no profile pictures, include a default image URL
-      responseData.defaultImage =
+      responseData.images =
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvh61dMSiACmZo833XOZOUtTMZbXPGdvP35IGcBVw2aQ&s";
     }
 
@@ -187,12 +191,70 @@ exports.profilepictureController = async (req, res) => {
   }
 };
 
+// exports.updateProfilePictureController = async (req, res) => {
+//   try {
+//     // const ownerId = req.params.ownerId;
+//     const ownerId = req.ownerauth;
+//     console.log(ownerId);
+//     const imageType = "profilepic"; // Assuming this is the type for profile picture
+
+//     // Check if the owner exists
+//     const owner = await Owner.findOne({ _id: ownerId });
+//     if (!owner) {
+//       return res.status(404).send("Owner not found");
+//     }
+
+//     const imageUrl = req.file
+//       ? await uploadToCloudflare(req.file.buffer)
+//       : null;
+
+//     // Find and update the existing profile picture URL
+//     const existingProfilePicture = owner.images.find(
+//       (image) => image.type === imageType
+//     );
+
+//     if (existingProfilePicture) {
+//       // Save the new image URL and remove the previous one
+//       await Owner.findOneAndUpdate(
+//         { _id: ownerId, "images.type": imageType },
+//         {
+//           $set: {
+//             "images.$.url": imageUrl,
+//           },
+//           $pull: {
+//             images: { type: imageType, url: { $ne: imageUrl } },
+//           },
+//         }
+//       );
+
+//       // You may want to uncomment and implement the removeImageFromStorage function here
+//       // await removeImageFromStorage(existingProfilePicture.url);
+
+//       res.json({
+//         url: imageUrl,
+//         message: "Profile picture updated successfully",
+//       });
+//     } else {
+//       // If no existing profile picture, simply add the new one
+//       await Owner.findByIdAndUpdate(ownerId, {
+//         $push: { images: { type: imageType, url: imageUrl } },
+//       });
+
+//       res.json({
+//         url: imageUrl,
+//         message: "Profile picture saved to Owner schema successfully",
+//       });
+//     }
+//   } catch (error) {
+//     console.error("Error handling image upload:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
 exports.updateProfilePictureController = async (req, res) => {
   try {
-    // const ownerId = req.params.ownerId;
     const ownerId = req.ownerauth;
-    console.log(ownerId);
-    const imageType = "profilepic"; // Assuming this is the type for profile picture
+    const imageType = "profilepic";
 
     // Check if the owner exists
     const owner = await Owner.findOne({ _id: ownerId });
@@ -204,24 +266,17 @@ exports.updateProfilePictureController = async (req, res) => {
       ? await uploadToCloudflare(req.file.buffer)
       : null;
 
-    // Find and update the existing profile picture URL
-    const existingProfilePicture = owner.images.find(
+    // Find the index of the existing profile picture URL
+    const existingIndex = owner.images.findIndex(
       (image) => image.type === imageType
     );
 
-    if (existingProfilePicture) {
-      // Save the new image URL and remove the previous one
-      await Owner.findOneAndUpdate(
-        { _id: ownerId, "images.type": imageType },
-        {
-          $set: {
-            "images.$.url": imageUrl,
-          },
-          $pull: {
-            images: { type: imageType, url: { $ne: imageUrl } },
-          },
-        }
-      );
+    if (existingIndex !== -1) {
+      // Update the image URL at the specified index
+      owner.images[existingIndex].url = imageUrl;
+
+      // Save the updated owner document
+      await owner.save();
 
       // You may want to uncomment and implement the removeImageFromStorage function here
       // await removeImageFromStorage(existingProfilePicture.url);
@@ -232,9 +287,8 @@ exports.updateProfilePictureController = async (req, res) => {
       });
     } else {
       // If no existing profile picture, simply add the new one
-      await Owner.findByIdAndUpdate(ownerId, {
-        $push: { images: { type: imageType, url: imageUrl } },
-      });
+      owner.images.push({ type: imageType, url: imageUrl });
+      await owner.save();
 
       res.json({
         url: imageUrl,

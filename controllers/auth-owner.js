@@ -481,6 +481,7 @@ exports.requireOwnerSignin = async (req, res, next) => {
 
     if (foundowner && foundowner.role === "owner") {
       req.ownerauth = foundowner;
+      // console.log(foundowner);
       next();
     } else res.status(401).json({ error: "Not authorized!" });
   } else {
