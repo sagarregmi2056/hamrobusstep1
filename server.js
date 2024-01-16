@@ -70,7 +70,7 @@ app.use("/api/bus", require("./routes/bus"));
 app.use("/api/guests", require("./routes/guest"));
 app.use("/api/locations", require("./routes/location"));
 app.use("/api/owners", require("./routes/owner"));
-app.use("/api/travels", require("./routes/travel"));
+
 app.use("/api/users", require("./routes/user"));
 app.use("/api/admin", require("./routes/admin"));
 app.use("/api/otpauth", require("./routes/otpauth"));
@@ -91,6 +91,7 @@ async function startServer() {
     console.log("GraphQL server is ready at /graphql");
   });
 }
+
 app.use(function (err, req, res, next) {
   return res.status(500).json({
     error: errorHandler(err) || "Something went wrong! ****SERVER_ERROR****",

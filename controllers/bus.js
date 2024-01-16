@@ -3,12 +3,6 @@ const _ = require("lodash");
 const Owner = require("../models/Owner");
 const FormData = require("form-data");
 const axios = require("axios");
-const User = require("../models/User"); // Adjust the path based on your project structure
-
-// for image optimzation
-const sharp = require("sharp");
-const path = require("path");
-const fs = require("fs");
 
 const { checkDateAvailability } = require("../helpers");
 const { busSubmitValidation } = require("../validator");
@@ -36,7 +30,7 @@ exports.getBuses = async (req, res) => {
     .populate("owner", "name")
 
     //   this populates the "travel" field of each bus object with only the "name" field from the related travel object
-    .populate("travel", "name")
+
     //   orts the list of buses based on the "created" timestamp in descending order kina ki recently added dekhauda ramro
     .sort({ created: -1 });
 
@@ -49,7 +43,7 @@ exports.getAllAvailableBuses = async (req, res) => {
   const buses = await Bus.find({ isAvailable: true })
     // owner schema ko name ra phone travel ko name ra phone sangha join query jastai
     .populate("owner", "name phone")
-    .populate("travel", "name")
+
     .sort({ created: -1 });
 
   res.json(buses);
@@ -59,7 +53,7 @@ exports.getAllAvailableBuses = async (req, res) => {
 exports.getAllUnavailableBuses = async (req, res) => {
   const buses = await Bus.find({ isAvailable: false })
     .populate("owner", "name phone")
-    .populate("travel", "name")
+
     .sort({ created: -1 });
 
   res.json(buses);
@@ -70,7 +64,7 @@ exports.getAllUnavailableBuses = async (req, res) => {
 exports.getAvailableBusesOfOwner = async (req, res) => {
   const buses = await Bus.find({ owner: req.ownerauth, isAvailable: true })
     .populate("owner", "name")
-    .populate("travel", "name")
+
     .sort({ created: -1 });
 
   res.json(buses);
@@ -79,7 +73,7 @@ exports.getAvailableBusesOfOwner = async (req, res) => {
 exports.getUnavailableBusesOfOwner = async (req, res) => {
   const buses = await Bus.find({ owner: req.ownerauth, isAvailable: false })
     .populate("owner", "name")
-    .populate("travel", "name")
+
     .sort({ created: -1 });
 
   res.json(buses);

@@ -1,7 +1,5 @@
 const express = require("express");
-// const multer = require("multer");
-// const Owner = require("../models/Owner");
-// const app = express();
+
 const {
   refreshToken,
   stepone,
@@ -14,8 +12,6 @@ const {
   citizenshipController,
   nationalidController,
   ownersigninverify,
-  profilepictureController,
-  updateProfilePictureController,
 } = require("../controllers/auth-owner");
 
 const { verifyToken } = require("../controllers/otpauth");
@@ -23,7 +19,6 @@ const {
   uploaddriverlisence,
   uploadCitizenshipimages,
   uploadnationalID,
-  uploadprofilepic,
 } = require("../helpers");
 const { uploadpancard } = require("../helpers");
 const { imageValidator } = require("../validator");
@@ -312,24 +307,6 @@ router.post(
   uploaddriverlisence,
   imageValidator,
   uploaddriverlisencecontroller
-);
-
-router.post(
-  "/addprofilepic",
-  verifyToken,
-  ownersigninverify,
-  uploadprofilepic,
-  imageValidator,
-  profilepictureController
-);
-
-router.put(
-  "/updateprofilepic",
-  verifyToken,
-  ownersigninverify,
-  uploadprofilepic,
-  imageValidator,
-  updateProfilePictureController
 );
 
 // router.post(

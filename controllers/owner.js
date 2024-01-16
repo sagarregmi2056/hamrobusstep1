@@ -3,6 +3,47 @@ const _ = require("lodash");
 const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
+const FormData = require("form-data");
+async function uploadToCloudflare(image) {
+  try {
+    const apiToken = process.env.CLOUDFLARE_API_TOKEN;
+
+    // Construct form data using the form-data library
+    const formData = new FormData();
+    formData.append("file", image, { filename: "file.jpg" });
+
+    // Make the API request
+    const response = await axios.post(
+      "https://api.cloudflare.com/client/v4/accounts/f6cbe271191b3ad841b63ec6b129869d/images/v1",
+      formData,
+      {
+        headers: {
+          ...formData.getHeaders(),
+          Authorization: `Bearer ${apiToken}`,
+        },
+      }
+    );
+
+    if (
+      response.data.result &&
+      response.data.result.variants &&
+      response.data.result.variants.length > 0
+    ) {
+      // Extract the URL from the variants array
+      const imageUrl = response.data.result.variants[0];
+
+      return imageUrl;
+    } else {
+      throw new Error("Unexpected response format from Cloudflare API");
+    }
+  } catch (error) {
+    console.error(
+      "Error handling image upload:",
+      error.response ? error.response.data : error.message
+    );
+    throw error;
+  }
+}
 
 exports.getAllOwners = async (req, res) => {
   const owners = await Owner.find()
@@ -110,5 +151,98 @@ exports.myprofile = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error retrieving owner details" });
+  }
+};
+
+exports.profilepictureController = async (req, res) => {
+  try {
+    // const ownerId = req.params.ownerId;
+    const ownerId = req.ownerauth;
+    console.log(ownerId);
+    const imageType = "profilepic"; // Assuming this is the type for PAN card
+
+    // Check if the owner exists
+    const owner = await Owner.findOne({ _id: ownerId });
+    if (!owner) {
+      return res.status(404).send("Owner not found");
+    }
+
+    const imageUrl = req.file
+      ? await uploadToCloudflare(req.file.buffer)
+      : null;
+
+    // Save the image URL to the Owner schema based on image type
+    await Owner.findByIdAndUpdate(ownerId, {
+      $push: { images: { type: imageType, url: imageUrl } },
+    });
+
+    res.json({
+      url: imageUrl,
+
+      message: `profile picture URL saved to Owner schema successfully`,
+    });
+  } catch (error) {
+    console.error("Error handling image upload:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.updateProfilePictureController = async (req, res) => {
+  try {
+    // const ownerId = req.params.ownerId;
+    const ownerId = req.ownerauth;
+    console.log(ownerId);
+    const imageType = "profilepic"; // Assuming this is the type for profile picture
+
+    // Check if the owner exists
+    const owner = await Owner.findOne({ _id: ownerId });
+    if (!owner) {
+      return res.status(404).send("Owner not found");
+    }
+
+    const imageUrl = req.file
+      ? await uploadToCloudflare(req.file.buffer)
+      : null;
+
+    // Find and update the existing profile picture URL
+    const existingProfilePicture = owner.images.find(
+      (image) => image.type === imageType
+    );
+
+    if (existingProfilePicture) {
+      // Save the new image URL and remove the previous one
+      await Owner.findOneAndUpdate(
+        { _id: ownerId, "images.type": imageType },
+        {
+          $set: {
+            "images.$.url": imageUrl,
+          },
+          $pull: {
+            images: { type: imageType, url: { $ne: imageUrl } },
+          },
+        }
+      );
+
+      // You may want to uncomment and implement the removeImageFromStorage function here
+      // await removeImageFromStorage(existingProfilePicture.url);
+
+      res.json({
+        url: imageUrl,
+        message: "Profile picture updated successfully",
+      });
+    } else {
+      // If no existing profile picture, simply add the new one
+      await Owner.findByIdAndUpdate(ownerId, {
+        $push: { images: { type: imageType, url: imageUrl } },
+      });
+
+      res.json({
+        url: imageUrl,
+        message: "Profile picture saved to Owner schema successfully",
+      });
+    }
+  } catch (error) {
+    console.error("Error handling image upload:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
