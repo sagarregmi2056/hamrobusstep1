@@ -20,7 +20,7 @@ const busSchema = new mongoose.Schema(
     acType: {
       type: String,
       enum: ["AC", "Non-AC"],
-      default: "Non-Ac",
+      default: "Non-AC",
     },
     toiletType: {
       type: String,
@@ -35,7 +35,7 @@ const busSchema = new mongoose.Schema(
     wifi: {
       type: String,
       enum: ["Yes", "No"],
-      default: "Not Applicable",
+      default: "No",
     },
     busNumber: {
       type: String,

@@ -28,9 +28,7 @@ exports.stepthreeValidation = Joi.object({
 
 exports.busSubmitValidation = Joi.object({
   name: Joi.string().required(),
-  type: Joi.string()
-    .valid("AC-SLEEPER", "NONAC-SLEEPER", "AC-SEATER", "NONAC-SEATER")
-    .default("NORMAL"),
+  type: Joi.string(),
   busNumber: Joi.string().required(),
   fare: Joi.number().required(),
   features: Joi.array().items(Joi.string()),
@@ -44,6 +42,10 @@ exports.busSubmitValidation = Joi.object({
   journeyDate: Joi.string().isoDate().required(),
   boardingPoints: Joi.array().items(Joi.string()),
   droppingPoints: Joi.array().items(Joi.string()),
+  acType: Joi.string().valid("AC", "Non-AC").default("Non-AC"),
+  toiletType: Joi.string().valid("Yes", "No").default("No"),
+  tvType: Joi.string().valid("Yes", "No").default("No"),
+  wifi: Joi.string().valid("Yes", "No").default("No"),
 }).options({ allowUnknown: true });
 
 exports.imageValidator = (req, res, next) => {
