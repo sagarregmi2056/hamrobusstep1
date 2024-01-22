@@ -75,6 +75,40 @@ exports.read = (req, res) => {
   return res.json(req.ownerprofile);
 };
 
+exports.updateOwnerDetails = async (req, res) => {
+  try {
+    const ownerId = req.ownerauth;
+    const ownerDetails = req.body; // Assuming the updated details are sent in the request body
+
+    // Check if the owner exists
+    const owner = await Owner.findById(ownerId);
+    if (!owner) {
+      return res.status(404).send("Owner not found");
+    }
+
+    // Update owner details
+    owner.travelName = ownerDetails.travelName || owner.travelName;
+    owner.phone = ownerDetails.phone || owner.phone;
+    owner.email = ownerDetails.email || owner.email;
+
+    // Save the updated owner document
+    await owner.save();
+
+    res.json({
+      message: "Owner details updated successfully",
+      updatedOwner: {
+        travelName: owner.travelName,
+        phone: owner.phone,
+        email: owner.email,
+        name: owner.name,
+      },
+    });
+  } catch (error) {
+    console.error("Error updating owner details:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 exports.update = async (req, res) => {
   let formbody = {};
 

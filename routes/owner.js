@@ -7,6 +7,7 @@ const {
   myprofile,
   profilepictureController,
   updateProfilePictureController,
+  updateOwnerDetails,
 } = require("../controllers/owner");
 const {
   requireOwnerSignin,
@@ -19,8 +20,12 @@ const { imageValidator } = require("../validator");
 // const { uploadOwnerAvatar } = require("../helpers");
 
 router.get("/myprofile", requireOwnerSignin, myprofile);
-
-router.get("/:ownerId", read);
+router.put(
+  "/updateuserdetails",
+  verifyToken,
+  ownersigninverify,
+  updateOwnerDetails
+);
 
 router.post(
   "/addprofilepic",
@@ -41,6 +46,7 @@ router.put(
 );
 
 router.put("/:ownerId", requireOwnerSignin, isAuth, update);
+router.get("/:ownerId", read);
 
 router.param("ownerId", ownerById);
 

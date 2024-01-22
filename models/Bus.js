@@ -17,10 +17,25 @@ const busSchema = new mongoose.Schema(
       required: true,
       maxlength: 32,
     },
-    type: {
+    acType: {
       type: String,
-      enum: ["AC-SLEEPER", "NONAC-SLEEPER", "AC-SEATER", "NONAC-SEATER"],
-      default: "NORMAL",
+      enum: ["AC", "Non-AC"],
+      default: "Non-Ac",
+    },
+    toiletType: {
+      type: String,
+      enum: ["Yes", "No"],
+      default: "No",
+    },
+    tvType: {
+      type: String,
+      enum: ["Yes", "No"],
+      default: "No",
+    },
+    wifi: {
+      type: String,
+      enum: ["Yes", "No"],
+      default: "Not Applicable",
     },
     busNumber: {
       type: String,
