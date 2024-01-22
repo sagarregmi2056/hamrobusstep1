@@ -559,9 +559,11 @@ exports.requireownerkycverify = async (req, res, next) => {
 
       if (
         foundOwner &&
-        foundOwner.role === "owner" &&
-        foundOwner.status === "approved" &&
-        foundOwner.vendorDetail === "success"
+        foundOwner.role === "owner"
+
+        // &&
+        // foundOwner.status === "approved" &&
+        // foundOwner.vendorDetail === "success"
       ) {
         req.ownerauth = foundOwner;
         next();

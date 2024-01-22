@@ -342,6 +342,76 @@ async function uploadToCloudflare(image) {
 //   res.json(bus);
 // };
 
+exports.BusInformation = async (req, res) => {
+  try {
+    const {
+      name,
+      busNumber,
+      busType,
+      numberOfSeats,
+      acType,
+      wifi,
+      toiletType,
+      tvType,
+      insuranceName,
+      travelInsurance,
+      insuranceIssueDate,
+      insuranceExpiryDate,
+      roadTaxIssueDate,
+      roadTaxExpiryDate,
+    } = req.body;
+
+    // Validate the request body (you can add more validation if needed)
+    if (
+      !name ||
+      !busNumber ||
+      !busType ||
+      !numberOfSeats ||
+      !acType ||
+      !wifi ||
+      !toiletType ||
+      !tvType
+    ) {
+      return res.status(400).json({ error: "Required fields are missing" });
+    }
+
+    // Check if bus with the same number already exists
+    const busExists = await Bus.findOne({ busNumber });
+    if (busExists) {
+      return res.status(403).json({
+        error: "Bus is already added!",
+      });
+    }
+
+    // Create a new bus instance with the provided data
+    const newBus = new Bus({
+      name,
+      busNumber,
+      busType,
+      numberOfSeats,
+      acType,
+      wifi,
+      toiletType,
+      tvType,
+      insuranceName,
+      travelInsurance,
+      insuranceIssueDate,
+      insuranceExpiryDate,
+      roadTaxIssueDate,
+      roadTaxExpiryDate,
+      owner: req.ownerauth._id,
+    });
+
+    // Save the new bus to the database
+    const savedBus = await newBus.save();
+
+    res.status(201).json(savedBus);
+  } catch (error) {
+    console.error("Error creating bus:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 // final create function after breakdown
 exports.create = async (req, res) => {
   try {

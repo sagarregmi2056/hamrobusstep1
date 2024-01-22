@@ -23,6 +23,7 @@ const {
   uploadinsideBusImagecontroller,
   getbusdroppingAndboarding,
   searchbusbyfare,
+  BusInformation,
 } = require("../controllers/bus");
 
 const { uploadBusImage, uploadinsideBusImage } = require("../helpers");
@@ -217,6 +218,7 @@ const { imageValidator } = require("../validator");
  *               error: 'Internal Server Error'
  */
 
+router.post("/businformation", requireownerkycverify, BusInformation);
 router.route("/").get(getBuses).post(requireownerkycverify, create);
 
 /**

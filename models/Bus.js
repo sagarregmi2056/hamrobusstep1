@@ -15,8 +15,12 @@ const busSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: true,
-      maxlength: 32,
     },
+    busType: {
+      type: String,
+      trim: true,
+    },
+
     acType: {
       type: String,
       enum: ["AC", "Non-AC"],
@@ -46,7 +50,7 @@ const busSchema = new mongoose.Schema(
     fare: {
       type: Number,
       trim: true,
-      required: true,
+
       maxlength: 32,
     },
     features: {
@@ -87,6 +91,38 @@ const busSchema = new mongoose.Schema(
     isAvailable: {
       type: Boolean,
       default: false,
+    },
+
+    // insurance details
+
+    insuranceName: {
+      type: String,
+      trim: true,
+    },
+    travelInsurance: {
+      type: String,
+      trim: true,
+    },
+
+    insuranceIssueDate: {
+      type: String,
+      trim: true,
+    },
+    insuranceExpiryDate: {
+      type: String,
+      trim: true,
+    },
+
+    // road tax details
+
+    roadTaxIssueDate: {
+      type: String,
+      trim: true,
+    },
+
+    roadTaxExpiryDate: {
+      type: String,
+      trim: true,
     },
 
     startLocation: { type: ObjectId, ref: "Location" },
