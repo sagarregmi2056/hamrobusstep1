@@ -24,6 +24,7 @@ const {
   getbusdroppingAndboarding,
   searchbusbyfare,
   BusInformation,
+  AddRoutes,
 } = require("../controllers/bus");
 
 const { uploadBusImage, uploadinsideBusImage } = require("../helpers");
@@ -219,6 +220,9 @@ const { imageValidator } = require("../validator");
  */
 
 router.post("/businformation", requireownerkycverify, BusInformation);
+
+router.post("/addroutes/:id", requireownerkycverify, AddRoutes);
+
 router.route("/").get(getBuses).post(requireownerkycverify, create);
 
 /**

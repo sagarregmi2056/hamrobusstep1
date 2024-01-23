@@ -405,9 +405,50 @@ exports.BusInformation = async (req, res) => {
     // Save the new bus to the database
     const savedBus = await newBus.save();
 
-    res.status(201).json(savedBus);
+    const responseData = {
+      busId: savedBus._id,
+      name: savedBus.name,
+      slug: savedBus.slug,
+    };
+
+    res.status(201).json(responseData);
   } catch (error) {
     console.error("Error creating bus:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.AddRoutes = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { startLocationId, endLocationId } = req.body;
+
+    // Validate the request body (you can add more validation if needed)
+    if (!id || !startLocationId || !endLocationId) {
+      return res.status(400).json({ error: "Required fields are missing" });
+    }
+
+    // Find the existing Bus document by ID
+    const existingBus = await Bus.findById(id);
+    if (!existingBus) {
+      return res.status(404).json({
+        error: "Bus not found!",
+      });
+    }
+
+    // Update the existing Bus document with the new start and end locations
+    existingBus.startLocation = startLocationId;
+    existingBus.endLocation = endLocationId;
+
+    // Save the updated bus to the database
+    const savedBus = await existingBus.save();
+
+    res.status(201).json({
+      busId: savedBus._id,
+      message: "Bus with start and end locations updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating start and end locations of bus:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
