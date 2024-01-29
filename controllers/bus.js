@@ -456,7 +456,7 @@ exports.AddRoutes = async (req, res) => {
 exports.addBoardingPoint = async (req, res) => {
   const { id } = req.params;
 
-  console.log(id);
+  // console.log(id);
 
   const { boardingPoints } = req.body;
 
@@ -466,12 +466,24 @@ exports.addBoardingPoint = async (req, res) => {
     if (!bus) {
       return res.status(404).json({ error: "Bus not found" });
     }
-    // console.log("Boarding Points:", bus.boardingPoints);
-    console.log("Boarding Points:", bus.toObject().boardingPoints);
-    bus.boardingPoints.push(boardingPoints);
+
+    // Check if boardingPoints is an array or a single string
+    if (Array.isArray(boardingPoints)) {
+      // Concatenate array of boardingPoints
+      bus.boardingPoints = bus.boardingPoints.concat(boardingPoints);
+    } else if (typeof boardingPoints === "string") {
+      // Add single boardingPoint
+      bus.boardingPoints.push(boardingPoints);
+    } else {
+      // Invalid format
+      return res.status(400).json({ error: "Invalid boardingPoints format" });
+    }
+
     await bus.save();
 
-    res.status(201).json({ message: "Boarding point added successfully", bus });
+    res
+      .status(201)
+      .json({ message: "Boarding point(s) added successfully", bus });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -479,19 +491,34 @@ exports.addBoardingPoint = async (req, res) => {
 };
 
 exports.addDroppingPoint = async (req, res) => {
-  const { busId, droppingPoint } = req.body;
+  const { id } = req.params;
+
+  const { droppingPoints } = req.body;
 
   try {
-    const bus = await Bus.findById(busId);
+    const bus = await Bus.findById(id);
 
     if (!bus) {
       return res.status(404).json({ error: "Bus not found" });
     }
 
-    bus.droppingPoints.push(droppingPoint);
+    // Check if droppingPoints is an array or a single string
+    if (Array.isArray(droppingPoints)) {
+      // Concatenate array of droppingPoints
+      bus.droppingPoints = bus.droppingPoints.concat(droppingPoints);
+    } else if (typeof droppingPoints === "string") {
+      // Add single droppingPoint
+      bus.droppingPoints.push(droppingPoints);
+    } else {
+      // Invalid format
+      return res.status(400).json({ error: "Invalid droppingPoints format" });
+    }
+
     await bus.save();
 
-    res.status(201).json({ message: "Dropping point added successfully", bus });
+    res
+      .status(201)
+      .json({ message: "Dropping point(s) added successfully", bus });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
