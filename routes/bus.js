@@ -27,6 +27,8 @@ const {
   AddRoutes,
   addBoardingPoint,
   addDroppingPoint,
+  getbusBoardingPoints,
+  getbusdroppingpoints,
 } = require("../controllers/bus");
 
 const { uploadBusImage, uploadinsideBusImage } = require("../helpers");
@@ -228,6 +230,24 @@ router.post("/addroutes/:id", requireownerkycverify, AddRoutes);
 router.post("/addboardingpoints/:id", requireownerkycverify, addBoardingPoint);
 
 router.post("/adddroppingpoints/:id", requireownerkycverify, addDroppingPoint);
+
+router.get(
+  "/getdroppingboarding/:id",
+  requireownerkycverify,
+  getbusdroppingAndboarding
+);
+
+router.get(
+  "/getboardingpoints/:id",
+  requireownerkycverify,
+  getbusBoardingPoints
+);
+
+router.get(
+  "/getdroppingpoints/:id",
+  requireownerkycverify,
+  getbusdroppingpoints
+);
 
 router.route("/").get(getBuses).post(requireownerkycverify, create);
 
@@ -841,7 +861,6 @@ router
   .get(read)
   .put(requireownerkycverify, isPoster, update)
   .delete(requireownerkycverify, isPoster, remove);
-router.get("/getbusdroppingboarding/:id", getbusdroppingAndboarding);
 
 router.param("busSlug", busBySlug);
 
