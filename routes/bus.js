@@ -313,14 +313,15 @@ router.route("/").get(getBuses).post(requireownerkycverify, create);
  */
 
 router.post(
-  "/uploadbusimage",
+  "/uploadbusimage/:id",
   requireownerkycverify,
   uploadBusImage,
-  imageValidator,
   uploadBusImageController
 );
 
+// not necessary
 router.post(
+  "/uploadbusinside",
   requireownerkycverify,
   uploadinsideBusImage,
   imageValidator,

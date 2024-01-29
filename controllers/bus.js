@@ -706,38 +706,7 @@ exports.updateBoardingPoints = async (req, res) => {
   }
 };
 
-// exports.uploadBusImageController = async (req, res) => {
-//   try {
-//     const ownerId = req.ownerauth._id; // Assuming the owner ID is in req.ownerauth
-//     console.log(ownerId);
-//     const imageType = "busimage";
-//     // Check if the owner exists
-//     const owner = await Owner.findById(ownerId);
-//     if (!owner) {
-//       return res.status(404).send("Owner not found");
-//     }
-
-//     const imageUrl = req.file
-//       ? await uploadToCloudflare(req.file.buffer)
-//       : null;
-
-//     // Save the image URL to the Bus schema
-//     const bus = new Bus({
-//       owner: ownerId,
-//       images: [{ type: imageType, url: imageUrl }],
-//     });
-
-//     await bus.save();
-
-//     res.json({
-//       url: imageUrl,
-//       message: `Bus image URL saved to Bus schema successfully`,
-//     });
-//   } catch (error) {
-//     console.error("Error handling image upload:", error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
+// ****************************************** for a single upload ********************************************************
 
 // exports.uploadBusImageController = async (req, res) => {
 //   try {
@@ -766,6 +735,7 @@ exports.updateBoardingPoints = async (req, res) => {
 //     await existingBus.save();
 
 //     res.json({
+//       busId: existingBus._id, // Include bus ID in the response
 //       url: imageUrl,
 //       message: `Bus image URL saved to Bus schema successfully`,
 //     });
@@ -775,36 +745,93 @@ exports.updateBoardingPoints = async (req, res) => {
 //   }
 // };
 
+// ****************************************** for a multiple upload *************************************************************************
+
+// exports.uploadBusImageController = async (req, res) => {
+//   try {
+//     const ownerId = req.ownerauth._id;
+//     const imageType = "busimage";
+
+//     // Check if the owner exists
+//     const owner = await Owner.findById(ownerId);
+//     if (!owner) {
+//       return res.status(404).send("Owner not found");
+//     }
+
+//     const uploadedImages = req.files; // Change req.file to req.files
+
+//     if (!uploadedImages || uploadedImages.length === 0) {
+//       return res.status(400).send("No bus images uploaded");
+//     }
+
+//     // Process each uploaded image
+//     const imageUrls = await Promise.all(
+//       uploadedImages.map(async (image) => {
+//         return image ? await uploadToCloudflare(image.buffer) : null;
+//       })
+//     );
+
+//     // Find the existing Bus document by owner ID
+//     const existingBus = await Bus.findOne({ owner: ownerId });
+
+//     if (!existingBus) {
+//       return res.status(404).send("Bus not found for the owner");
+//     }
+
+//     // Update the existing Bus document with the new images
+//     existingBus.images = existingBus.images.concat(
+//       imageUrls.map((url) => ({ type: imageType, url }))
+//     );
+
+//     await existingBus.save();
+
+//     res.json({
+//       busId: existingBus._id, // Include bus ID in the response
+//       urls: imageUrls,
+//       message: `Bus images URL saved to Bus schema successfully`,
+//     });
+//   } catch (error) {
+//     console.error("Error handling image upload:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
 exports.uploadBusImageController = async (req, res) => {
   try {
-    const ownerId = req.ownerauth._id;
+    const busId = req.params.id; // Assuming the busId is passed as a parameter in the URL
     const imageType = "busimage";
 
-    // Check if the owner exists
-    const owner = await Owner.findById(ownerId);
-    if (!owner) {
-      return res.status(404).send("Owner not found");
-    }
-
-    const imageUrl = req.file
-      ? await uploadToCloudflare(req.file.buffer)
-      : null;
-
-    // Find the existing Bus document by owner ID
-    const existingBus = await Bus.findOne({ owner: ownerId });
+    // Check if the bus exists
+    const existingBus = await Bus.findById(busId);
 
     if (!existingBus) {
-      return res.status(404).send("Bus not found for the owner");
+      return res.status(404).send("Bus not found");
     }
 
-    // Update the existing Bus document with the new image
-    existingBus.images.push({ type: imageType, url: imageUrl });
+    const uploadedImages = req.files;
+
+    if (!uploadedImages || uploadedImages.length === 0) {
+      return res.status(400).send("No bus images uploaded");
+    }
+
+    // Process each uploaded image
+    const imageUrls = await Promise.all(
+      uploadedImages.map(async (image) => {
+        return image ? await uploadToCloudflare(image.buffer) : null;
+      })
+    );
+
+    // Update the existing Bus document with the new images
+    existingBus.images = existingBus.images.concat(
+      imageUrls.map((url) => ({ type: imageType, url }))
+    );
+
     await existingBus.save();
 
     res.json({
-      busId: existingBus._id, // Include bus ID in the response
-      url: imageUrl,
-      message: `Bus image URL saved to Bus schema successfully`,
+      busId: existingBus._id,
+      urls: imageUrls,
+      message: `Bus images URL saved to Bus schema successfully`,
     });
   } catch (error) {
     console.error("Error handling image upload:", error);

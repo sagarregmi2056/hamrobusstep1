@@ -34,3 +34,6 @@
 ::1 - - [29/Jan/2024:08:09:03 +0000] "PUT /api/bus/updateboardingpoints/65af5decd154e5e09ce2f62c HTTP/1.1" 200 937 "-" "PostmanRuntime/7.36.1"
 ::1 - - [29/Jan/2024:08:10:12 +0000] "PUT /api/bus/updatedroppingpoints/65af5decd154e5e09ce2f62c HTTP/1.1" 200 907 "-" "PostmanRuntime/7.36.1"
 ::1 - - [29/Jan/2024:08:31:37 +0000] "PUT /api/bus/updatedroppingpoints/65af5decd154e5e09ce2f62c HTTP/1.1" 200 907 "-" "PostmanRuntime/7.36.1"
+::1 - - [29/Jan/2024:10:36:36 +0000] "POST /api/bus/uploadbusimage/65af5decd154e5e09ce2f62c HTTP/1.1" 500 54 "-" "PostmanRuntime/7.36.1"
+::1 - - [29/Jan/2024:10:38:21 +0000] "POST /api/bus/uploadbusimage/65af5decd154e5e09ce2f62c HTTP/1.1" 200 295 "-" "PostmanRuntime/7.36.1"
+::1 - - [29/Jan/2024:10:47:28 +0000] "POST /api/bus/uploadbusimage/65af5decd154e5e09ce2f62c HTTP/1.1" 200 675 "-" "PostmanRuntime/7.36.1"

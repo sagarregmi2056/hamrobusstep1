@@ -39,8 +39,9 @@ exports.uploadnationalID = multer({ storage: storagee, fileFilter }).single(
   1
 );
 
-exports.uploadBusImage = multer({ storage: storagee, fileFilter }).single(
-  "busimage"
+exports.uploadBusImage = multer({ storage: storagee, fileFilter }).array(
+  "busimage",
+  7
 );
 
 exports.uploadinsideBusImage = multer({ storage: storagee, fileFilter }).single(
