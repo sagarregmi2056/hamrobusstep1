@@ -453,6 +453,51 @@ exports.AddRoutes = async (req, res) => {
   }
 };
 
+exports.addBoardingPoint = async (req, res) => {
+  const { id } = req.params;
+
+  console.log(id);
+
+  const { boardingPoints } = req.body;
+
+  try {
+    const bus = await Bus.findById(id);
+
+    if (!bus) {
+      return res.status(404).json({ error: "Bus not found" });
+    }
+    // console.log("Boarding Points:", bus.boardingPoints);
+    console.log("Boarding Points:", bus.toObject().boardingPoints);
+    bus.boardingPoints.push(boardingPoints);
+    await bus.save();
+
+    res.status(201).json({ message: "Boarding point added successfully", bus });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.addDroppingPoint = async (req, res) => {
+  const { busId, droppingPoint } = req.body;
+
+  try {
+    const bus = await Bus.findById(busId);
+
+    if (!bus) {
+      return res.status(404).json({ error: "Bus not found" });
+    }
+
+    bus.droppingPoints.push(droppingPoint);
+    await bus.save();
+
+    res.status(201).json({ message: "Dropping point added successfully", bus });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 // final create function after breakdown
 exports.create = async (req, res) => {
   try {
