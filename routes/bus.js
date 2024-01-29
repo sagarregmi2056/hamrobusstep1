@@ -29,6 +29,8 @@ const {
   addDroppingPoint,
   getbusBoardingPoints,
   getbusdroppingpoints,
+  updateBoardingPoints,
+  updateDroppingPoints,
 } = require("../controllers/bus");
 
 const { uploadBusImage, uploadinsideBusImage } = require("../helpers");
@@ -247,6 +249,18 @@ router.get(
   "/getdroppingpoints/:id",
   requireownerkycverify,
   getbusdroppingpoints
+);
+
+router.put(
+  "/updateboardingpoints/:id",
+  requireownerkycverify,
+  updateBoardingPoints
+);
+
+router.put(
+  "/updatedroppingpoints/:id",
+  requireownerkycverify,
+  updateDroppingPoints
 );
 
 router.route("/").get(getBuses).post(requireownerkycverify, create);

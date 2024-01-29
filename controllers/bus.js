@@ -642,6 +642,70 @@ exports.getbusdroppingpoints = async (req, res) => {
   }
 };
 
+exports.updateDroppingPoints = async (req, res) => {
+  const { id } = req.params;
+  const { droppingPoints } = req.body;
+
+  try {
+    const bus = await Bus.findById(id);
+
+    if (!bus) {
+      return res.status(404).json({ error: "Bus not found" });
+    }
+
+    // Check if droppingPoints is an array or a single string
+    if (Array.isArray(droppingPoints)) {
+      bus.droppingPoints = droppingPoints;
+    } else if (typeof droppingPoints === "string") {
+      bus.droppingPoints = [droppingPoints];
+    } else {
+      // Invalid format
+      return res.status(400).json({ error: "Invalid droppingPoints format" });
+    }
+
+    await bus.save();
+
+    res
+      .status(200)
+      .json({ message: "Dropping points updated successfully", bus });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.updateBoardingPoints = async (req, res) => {
+  const { id } = req.params;
+  const { boardingPoints } = req.body;
+
+  try {
+    const bus = await Bus.findById(id);
+
+    if (!bus) {
+      return res.status(404).json({ error: "Bus not found" });
+    }
+
+    // Check if boardingPoints is an array or a single string
+    if (Array.isArray(boardingPoints)) {
+      bus.boardingPoints = boardingPoints;
+    } else if (typeof boardingPoints === "string") {
+      bus.boardingPoints = [boardingPoints];
+    } else {
+      // Invalid format
+      return res.status(400).json({ error: "Invalid boardingPoints format" });
+    }
+
+    await bus.save();
+
+    res
+      .status(200)
+      .json({ message: "Boarding points updated successfully", bus });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 // exports.uploadBusImageController = async (req, res) => {
 //   try {
 //     const ownerId = req.ownerauth._id; // Assuming the owner ID is in req.ownerauth
