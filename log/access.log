@@ -37,3 +37,5 @@
 ::1 - - [29/Jan/2024:10:36:36 +0000] "POST /api/bus/uploadbusimage/65af5decd154e5e09ce2f62c HTTP/1.1" 500 54 "-" "PostmanRuntime/7.36.1"
 ::1 - - [29/Jan/2024:10:38:21 +0000] "POST /api/bus/uploadbusimage/65af5decd154e5e09ce2f62c HTTP/1.1" 200 295 "-" "PostmanRuntime/7.36.1"
 ::1 - - [29/Jan/2024:10:47:28 +0000] "POST /api/bus/uploadbusimage/65af5decd154e5e09ce2f62c HTTP/1.1" 200 675 "-" "PostmanRuntime/7.36.1"
+::1 - - [30/Jan/2024:05:38:28 +0000] "POST /api/owners/allowners HTTP/1.1" 404 160 "-" "PostmanRuntime/7.36.1"
+::1 - - [30/Jan/2024:05:38:33 +0000] "GET /api/owners/allowners HTTP/1.1" 200 5492 "-" "PostmanRuntime/7.36.1"

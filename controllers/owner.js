@@ -147,6 +147,23 @@ exports.update = async (req, res) => {
   res.json(owner);
 };
 
+exports.getAllOwnersdetails = async (req, res) => {
+  try {
+    const owners = await Owner.find({}, "-hashed_password -salt"); // Exclude sensitive information
+
+    res.status(200).json({
+      success: true,
+      owners,
+    });
+  } catch (error) {
+    console.error("Error fetching owners:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
 exports.myprofile = async (req, res) => {
   try {
     // const ownerId = req.params.ownerId;

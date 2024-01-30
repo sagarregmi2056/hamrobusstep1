@@ -8,6 +8,8 @@ const {
   profilepictureController,
   updateProfilePictureController,
   updateOwnerDetails,
+  getAllOwners,
+  getAllOwnersdetails,
 } = require("../controllers/owner");
 const {
   requireOwnerSignin,
@@ -20,6 +22,10 @@ const { imageValidator } = require("../validator");
 // const { uploadOwnerAvatar } = require("../helpers");
 
 router.get("/myprofile", requireOwnerSignin, myprofile);
+
+// just to test is their superadmin or not
+
+router.get("/allowners", getAllOwnersdetails);
 router.put(
   "/updateuserdetails",
   verifyToken,
