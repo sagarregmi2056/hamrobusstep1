@@ -64,6 +64,111 @@ const busSchema = new mongoose.Schema(
       type: String,
       maxlength: 2000,
     },
+    // seat configuration
+    // seatConfig: {
+    //   seatType: {
+    //     type: String,
+    //     enum: ["Seater", "Sofa", "Sleeper"],
+    //     required: true,
+    //   },
+    //   seatPosition: {
+    //     type: String,
+    //     enum: ["Window", "Side-ways"],
+    //     required: true,
+    //   },
+    //   seatNumber: {
+    //     type: String,
+    //     trim: true,
+    //     required: true,
+    //   },
+    //   fare: {
+    //     type: Number,
+    //     trim: true,
+    //     required: true,
+    //   },
+    //   actualPosition: {
+    //     x: {
+    //       type: Number,
+    //       required: true,
+    //     },
+    //     y: {
+    //       type: Number,
+    //       required: true,
+    //     },
+    //   },
+    // },
+
+    // seatConfig: {
+    //   type: {
+    //     seatType: {
+    //       type: String,
+    //       enum: ["Seater", "Sofa", "Sleeper"],
+    //       required: true,
+    //     },
+    //     seatPosition: {
+    //       type: String,
+    //       enum: ["Window", "Side-ways"],
+    //       required: true,
+    //     },
+    //     seatNumber: {
+    //       type: String,
+    //       trim: true,
+    //       required: true,
+    //     },
+    //     fare: {
+    //       type: Number,
+    //       trim: true,
+    //       required: true,
+    //     },
+    //     actualPosition: {
+    //       x: {
+    //         type: Number,
+    //         required: true,
+    //       },
+    //       y: {
+    //         type: Number,
+    //         required: true,
+    //       },
+    //     },
+    //   },
+    //   default: {},
+    // },
+
+    seatConfig: [
+      {
+        seatType: {
+          type: String,
+          enum: ["Seater", "Sofa", "Sleeper"],
+          required: true,
+        },
+        seatPosition: {
+          type: String,
+          enum: ["Window", "Side-ways"],
+          required: true,
+        },
+        seatNumber: {
+          type: String,
+          trim: true,
+          required: true,
+        },
+        fare: {
+          type: Number,
+          trim: true,
+          required: true,
+        },
+        actualPosition: {
+          x: {
+            type: Number,
+            required: true,
+          },
+          y: {
+            type: Number,
+            required: true,
+          },
+        },
+      },
+    ],
+
     seatsAvailable: {
       type: Number,
       trim: true,

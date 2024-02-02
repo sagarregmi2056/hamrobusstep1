@@ -84,7 +84,7 @@ exports.verifyOtpAndSignin = async (req, res) => {
     role: owner.role,
   };
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
+  const token = jwt.sign(payload, process.env.JWT_SECRET);
 
   const ownerId = owner._id;
 

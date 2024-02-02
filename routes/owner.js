@@ -26,6 +26,8 @@ router.get("/myprofile", requireOwnerSignin, myprofile);
 // just to test is their superadmin or not
 
 router.get("/allowners", getAllOwnersdetails);
+
+
 router.put(
   "/updateuserdetails",
   verifyToken,

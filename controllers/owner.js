@@ -164,6 +164,24 @@ exports.getAllOwnersdetails = async (req, res) => {
   }
 };
 
+// exports.deleteOwnerById = async (req, res) => {
+//   try {
+//     const id = req.params;
+
+//     const ownerdata = await Owner.findById(id);
+//     if (!ownerdata) {
+//       return res.status(404).json({
+//         error: "owner not found with that id",
+//       });
+//     }
+
+//     res.json(ownerdata);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Error retrieving owner details" });
+//   }
+// };
+
 exports.myprofile = async (req, res) => {
   try {
     // const ownerId = req.params.ownerId;

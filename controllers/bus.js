@@ -875,6 +875,135 @@ exports.uploadinsideBusImagecontroller = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+exports.addSeatConfiguration = async (req, res) => {
+  const busId = req.params.id;
+  const { seatType, seatPosition, seatNumber, fare, actualPosition } = req.body;
+
+  try {
+    const bus = await Bus.findById(busId);
+
+    if (!bus) {
+      return res.status(404).json({ error: "Bus not found" });
+    }
+
+    // Check if the bus already has seatConfig array, if not create an empty array
+    bus.seatConfig = bus.seatConfig || [];
+
+    // Add new seat configuration to the existing seatConfig array
+    const newSeatConfig = {
+      seatType,
+      seatPosition,
+      seatNumber,
+      fare,
+      actualPosition,
+    };
+    bus.seatConfig.push(newSeatConfig);
+
+    // Save the updated bus document
+    await bus.save();
+
+    res
+      .status(201)
+      .json({ message: "Seat configuration added successfully", bus });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.deleteSeatConfiguration = async (req, res) => {
+  const busId = req.params.id;
+  const seatNumber = req.params.seatNumber;
+
+  try {
+    const bus = await Bus.findById(busId);
+
+    if (!bus) {
+      return res.status(404).json({ error: "Bus not found" });
+    }
+
+    // Find the seat configuration by seat number and remove it from the array
+    const seatIndex = bus.seatConfig.findIndex(
+      (seat) => seat.seatNumber === seatNumber
+    );
+
+    if (seatIndex === -1) {
+      return res.status(404).json({ error: "Seat configuration not found" });
+    }
+
+    bus.seatConfig.splice(seatIndex, 1);
+
+    // Save the updated bus document
+    await bus.save();
+
+    res
+      .status(200)
+      .json({ message: "Seat configuration deleted successfully", bus });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// exports.addSeatConfiguration = async (req, res) => {
+//   const busId = req.params.id;
+//   const { seatType, seatPosition, seatNumber, fare, actualPosition } = req.body;
+
+//   try {
+//     const bus = await Bus.findById(busId);
+
+//     if (!bus) {
+//       return res.status(404).json({ error: "Bus not found" });
+//     }
+
+//     // Add seat configuration to the bus
+//     bus.seatConfig = {
+//       seatType,
+//       seatPosition,
+//       seatNumber,
+//       fare,
+//       actualPosition,
+//     };
+
+//     // Save the updated bus document
+//     await bus.save();
+
+//     res
+//       .status(201)
+//       .json({ message: "Seat configuration added successfully", bus });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
+// exports.addSeatConfiguration = async (req, res) => {
+//   const busId = req.params.id;
+//   const seatConfigurations = req.body.seatConfig; // Assuming the seat configurations are sent as an array
+
+//   try {
+//     const bus = await Bus.findById(busId);
+
+//     if (!bus) {
+//       return res.status(404).json({ error: "Bus not found" });
+//     }
+
+//     // Add seat configurations to the bus
+//     bus.seatConfig = seatConfigurations;
+
+//     // Save the updated bus document
+//     await bus.save();
+
+//     res
+//       .status(201)
+//       .json({ message: "Seat configurations added successfully", bus });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
 // exports.update = async (req, res) => {
 //   if (req.file !== undefined) {
 //     const { filename: image } = req.file;

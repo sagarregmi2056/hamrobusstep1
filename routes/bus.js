@@ -31,6 +31,8 @@ const {
   getbusdroppingpoints,
   updateBoardingPoints,
   updateDroppingPoints,
+  addSeatConfiguration,
+  deleteSeatConfiguration,
 } = require("../controllers/bus");
 
 const { uploadBusImage, uploadinsideBusImage } = require("../helpers");
@@ -261,6 +263,18 @@ router.put(
   "/updatedroppingpoints/:id",
   requireownerkycverify,
   updateDroppingPoints
+);
+
+router.post(
+  "/seatsconfiguration/seats/:id",
+  requireownerkycverify,
+  addSeatConfiguration
+);
+
+router.delete(
+  "/seatconfig/:id/seats/:seatNumber",
+  requireownerkycverify,
+  deleteSeatConfiguration
 );
 
 router.route("/").get(getBuses).post(requireownerkycverify, create);
