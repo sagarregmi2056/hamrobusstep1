@@ -946,6 +946,24 @@ exports.deleteSeatConfiguration = async (req, res) => {
   }
 };
 
+exports.getAllSeatConfigurations = async (req, res) => {
+  const busId = req.params.id;
+
+  try {
+    const bus = await Bus.findById(busId);
+
+    if (!bus) {
+      return res.status(404).json({ error: "Bus not found" });
+    }
+
+    // Return all seat configurations for the bus
+    res.status(200).json({ seatConfigurations: bus.seatConfig });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 // exports.addSeatConfiguration = async (req, res) => {
 //   const busId = req.params.id;
 //   const { seatType, seatPosition, seatNumber, fare, actualPosition } = req.body;

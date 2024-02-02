@@ -51,3 +51,4 @@
 ::1 - - [02/Feb/2024:05:15:35 +0000] "DELETE /api/bus//seatconfig/65af5decd154e5e09ce2f62c/seats/A2 HTTP/1.1" 404 40 "-" "PostmanRuntime/7.36.1"
 ::1 - - [02/Feb/2024:05:15:54 +0000] "POST /api/bus/seatsconfiguration/seats/65af5decd154e5e09ce2f62c HTTP/1.1" 201 2295 "-" "PostmanRuntime/7.36.1"
 ::1 - - [02/Feb/2024:05:16:55 +0000] "POST /api/bus/seatsconfiguration/seats/65af5decd154e5e09ce2f62c HTTP/1.1" 201 2436 "-" "PostmanRuntime/7.36.1"
+::1 - - [02/Feb/2024:05:24:30 +0000] "GET /api/bus/allseatsinfo/65af5decd154e5e09ce2f62c HTTP/1.1" 200 306 "-" "PostmanRuntime/7.36.1"

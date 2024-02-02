@@ -369,3 +369,18 @@ posting bookings by the user
 
 
 
+json to add seats 
+
+
+api http://localhost:8525/api/bus/seatsconfiguration/seats/65af5decd154e5e09ce2f62c
+
+{
+  "seatType": "Sleeper",
+  "seatPosition": "Window",
+  "seatNumber": "A2",
+  "fare": 1300,
+  "actualPosition": {
+    "x": 0,
+    "y": 1
+  }
+}
