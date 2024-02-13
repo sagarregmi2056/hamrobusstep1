@@ -34,8 +34,9 @@ const {
   addSeatConfiguration,
   deleteSeatConfiguration,
   getAllSeatConfigurations,
-  Generateuniqueid,
+
   OwnerBusList,
+  Generateuniqueid,
 } = require("../controllers/bus");
 
 const { uploadBusImage, uploadinsideBusImage } = require("../helpers");
@@ -230,8 +231,6 @@ const { imageValidator } = require("../validator");
  *               error: 'Internal Server Error'
  */
 
-router.post("/businformation", requireownerkycverify, BusInformation);
-
 router.get("/getlistofbus", requireownerkycverify, OwnerBusList);
 
 router.post("/addroutes/:id", requireownerkycverify, AddRoutes);
@@ -284,7 +283,15 @@ router.delete(
 
 router.get("/allseatsinfo/:id", getAllSeatConfigurations);
 
-// router.get("/generatebus", requireownerkycverify, Generateuniqueid);
+router.get("/generatebus", requireownerkycverify, Generateuniqueid);
+
+router.post(
+  "/uploadbusimage/:id",
+  requireownerkycverify,
+  uploadBusImage,
+  uploadBusImageController
+);
+router.post("/businformation/:id", requireownerkycverify, BusInformation);
 
 router.route("/").get(getBuses).post(requireownerkycverify, create);
 
@@ -334,13 +341,6 @@ router.route("/").get(getBuses).post(requireownerkycverify, create);
  *             example:
  *               error: 'Internal Server Error'
  */
-
-router.post(
-  "/uploadbusimage",
-  requireownerkycverify,
-  uploadBusImage,
-  uploadBusImageController
-);
 
 // not necessary
 router.post(

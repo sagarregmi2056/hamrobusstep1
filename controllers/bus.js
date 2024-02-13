@@ -344,13 +344,106 @@ async function uploadToCloudflare(image) {
 //   res.json(bus);
 // };
 
+// exports.BusInformation = async (req, res) => {
+//   try {
+//     const {
+//       name,
+//       busNumber,
+//       busType,
+//       acType,
+//       wifi,
+//       toiletType,
+//       tvType,
+//       insuranceName,
+//       travelInsurance,
+//       insuranceIssueDate,
+//       insuranceExpiryDate,
+//       roadTaxIssueDate,
+//       roadTaxExpiryDate,
+//     } = req.body;
+//     const busid = req.params.id;
+
+//     // Validate the request body (you can add more validation if needed)
+//     if (
+//       !name ||
+//       !busNumber ||
+//       !busType ||
+//       !acType ||
+//       !wifi ||
+//       !toiletType ||
+//       !tvType
+//     ) {
+//       return res.status(400).json({ error: "Required fields are missing" });
+//     }
+
+//     const bus = await Bus.findById(busid);
+//     if (!bus) {
+//       return res.status(404).json({ error: "Bus not found" });
+//     }
+//     // Create a new bus instance with the provided data
+//     // const newBus = new Bus({
+//     //   _id: busid,
+//     //   name,
+//     //   busNumber,
+//     //   busType,
+//     //   acType,
+//     //   wifi,
+//     //   toiletType,
+//     //   tvType,
+//     //   insuranceName,
+//     //   travelInsurance,
+//     //   insuranceIssueDate,
+//     //   insuranceExpiryDate,
+//     //   roadTaxIssueDate,
+//     //   roadTaxExpiryDate,
+//     //   // owner: req.ownerauth._id,
+//     // });
+
+//     const updatedBus = await Bus.findByIdAndUpdate(
+//       busid,
+//       {
+//         name,
+//         busNumber,
+//         busType,
+//         acType,
+//         wifi,
+//         toiletType,
+//         tvType,
+//         insuranceName,
+//         travelInsurance,
+//         insuranceIssueDate,
+//         insuranceExpiryDate,
+//         roadTaxIssueDate,
+//         roadTaxExpiryDate,
+//       },
+//       { new: true }
+//     );
+
+//     if (!updatedBus) {
+//       return res.status(404).json({ error: "Bus not found" });
+//     }
+
+//     // Save the new bus to the database
+//     // const savedBus = await newBus.save();
+
+//     const responseData = {
+//       busId: savedBus._id,
+//       name: savedBus.name,
+//       slug: savedBus.slug,
+//     };
+
+//     res.status(201).json(responseData);
+//   } catch (error) {
+//     console.error("Error creating bus:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
 exports.BusInformation = async (req, res) => {
   try {
     const {
       name,
       busNumber,
       busType,
-      numberOfSeats,
       acType,
       wifi,
       toiletType,
@@ -362,13 +455,13 @@ exports.BusInformation = async (req, res) => {
       roadTaxIssueDate,
       roadTaxExpiryDate,
     } = req.body;
+    const busid = req.params.id;
 
     // Validate the request body (you can add more validation if needed)
     if (
       !name ||
       !busNumber ||
       !busType ||
-      !numberOfSeats ||
       !acType ||
       !wifi ||
       !toiletType ||
@@ -377,45 +470,39 @@ exports.BusInformation = async (req, res) => {
       return res.status(400).json({ error: "Required fields are missing" });
     }
 
-    // Check if bus with the same number already exists
-    const busExists = await Bus.findOne({ busNumber });
-    if (busExists) {
-      return res.status(403).json({
-        error: "Bus is already added!",
-      });
+    const updatedBus = await Bus.findByIdAndUpdate(
+      busid,
+      {
+        name,
+        busNumber,
+        busType,
+        acType,
+        wifi,
+        toiletType,
+        tvType,
+        insuranceName,
+        travelInsurance,
+        insuranceIssueDate,
+        insuranceExpiryDate,
+        roadTaxIssueDate,
+        roadTaxExpiryDate,
+      },
+      { new: true }
+    );
+
+    if (!updatedBus) {
+      return res.status(404).json({ error: "Bus not found" });
     }
 
-    // Create a new bus instance with the provided data
-    const newBus = new Bus({
-      name,
-      busNumber,
-      busType,
-      numberOfSeats,
-      acType,
-      wifi,
-      toiletType,
-      tvType,
-      insuranceName,
-      travelInsurance,
-      insuranceIssueDate,
-      insuranceExpiryDate,
-      roadTaxIssueDate,
-      roadTaxExpiryDate,
-      owner: req.ownerauth._id,
-    });
-
-    // Save the new bus to the database
-    const savedBus = await newBus.save();
-
     const responseData = {
-      busId: savedBus._id,
-      name: savedBus.name,
-      slug: savedBus.slug,
+      busId: updatedBus._id,
+      name: updatedBus.name,
+      slug: updatedBus.slug,
     };
 
-    res.status(201).json(responseData);
+    res.status(200).json(responseData);
   } catch (error) {
-    console.error("Error creating bus:", error);
+    console.error("Error updating bus:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -872,6 +959,15 @@ exports.Generateuniqueid = async (req, res) => {
   try {
     // Generate a unique ID
     const uniqueId = uuidv4();
+    const ownerId = req.ownerauth._id;
+    const newBus = new Bus({
+      _id: uniqueId,
+      owner: ownerId,
+      slug: uuidv4(),
+      // Assign the generated ID to the bus document
+      // Add other fields if needed
+    });
+    await newBus.save();
     res.status(200).json({ _id: uniqueId });
   } catch (error) {
     console.error("Error generating unique ID:", error);

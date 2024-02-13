@@ -11,40 +11,60 @@ mongoose.plugin(slug);
 
 const busSchema = new mongoose.Schema(
   {
+    _id: {
+      type: String, // Define _id as a string type
+      required: true,
+    },
     name: {
       type: String,
       trim: true,
-      required: true,
+      // required: true,
     },
     busType: {
       type: String,
       trim: true,
     },
 
+    // acType: {
+    //   type: String,
+    //   enum: ["AC", "Non-AC"],
+    //   default: "Non-AC",
+    // },
+    // toiletType: {
+    //   type: String,
+    //   enum: ["Yes", "No"],
+    //   default: "No",
+    // },
+    // tvType: {
+    //   type: String,
+    //   enum: ["Yes", "No"],
+    //   default: "No",
+    // },
+    // wifi: {
+    //   type: String,
+    //   enum: ["Yes", "No"],
+    //   default: "No",
+    // },
     acType: {
-      type: String,
-      enum: ["AC", "Non-AC"],
-      default: "Non-AC",
+      type: Boolean,
+      default: false, // Default value for a boolean field
     },
     toiletType: {
-      type: String,
-      enum: ["Yes", "No"],
-      default: "No",
+      type: Boolean,
+      default: false,
     },
     tvType: {
-      type: String,
-      enum: ["Yes", "No"],
-      default: "No",
+      type: Boolean,
+      default: false,
     },
     wifi: {
-      type: String,
-      enum: ["Yes", "No"],
-      default: "No",
+      type: Boolean,
+      default: false,
     },
     busNumber: {
       type: String,
       trim: true,
-      required: true,
+      // required: true,
       maxlength: 70,
     },
     fare: {
