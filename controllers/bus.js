@@ -420,6 +420,27 @@ exports.BusInformation = async (req, res) => {
   }
 };
 
+exports.OwnerBusList = async (req, res) => {
+  try {
+    // Get the owner ID from the authenticated user
+    const ownerId = req.ownerauth._id;
+
+    // Find all buses belonging to the owner ID
+    const buses = await Bus.find({ owner: ownerId });
+
+    // If no buses are found, return a 404 status with an error message
+    if (!buses || buses.length === 0) {
+      return res.status(404).json({ error: "No buses found for this owner" });
+    }
+
+    // If buses are found, return them in the response
+    res.status(200).json(buses);
+  } catch (error) {
+    console.error("Error fetching owner's buses:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 exports.AddRoutes = async (req, res) => {
   try {
     const { id } = req.params;

@@ -35,6 +35,7 @@ const {
   deleteSeatConfiguration,
   getAllSeatConfigurations,
   Generateuniqueid,
+  OwnerBusList,
 } = require("../controllers/bus");
 
 const { uploadBusImage, uploadinsideBusImage } = require("../helpers");
@@ -230,6 +231,8 @@ const { imageValidator } = require("../validator");
  */
 
 router.post("/businformation", requireownerkycverify, BusInformation);
+
+router.post("/getlistofbus", requireownerkycverify, OwnerBusList);
 
 router.post("/addroutes/:id", requireownerkycverify, AddRoutes);
 
