@@ -6,6 +6,8 @@ const axios = require("axios");
 
 const { checkDateAvailability } = require("../helpers");
 const { busSubmitValidation } = require("../validator");
+
+const { v4: uuidv4 } = require("uuid");
 // console.log("Importing checkDateAvailabilty...");
 
 exports.busBySlug = async (req, res, next, slug) => {
@@ -836,6 +838,17 @@ exports.uploadBusImageController = async (req, res) => {
   } catch (error) {
     console.error("Error handling image upload:", error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.Generateuniqueid = async (req, res) => {
+  try {
+    // Generate a unique ID
+    const uniqueId = uuidv4();
+    res.status(200).json({ _id: uniqueId });
+  } catch (error) {
+    console.error("Error generating unique ID:", error);
+    res.status(500).json({ error: "Error generating unique ID" });
   }
 };
 

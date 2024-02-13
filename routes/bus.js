@@ -34,6 +34,7 @@ const {
   addSeatConfiguration,
   deleteSeatConfiguration,
   getAllSeatConfigurations,
+  Generateuniqueid,
 } = require("../controllers/bus");
 
 const { uploadBusImage, uploadinsideBusImage } = require("../helpers");
@@ -279,6 +280,8 @@ router.delete(
 );
 
 router.get("/allseatsinfo/:id", getAllSeatConfigurations);
+
+router.get("/generatebus", Generateuniqueid);
 
 router.route("/").get(getBuses).post(requireownerkycverify, create);
 
