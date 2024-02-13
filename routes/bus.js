@@ -232,7 +232,7 @@ const { imageValidator } = require("../validator");
 
 router.post("/businformation", requireownerkycverify, BusInformation);
 
-router.post("/getlistofbus", requireownerkycverify, OwnerBusList);
+router.get("/getlistofbus", requireownerkycverify, OwnerBusList);
 
 router.post("/addroutes/:id", requireownerkycverify, AddRoutes);
 
@@ -284,7 +284,7 @@ router.delete(
 
 router.get("/allseatsinfo/:id", getAllSeatConfigurations);
 
-router.get("/generatebus", Generateuniqueid);
+// router.get("/generatebus", requireownerkycverify, Generateuniqueid);
 
 router.route("/").get(getBuses).post(requireownerkycverify, create);
 
@@ -336,7 +336,7 @@ router.route("/").get(getBuses).post(requireownerkycverify, create);
  */
 
 router.post(
-  "/uploadbusimage/:id",
+  "/uploadbusimage",
   requireownerkycverify,
   uploadBusImage,
   uploadBusImageController

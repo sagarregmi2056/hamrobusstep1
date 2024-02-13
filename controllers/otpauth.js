@@ -48,7 +48,7 @@ exports.verifyOtpAndSignin = async (req, res) => {
 
   let owner = await Owner.findOne({ phone });
 
-  console.log(owner);
+  // console.log(owner);
 
   if (owner) {
     if (!verifyOTP(phone, otp)) {

@@ -425,6 +425,8 @@ exports.OwnerBusList = async (req, res) => {
     // Get the owner ID from the authenticated user
     const ownerId = req.ownerauth._id;
 
+    // console.log(req.ownerauth._id);
+
     // Find all buses belonging to the owner ID
     const buses = await Bus.find({ owner: ownerId });
 
@@ -432,9 +434,13 @@ exports.OwnerBusList = async (req, res) => {
     if (!buses || buses.length === 0) {
       return res.status(404).json({ error: "No buses found for this owner" });
     }
-
+    const simplifiedBuses = buses.map((bus) => ({
+      _id: bus._id,
+      name: bus.name,
+      busNumber: bus.busNumber,
+    }));
     // If buses are found, return them in the response
-    res.status(200).json(buses);
+    res.status(200).json(simplifiedBuses);
   } catch (error) {
     console.error("Error fetching owner's buses:", error);
     res.status(500).json({ error: "Internal Server Error" });
