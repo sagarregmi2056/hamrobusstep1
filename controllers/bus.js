@@ -522,6 +522,7 @@ exports.OwnerBusList = async (req, res) => {
       _id: bus._id,
       name: bus.name,
       busNumber: bus.busNumber,
+      images: bus.images.map((image) => image.url),
     }));
     // If buses are found, return them in the response
     res.status(200).json(simplifiedBuses);
