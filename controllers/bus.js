@@ -444,10 +444,7 @@ exports.BusInformation = async (req, res) => {
       name,
       busNumber,
       busType,
-      acType,
-      wifi,
-      toiletType,
-      tvType,
+      amenities,
       insuranceName,
       travelInsurance,
       insuranceIssueDate,
@@ -462,10 +459,13 @@ exports.BusInformation = async (req, res) => {
       !name ||
       !busNumber ||
       !busType ||
-      !acType ||
-      !wifi ||
-      !toiletType ||
-      !tvType
+      !amenities ||
+      !insuranceName ||
+      !travelInsurance ||
+      !insuranceIssueDate ||
+      !insuranceExpiryDate ||
+      !roadTaxIssueDate ||
+      !roadTaxExpiryDate
     ) {
       return res.status(400).json({ error: "Required fields are missing" });
     }
@@ -476,10 +476,7 @@ exports.BusInformation = async (req, res) => {
         name,
         busNumber,
         busType,
-        acType,
-        wifi,
-        toiletType,
-        tvType,
+        amenities,
         insuranceName,
         travelInsurance,
         insuranceIssueDate,

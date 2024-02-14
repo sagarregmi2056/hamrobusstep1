@@ -25,42 +25,12 @@ const busSchema = new mongoose.Schema(
       trim: true,
     },
 
-    // acType: {
-    //   type: String,
-    //   enum: ["AC", "Non-AC"],
-    //   default: "Non-AC",
-    // },
-    // toiletType: {
-    //   type: String,
-    //   enum: ["Yes", "No"],
-    //   default: "No",
-    // },
-    // tvType: {
-    //   type: String,
-    //   enum: ["Yes", "No"],
-    //   default: "No",
-    // },
-    // wifi: {
-    //   type: String,
-    //   enum: ["Yes", "No"],
-    //   default: "No",
-    // },
-    acType: {
-      type: Boolean,
-      default: false, // Default value for a boolean field
-    },
-    toiletType: {
-      type: Boolean,
-      default: false,
-    },
-    tvType: {
-      type: Boolean,
-      default: false,
-    },
-    wifi: {
-      type: Boolean,
-      default: false,
-    },
+    amenities: [
+      {
+        type: String,
+        enum: ["AC", "Toilet", "TV", "WiFi"],
+      },
+    ],
     busNumber: {
       type: String,
       trim: true,
@@ -84,75 +54,6 @@ const busSchema = new mongoose.Schema(
       type: String,
       maxlength: 2000,
     },
-    // seat configuration
-    // seatConfig: {
-    //   seatType: {
-    //     type: String,
-    //     enum: ["Seater", "Sofa", "Sleeper"],
-    //     required: true,
-    //   },
-    //   seatPosition: {
-    //     type: String,
-    //     enum: ["Window", "Side-ways"],
-    //     required: true,
-    //   },
-    //   seatNumber: {
-    //     type: String,
-    //     trim: true,
-    //     required: true,
-    //   },
-    //   fare: {
-    //     type: Number,
-    //     trim: true,
-    //     required: true,
-    //   },
-    //   actualPosition: {
-    //     x: {
-    //       type: Number,
-    //       required: true,
-    //     },
-    //     y: {
-    //       type: Number,
-    //       required: true,
-    //     },
-    //   },
-    // },
-
-    // seatConfig: {
-    //   type: {
-    //     seatType: {
-    //       type: String,
-    //       enum: ["Seater", "Sofa", "Sleeper"],
-    //       required: true,
-    //     },
-    //     seatPosition: {
-    //       type: String,
-    //       enum: ["Window", "Side-ways"],
-    //       required: true,
-    //     },
-    //     seatNumber: {
-    //       type: String,
-    //       trim: true,
-    //       required: true,
-    //     },
-    //     fare: {
-    //       type: Number,
-    //       trim: true,
-    //       required: true,
-    //     },
-    //     actualPosition: {
-    //       x: {
-    //         type: Number,
-    //         required: true,
-    //       },
-    //       y: {
-    //         type: Number,
-    //         required: true,
-    //       },
-    //     },
-    //   },
-    //   default: {},
-    // },
 
     seatConfig: [
       {
