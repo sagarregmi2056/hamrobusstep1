@@ -514,18 +514,39 @@ exports.OwnerBusList = async (req, res) => {
 
     // Find all buses belonging to the owner ID
     const buses = await Bus.find({ owner: ownerId });
-
-    // If no buses are found, return a 404 status with an error message
-    if (!buses || buses.length === 0) {
-      return res.status(404).json({ error: "No buses found for this owner" });
+    // const buses = await Bus.find({
+    //   owner: ownerId,
+    //   "images.0": { $exists: true, $ne: [] },
+    // });
+    console.log(buses);
+    const busesWithImages = buses.filter(
+      (bus) => bus.images && bus.images.length > 0
+    );
+    if (!busesWithImages || busesWithImages.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No buses found for this owner with images" });
     }
-    const simplifiedBuses = buses.map((bus) => ({
+
+    // // If no buses are found, return a 404 status with an error message
+    // if (!buses || buses.length === 0) {
+    //   return res.status(404).json({ error: "No buses found for this owner" });
+    // }
+    // const simplifiedBuses = buses.map((bus) => ({
+    //   _id: bus._id,
+    //   name: bus.name,
+    //   busNumber: bus.busNumber,
+    //   images: bus.images.map((image) => image.url),
+    // }));
+    // If buses are found, return them in the response
+
+    const simplifiedBuses = busesWithImages.map((bus) => ({
       _id: bus._id,
       name: bus.name,
       busNumber: bus.busNumber,
       images: bus.images.map((image) => image.url),
     }));
-    // If buses are found, return them in the response
+
     res.status(200).json(simplifiedBuses);
   } catch (error) {
     console.error("Error fetching owner's buses:", error);
@@ -957,7 +978,8 @@ exports.updateBoardingPoints = async (req, res) => {
 
 exports.uploadBusImageController = async (req, res) => {
   try {
-    const busId = req.params.id; // Assuming the busId is passed as a parameter in the URL
+    const busId = req.params.id;
+    console.log(busId); // Assuming the busId is passed as a parameter in the URL
     const imageType = "busimage";
 
     // Check if the bus exists
