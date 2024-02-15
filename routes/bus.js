@@ -37,6 +37,7 @@ const {
 
   OwnerBusList,
   Generateuniqueid,
+  GetAllCity,
 } = require("../controllers/bus");
 
 const { uploadBusImage, uploadinsideBusImage } = require("../helpers");
@@ -290,6 +291,8 @@ router.post(
   uploadBusImageController
 );
 router.post("/businformation/:id", requireownerkycverify, BusInformation);
+
+router.get("/listofcities", GetAllCity);
 
 router.post("/addroutes/:id", requireownerkycverify, AddRoutes);
 

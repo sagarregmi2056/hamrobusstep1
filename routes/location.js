@@ -1,5 +1,8 @@
 const router = require("express").Router();
-const { requireSuperadminSignin } = require("../controllers/auth-owner");
+const {
+  requireSuperadminSignin,
+  requireownerkycverify,
+} = require("../controllers/auth-owner");
 const {
   add,
   update,
@@ -83,7 +86,7 @@ const {
  *               error: 'Internal Server Error'
  */
 
-router.route("/").get(getLocations).post(requireSuperadminSignin, add);
+router.route("/").get(getLocations).post(requireownerkycverify, add);
 
 /**
  * @swagger

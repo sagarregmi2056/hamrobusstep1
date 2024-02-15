@@ -3,6 +3,7 @@ const _ = require("lodash");
 const Owner = require("../models/Owner");
 const FormData = require("form-data");
 const axios = require("axios");
+const districtsData = require("../utils/districts.json");
 
 const { checkDateAvailability } = require("../helpers");
 const { busSubmitValidation } = require("../validator");
@@ -532,13 +533,57 @@ exports.OwnerBusList = async (req, res) => {
   }
 };
 
+exports.GetAllCity = async (req, res) => {
+  try {
+    res.json(districtsData);
+  } catch (error) {
+    console.error("Error fetching list of city:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// exports.AddRoutes = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { startLocationId, endLocationId } = req.body;
+
+//     // Validate the request body (you can add more validation if needed)
+//     if (!id || !startLocationId || !endLocationId) {
+//       return res.status(400).json({ error: "Required fields are missing" });
+//     }
+
+//     // Find the existing Bus document by ID
+//     const existingBus = await Bus.findById(id);
+//     if (!existingBus) {
+//       return res.status(404).json({
+//         error: "Bus not found!",
+//       });
+//     }
+
+//     // Update the existing Bus document with the new start and end locations
+//     existingBus.startLocation = startLocationId;
+//     existingBus.endLocation = endLocationId;
+
+//     // Save the updated bus to the database
+//     const savedBus = await existingBus.save();
+
+//     res.status(201).json({
+//       busId: savedBus._id,
+//       message: "Bus with start and end locations updated successfully",
+//     });
+//   } catch (error) {
+//     console.error("Error updating start and end locations of bus:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
 exports.AddRoutes = async (req, res) => {
   try {
     const { id } = req.params;
-    const { startLocationId, endLocationId } = req.body;
+    const { startLocation, endLocation } = req.body;
 
-    // Validate the request body (you can add more validation if needed)
-    if (!id || !startLocationId || !endLocationId) {
+    // Validate the request body and ensure start and end locations are provided
+    if (!id || !startLocation || !endLocation) {
       return res.status(400).json({ error: "Required fields are missing" });
     }
 
@@ -551,8 +596,8 @@ exports.AddRoutes = async (req, res) => {
     }
 
     // Update the existing Bus document with the new start and end locations
-    existingBus.startLocation = startLocationId;
-    existingBus.endLocation = endLocationId;
+    existingBus.startLocation = startLocation;
+    existingBus.endLocation = endLocation;
 
     // Save the updated bus to the database
     const savedBus = await existingBus.save();

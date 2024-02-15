@@ -151,12 +151,15 @@ const busSchema = new mongoose.Schema(
       trim: true,
     },
 
-    startLocation: { type: ObjectId, ref: "Location" },
-    endLocation: { type: ObjectId, ref: "Location" },
-
-    journeyDate: {
-      type: String,
+    startLocation: {
+      type: String, // Change the type to String
+      // You can add other validation rules if needed
     },
+    endLocation: {
+      type: String, // Change the type to String
+      // You can add other validation rules if needed
+    },
+
     owner: {
       type: ObjectId,
       ref: "Owner",

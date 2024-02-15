@@ -384,3 +384,58 @@ api http://localhost:8525/api/bus/seatsconfiguration/seats/65af5decd154e5e09ce2f
     "y": 1
   }
 }
+
+
+
+adding bus information we should send id our generated id here 
+
+{
+  "name": "Example Bus",
+  "busNumber": "123ABC",
+  "busType": "Sleeper",
+  "acType": true,
+  "wifi": true,
+  "toiletType": true,
+  "tvType": true,
+  "insuranceName": "ABC Insurance",
+  "travelInsurance": "Policy123",
+  "insuranceIssueDate": "2023-01-01",
+  "insuranceExpiryDate": "2024-01-01",
+  "roadTaxIssueDate": "2023-01-01",
+  "roadTaxExpiryDate": "2024-01-01"
+}
+
+
+
+//adding boardingPoints
+{
+  "boardingPoints": [
+    "Boarding Point 1",
+    "Boarding Point 2",
+    "Boarding Point 3"
+  ]
+}
+
+//droppingPoints
+{
+  "droppingPoints": [
+    "Dropping Point 1",
+    "Dropping Point 2",
+    "Dropping Point 3",
+    "Dropping Point 4"
+  ]
+}
+
+
+{
+  "name": "Updated Bus Name",
+  "busNumber": "Updated Bus Number",
+  "busType": "Updated Bus Type",
+  "amenities": ["wifi", "ac", "tv"],
+  "insuranceName": "Updated Insurance Name",
+  "travelInsurance": "Updated Travel Insurance",
+  "insuranceIssueDate": "2024-02-13",
+  "insuranceExpiryDate": "2025-02-13",
+  "roadTaxIssueDate": "2024-02-13",
+  "roadTaxExpiryDate": "2025-02-13"
+}
