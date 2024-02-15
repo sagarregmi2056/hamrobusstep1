@@ -4,6 +4,8 @@ const Owner = require("../models/Owner");
 const FormData = require("form-data");
 const axios = require("axios");
 const districtsData = require("../utils/districts.json");
+const path = require("path");
+const fs = require("fs");
 
 const { checkDateAvailability } = require("../helpers");
 const { busSubmitValidation } = require("../validator");
@@ -460,7 +462,6 @@ exports.BusInformation = async (req, res) => {
       !name ||
       !busNumber ||
       !busType ||
-      !amenities ||
       !insuranceName ||
       !travelInsurance ||
       !insuranceIssueDate ||
@@ -598,15 +599,42 @@ exports.GetAllCity = async (req, res) => {
 //   }
 // };
 
+const citiesFilePath = path.join(
+  __dirname,
+
+  "..",
+  "utils",
+  "districts.json"
+);
+const citiesData = JSON.parse(fs.readFileSync(citiesFilePath));
+
 exports.AddRoutes = async (req, res) => {
   try {
     const { id } = req.params;
     const { startLocation, endLocation } = req.body;
 
-    // Validate the request body and ensure start and end locations are provided
     if (!id || !startLocation || !endLocation) {
       return res.status(400).json({ error: "Required fields are missing" });
     }
+
+    // Check if the provided startLocation is a valid city name
+    if (!citiesData.includes(startLocation)) {
+      return res
+        .status(400)
+        .json({ error: "Start location is not a valid city" });
+    }
+
+    // Check if the provided endLocation is a valid city name
+    if (!citiesData.includes(endLocation)) {
+      return res
+        .status(400)
+        .json({ error: "End location is not a valid city" });
+    }
+
+    // // Validate the request body and ensure start and end locations are provided
+    // if (!id || !startLocation || !endLocation) {
+    //   return res.status(400).json({ error: "Required fields are missing" });
+    // }
 
     // Find the existing Bus document by ID
     const existingBus = await Bus.findById(id);
